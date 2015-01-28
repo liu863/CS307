@@ -1,4 +1,4 @@
 #incldue <stdio.h>
 int main() {
-  printf(".\n");
+  printf("This is the test file fot the cs307 project.\n");
 }
