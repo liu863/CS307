@@ -1,3 +1,3 @@
 # CS307 Group 9
 # Purdue Course Assistant
-![alt tag](http://tenhou.net/cs/201406tm/title_.jpg)
+![alt tag](https://danbooru.donmai.us/data/cf22a848e6a13e97baa858d882cb4321.jpg)
