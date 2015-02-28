@@ -10,10 +10,5 @@
 
 @implementation Course
 
--(id) init {
-    
-}
-
-
 
 @end

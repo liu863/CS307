@@ -10,8 +10,5 @@
 
 @implementation User
 
--(id) init {
-    
-}
 
 @end
