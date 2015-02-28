@@ -99,7 +99,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="71s-bB-flL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-749.5" y="221.5"/>
+            <point key="canvasLocation" x="-749.5" y="453.5"/>
         </scene>
         <!--Recommend Course List-->
         <scene sceneID="cMi-7V-avr">
@@ -135,7 +135,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Fy-Dg-dg2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-336.5" y="221.5"/>
+            <point key="canvasLocation" x="-264.5" y="453.5"/>
         </scene>
         <!--User Profile-->
         <scene sceneID="Ozf-eO-jFR">
@@ -302,7 +302,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="poo-dk-6dM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1217" y="-491"/>
+            <point key="canvasLocation" x="-1237.5" y="-391.5"/>
         </scene>
         <!--Login-->
         <scene sceneID="xs0-qb-g7X">
@@ -399,7 +399,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ekF-GZ-HxM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1205.5" y="285.5"/>
+            <point key="canvasLocation" x="-1237.5" y="453.5"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
