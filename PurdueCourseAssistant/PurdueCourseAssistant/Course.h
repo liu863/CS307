@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @interface Course : NSObject
+
 @property (weak, nonatomic) NSString * courseName;
 @property (weak, nonatomic) NSString * courseDescription;
 @property (weak, nonatomic) NSString * courseTag;
