@@ -14,6 +14,8 @@
 		598744C51AA22D62000265C6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 598744C41AA22D62000265C6 /* Images.xcassets */; };
 		598744C81AA22D62000265C6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 598744C61AA22D62000265C6 /* LaunchScreen.xib */; };
 		598744D41AA22D63000265C6 /* PurdueCourseAssistantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744D31AA22D63000265C6 /* PurdueCourseAssistantTests.m */; };
+		598744DF1AA2381E000265C6 /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744DE1AA2381E000265C6 /* Course.m */; };
+		598744E21AA23890000265C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744E11AA23890000265C6 /* User.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +42,10 @@
 		598744CD1AA22D63000265C6 /* PurdueCourseAssistantTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PurdueCourseAssistantTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		598744D21AA22D63000265C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		598744D31AA22D63000265C6 /* PurdueCourseAssistantTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PurdueCourseAssistantTests.m; sourceTree = "<group>"; };
+		598744DD1AA2381E000265C6 /* Course.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Course.h; sourceTree = "<group>"; };
+		598744DE1AA2381E000265C6 /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
+		598744E01AA23890000265C6 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		598744E11AA23890000265C6 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -85,6 +91,10 @@
 				598744BC1AA22D62000265C6 /* AppDelegate.m */,
 				598744BE1AA22D62000265C6 /* ViewController.h */,
 				598744BF1AA22D62000265C6 /* ViewController.m */,
+				598744DD1AA2381E000265C6 /* Course.h */,
+				598744DE1AA2381E000265C6 /* Course.m */,
+				598744E01AA23890000265C6 /* User.h */,
+				598744E11AA23890000265C6 /* User.m */,
 				598744C11AA22D62000265C6 /* Main.storyboard */,
 				598744C41AA22D62000265C6 /* Images.xcassets */,
 				598744C61AA22D62000265C6 /* LaunchScreen.xib */,
@@ -219,6 +229,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				598744E21AA23890000265C6 /* User.m in Sources */,
+				598744DF1AA2381E000265C6 /* Course.m in Sources */,
 				598744C01AA22D62000265C6 /* ViewController.m in Sources */,
 				598744BD1AA22D62000265C6 /* AppDelegate.m in Sources */,
 				598744BA1AA22D62000265C6 /* main.m in Sources */,
