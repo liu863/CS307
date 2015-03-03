@@ -7,12 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Course.h"
 
 @interface User : NSObject
 
-@property (weak, nonatomic) NSString * user_id;
-@property (weak, nonatomic) NSString * pwd;
-@property (weak, nonatomic) NSString * email;
-@property (weak, nonatomic) NSArray * courses;
+@property (strong, nonatomic) NSString * user_id;
+@property (strong, nonatomic) NSString * pwd;
+@property (strong, nonatomic) NSString * email;
+@property (strong, nonatomic) NSMutableArray * courses;
 
 @end

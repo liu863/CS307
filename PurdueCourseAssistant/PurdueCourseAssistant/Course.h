@@ -10,10 +10,10 @@
 
 @interface Course : NSObject
 
-@property (weak, nonatomic) NSString * courseName;
-@property (weak, nonatomic) NSString * courseDescription;
-@property (weak, nonatomic) NSString * courseTag;
-@property (weak, nonatomic) NSNumber * courseRating;
-@property (weak, nonatomic) NSArray * courseComment;
+@property (strong, nonatomic) NSString * courseName;
+@property (strong, nonatomic) NSString * courseDescription;
+@property (strong, nonatomic) NSString * courseTag;
+@property (strong, nonatomic) NSNumber * courseRating;
+@property (strong, nonatomic) NSMutableArray * courseComment;
 
 @end
