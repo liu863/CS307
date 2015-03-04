@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		309F1DA61AA7CD34003C14EB /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F1DA51AA7CD34003C14EB /* SignInViewController.m */; };
+		309F1DA91AA7CD4D003C14EB /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F1DA81AA7CD4D003C14EB /* SignUpViewController.m */; };
+		309F1DAC1AA7CD63003C14EB /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F1DAB1AA7CD63003C14EB /* ForgotPasswordViewController.m */; };
 		598744BA1AA22D62000265C6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744B91AA22D62000265C6 /* main.m */; };
 		598744BD1AA22D62000265C6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744BC1AA22D62000265C6 /* AppDelegate.m */; };
 		598744C31AA22D62000265C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 598744C11AA22D62000265C6 /* Main.storyboard */; };
@@ -30,6 +33,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		309F1DA41AA7CD34003C14EB /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
+		309F1DA51AA7CD34003C14EB /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		309F1DA71AA7CD4D003C14EB /* SignUpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpViewController.h; sourceTree = "<group>"; };
+		309F1DA81AA7CD4D003C14EB /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
+		309F1DAA1AA7CD63003C14EB /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
+		309F1DAB1AA7CD63003C14EB /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
 		598744B41AA22D62000265C6 /* PurdueCourseAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PurdueCourseAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		598744B81AA22D62000265C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		598744B91AA22D62000265C6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -101,6 +110,10 @@
 				598744C41AA22D62000265C6 /* Images.xcassets */,
 				598744C61AA22D62000265C6 /* LaunchScreen.xib */,
 				598744B71AA22D62000265C6 /* Supporting Files */,
+				309F1DA71AA7CD4D003C14EB /* SignUpViewController.h */,
+				309F1DA81AA7CD4D003C14EB /* SignUpViewController.m */,
+				309F1DAA1AA7CD63003C14EB /* ForgotPasswordViewController.h */,
+				309F1DAB1AA7CD63003C14EB /* ForgotPasswordViewController.m */,
 			);
 			path = PurdueCourseAssistant;
 			sourceTree = "<group>";
@@ -111,6 +124,8 @@
 				60D9D9051AA7C49700FE8FD1 /* PCA_loading.jpg */,
 				598744B81AA22D62000265C6 /* Info.plist */,
 				598744B91AA22D62000265C6 /* main.m */,
+				309F1DA41AA7CD34003C14EB /* SignInViewController.h */,
+				309F1DA51AA7CD34003C14EB /* SignInViewController.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -237,6 +252,9 @@
 				598744DF1AA2381E000265C6 /* Course.m in Sources */,
 				60D9D9081AA7C4E500FE8FD1 /* MyInfoViewController.m in Sources */,
 				598744BD1AA22D62000265C6 /* AppDelegate.m in Sources */,
+				309F1DAC1AA7CD63003C14EB /* ForgotPasswordViewController.m in Sources */,
+				309F1DA61AA7CD34003C14EB /* SignInViewController.m in Sources */,
+				309F1DA91AA7CD4D003C14EB /* SignUpViewController.m in Sources */,
 				598744BA1AA22D62000265C6 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
