@@ -9,13 +9,14 @@
 /* Begin PBXBuildFile section */
 		598744BA1AA22D62000265C6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744B91AA22D62000265C6 /* main.m */; };
 		598744BD1AA22D62000265C6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744BC1AA22D62000265C6 /* AppDelegate.m */; };
-		598744C01AA22D62000265C6 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744BF1AA22D62000265C6 /* ViewController.m */; };
 		598744C31AA22D62000265C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 598744C11AA22D62000265C6 /* Main.storyboard */; };
 		598744C51AA22D62000265C6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 598744C41AA22D62000265C6 /* Images.xcassets */; };
 		598744C81AA22D62000265C6 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 598744C61AA22D62000265C6 /* LaunchScreen.xib */; };
 		598744D41AA22D63000265C6 /* PurdueCourseAssistantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744D31AA22D63000265C6 /* PurdueCourseAssistantTests.m */; };
 		598744DF1AA2381E000265C6 /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744DE1AA2381E000265C6 /* Course.m */; };
 		598744E21AA23890000265C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744E11AA23890000265C6 /* User.m */; };
+		60D9D9061AA7C49700FE8FD1 /* PCA_loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 60D9D9051AA7C49700FE8FD1 /* PCA_loading.jpg */; };
+		60D9D9081AA7C4E500FE8FD1 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,8 +35,6 @@
 		598744B91AA22D62000265C6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		598744BB1AA22D62000265C6 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		598744BC1AA22D62000265C6 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		598744BE1AA22D62000265C6 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		598744BF1AA22D62000265C6 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		598744C21AA22D62000265C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		598744C41AA22D62000265C6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		598744C71AA22D62000265C6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -46,6 +45,9 @@
 		598744DE1AA2381E000265C6 /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
 		598744E01AA23890000265C6 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		598744E11AA23890000265C6 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		60D9D9051AA7C49700FE8FD1 /* PCA_loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PCA_loading.jpg; sourceTree = SOURCE_ROOT; };
+		60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInfoViewController.m; sourceTree = "<group>"; };
+		60D9D9091AA7C4EE00FE8FD1 /* MyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInfoViewController.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,10 +89,10 @@
 		598744B61AA22D62000265C6 /* PurdueCourseAssistant */ = {
 			isa = PBXGroup;
 			children = (
+				60D9D9091AA7C4EE00FE8FD1 /* MyInfoViewController.h */,
+				60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */,
 				598744BB1AA22D62000265C6 /* AppDelegate.h */,
 				598744BC1AA22D62000265C6 /* AppDelegate.m */,
-				598744BE1AA22D62000265C6 /* ViewController.h */,
-				598744BF1AA22D62000265C6 /* ViewController.m */,
 				598744DD1AA2381E000265C6 /* Course.h */,
 				598744DE1AA2381E000265C6 /* Course.m */,
 				598744E01AA23890000265C6 /* User.h */,
@@ -106,6 +108,7 @@
 		598744B71AA22D62000265C6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				60D9D9051AA7C49700FE8FD1 /* PCA_loading.jpg */,
 				598744B81AA22D62000265C6 /* Info.plist */,
 				598744B91AA22D62000265C6 /* main.m */,
 			);
@@ -212,6 +215,7 @@
 				598744C31AA22D62000265C6 /* Main.storyboard in Resources */,
 				598744C81AA22D62000265C6 /* LaunchScreen.xib in Resources */,
 				598744C51AA22D62000265C6 /* Images.xcassets in Resources */,
+				60D9D9061AA7C49700FE8FD1 /* PCA_loading.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -231,7 +235,7 @@
 			files = (
 				598744E21AA23890000265C6 /* User.m in Sources */,
 				598744DF1AA2381E000265C6 /* Course.m in Sources */,
-				598744C01AA22D62000265C6 /* ViewController.m in Sources */,
+				60D9D9081AA7C4E500FE8FD1 /* MyInfoViewController.m in Sources */,
 				598744BD1AA22D62000265C6 /* AppDelegate.m in Sources */,
 				598744BA1AA22D62000265C6 /* main.m in Sources */,
 			);
@@ -424,6 +428,7 @@
 				598744D91AA22D63000265C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		598744DA1AA22D63000265C6 /* Build configuration list for PBXNativeTarget "PurdueCourseAssistantTests" */ = {
 			isa = XCConfigurationList;
@@ -432,6 +437,7 @@
 				598744DC1AA22D63000265C6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
