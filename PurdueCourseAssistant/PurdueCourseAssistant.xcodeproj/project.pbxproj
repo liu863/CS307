@@ -26,6 +26,8 @@
 		60D9D9081AA7C4E500FE8FD1 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */; };
 		76F0D8941AA8103C00802941 /* CourseListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76F0D8931AA8103C00802941 /* CourseListTableViewController.m */; };
 		76F0D89A1AA810AF00802941 /* CourseViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76F0D8991AA810AF00802941 /* CourseViewViewController.m */; };
+		894E7D091AA82C4B00990FE3 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E7D081AA82C4B00990FE3 /* FeedbackViewController.m */; };
+		894E7D0C1AA8346300990FE3 /* TagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E7D0B1AA8346300990FE3 /* TagsViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +77,10 @@
 		76F0D8931AA8103C00802941 /* CourseListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourseListTableViewController.m; path = ../CourseListTableViewController.m; sourceTree = "<group>"; };
 		76F0D8981AA810AF00802941 /* CourseViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourseViewViewController.h; path = ../CourseViewViewController.h; sourceTree = "<group>"; };
 		76F0D8991AA810AF00802941 /* CourseViewViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourseViewViewController.m; path = ../CourseViewViewController.m; sourceTree = "<group>"; };
+		894E7D071AA82C4B00990FE3 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		894E7D081AA82C4B00990FE3 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		894E7D0A1AA8346300990FE3 /* TagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TagsViewController.h; sourceTree = "<group>"; };
+		894E7D0B1AA8346300990FE3 /* TagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TagsViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +122,8 @@
 		598744B61AA22D62000265C6 /* PurdueCourseAssistant */ = {
 			isa = PBXGroup;
 			children = (
+				894E7D071AA82C4B00990FE3 /* FeedbackViewController.h */,
+				894E7D081AA82C4B00990FE3 /* FeedbackViewController.m */,
 				76F0D8921AA8103C00802941 /* CourseListTableViewController.h */,
 				76F0D8931AA8103C00802941 /* CourseListTableViewController.m */,
 				76F0D8981AA810AF00802941 /* CourseViewViewController.h */,
@@ -144,6 +152,8 @@
 				309F1DA81AA7CD4D003C14EB /* SignUpViewController.m */,
 				309F1DAA1AA7CD63003C14EB /* ForgotPasswordViewController.h */,
 				309F1DAB1AA7CD63003C14EB /* ForgotPasswordViewController.m */,
+				894E7D0A1AA8346300990FE3 /* TagsViewController.h */,
+				894E7D0B1AA8346300990FE3 /* TagsViewController.m */,
 			);
 			path = PurdueCourseAssistant;
 			sourceTree = "<group>";
@@ -280,6 +290,7 @@
 			files = (
 				598744E21AA23890000265C6 /* User.m in Sources */,
 				59E82BED1AA81C8100BA1783 /* Question.m in Sources */,
+				894E7D091AA82C4B00990FE3 /* FeedbackViewController.m in Sources */,
 				598744DF1AA2381E000265C6 /* Course.m in Sources */,
 				60D9D9081AA7C4E500FE8FD1 /* MyInfoViewController.m in Sources */,
 				59E82BEA1AA81C5A00BA1783 /* Pretest.m in Sources */,
@@ -290,6 +301,7 @@
 				309F1DA61AA7CD34003C14EB /* SignInViewController.m in Sources */,
 				59E82BF31AA81CFA00BA1783 /* DismissPretestSegue.m in Sources */,
 				309F1DA91AA7CD4D003C14EB /* SignUpViewController.m in Sources */,
+				894E7D0C1AA8346300990FE3 /* TagsViewController.m in Sources */,
 				76F0D8941AA8103C00802941 /* CourseListTableViewController.m in Sources */,
 				598744BA1AA22D62000265C6 /* main.m in Sources */,
 			);
