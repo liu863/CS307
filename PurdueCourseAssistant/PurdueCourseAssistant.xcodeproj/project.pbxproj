@@ -18,6 +18,10 @@
 		598744D41AA22D63000265C6 /* PurdueCourseAssistantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744D31AA22D63000265C6 /* PurdueCourseAssistantTests.m */; };
 		598744DF1AA2381E000265C6 /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744DE1AA2381E000265C6 /* Course.m */; };
 		598744E21AA23890000265C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744E11AA23890000265C6 /* User.m */; };
+		59E82BE71AA81C1300BA1783 /* PretestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E82BE61AA81C1300BA1783 /* PretestViewController.m */; };
+		59E82BEA1AA81C5A00BA1783 /* Pretest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E82BE91AA81C5A00BA1783 /* Pretest.m */; };
+		59E82BED1AA81C8100BA1783 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E82BEC1AA81C8100BA1783 /* Question.m */; };
+		59E82BF31AA81CFA00BA1783 /* DismissPretestSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E82BF21AA81CFA00BA1783 /* DismissPretestSegue.m */; };
 		60D9D9061AA7C49700FE8FD1 /* PCA_loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 60D9D9051AA7C49700FE8FD1 /* PCA_loading.jpg */; };
 		60D9D9081AA7C4E500FE8FD1 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */; };
 		76F0D8941AA8103C00802941 /* CourseListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76F0D8931AA8103C00802941 /* CourseListTableViewController.m */; };
@@ -56,6 +60,14 @@
 		598744DE1AA2381E000265C6 /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
 		598744E01AA23890000265C6 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		598744E11AA23890000265C6 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		59E82BE51AA81C1300BA1783 /* PretestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PretestViewController.h; sourceTree = "<group>"; };
+		59E82BE61AA81C1300BA1783 /* PretestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PretestViewController.m; sourceTree = "<group>"; };
+		59E82BE81AA81C5A00BA1783 /* Pretest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pretest.h; sourceTree = "<group>"; };
+		59E82BE91AA81C5A00BA1783 /* Pretest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Pretest.m; sourceTree = "<group>"; };
+		59E82BEB1AA81C8100BA1783 /* Question.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Question.h; sourceTree = "<group>"; };
+		59E82BEC1AA81C8100BA1783 /* Question.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Question.m; sourceTree = "<group>"; };
+		59E82BF11AA81CFA00BA1783 /* DismissPretestSegue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DismissPretestSegue.h; path = ../DismissPretestSegue.h; sourceTree = "<group>"; };
+		59E82BF21AA81CFA00BA1783 /* DismissPretestSegue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DismissPretestSegue.m; path = ../DismissPretestSegue.m; sourceTree = "<group>"; };
 		60D9D9051AA7C49700FE8FD1 /* PCA_loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PCA_loading.jpg; sourceTree = SOURCE_ROOT; };
 		60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInfoViewController.m; sourceTree = "<group>"; };
 		60D9D9091AA7C4EE00FE8FD1 /* MyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInfoViewController.h; sourceTree = "<group>"; };
@@ -117,6 +129,14 @@
 				598744E01AA23890000265C6 /* User.h */,
 				598744E11AA23890000265C6 /* User.m */,
 				598744C11AA22D62000265C6 /* Main.storyboard */,
+				59E82BE51AA81C1300BA1783 /* PretestViewController.h */,
+				59E82BE61AA81C1300BA1783 /* PretestViewController.m */,
+				59E82BE81AA81C5A00BA1783 /* Pretest.h */,
+				59E82BE91AA81C5A00BA1783 /* Pretest.m */,
+				59E82BEB1AA81C8100BA1783 /* Question.h */,
+				59E82BEC1AA81C8100BA1783 /* Question.m */,
+				59E82BF11AA81CFA00BA1783 /* DismissPretestSegue.h */,
+				59E82BF21AA81CFA00BA1783 /* DismissPretestSegue.m */,
 				598744C41AA22D62000265C6 /* Images.xcassets */,
 				598744C61AA22D62000265C6 /* LaunchScreen.xib */,
 				598744B71AA22D62000265C6 /* Supporting Files */,
@@ -259,12 +279,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				598744E21AA23890000265C6 /* User.m in Sources */,
+				59E82BED1AA81C8100BA1783 /* Question.m in Sources */,
 				598744DF1AA2381E000265C6 /* Course.m in Sources */,
 				60D9D9081AA7C4E500FE8FD1 /* MyInfoViewController.m in Sources */,
+				59E82BEA1AA81C5A00BA1783 /* Pretest.m in Sources */,
 				598744BD1AA22D62000265C6 /* AppDelegate.m in Sources */,
 				76F0D89A1AA810AF00802941 /* CourseViewViewController.m in Sources */,
+				59E82BE71AA81C1300BA1783 /* PretestViewController.m in Sources */,
 				309F1DAC1AA7CD63003C14EB /* ForgotPasswordViewController.m in Sources */,
 				309F1DA61AA7CD34003C14EB /* SignInViewController.m in Sources */,
+				59E82BF31AA81CFA00BA1783 /* DismissPretestSegue.m in Sources */,
 				309F1DA91AA7CD4D003C14EB /* SignUpViewController.m in Sources */,
 				76F0D8941AA8103C00802941 /* CourseListTableViewController.m in Sources */,
 				598744BA1AA22D62000265C6 /* main.m in Sources */,
