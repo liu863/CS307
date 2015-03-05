@@ -24,6 +24,7 @@
 		59E82BF31AA81CFA00BA1783 /* DismissPretestSegue.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E82BF21AA81CFA00BA1783 /* DismissPretestSegue.m */; };
 		60D9D9061AA7C49700FE8FD1 /* PCA_loading.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 60D9D9051AA7C49700FE8FD1 /* PCA_loading.jpg */; };
 		60D9D9081AA7C4E500FE8FD1 /* MyInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */; };
+		693548AA1AA8B3A100A2C04D /* SaveTheInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 693548A91AA8B3A100A2C04D /* SaveTheInfoViewController.m */; };
 		76F0D8941AA8103C00802941 /* CourseListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76F0D8931AA8103C00802941 /* CourseListTableViewController.m */; };
 		76F0D89A1AA810AF00802941 /* CourseViewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 76F0D8991AA810AF00802941 /* CourseViewViewController.m */; };
 		894E7D091AA82C4B00990FE3 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 894E7D081AA82C4B00990FE3 /* FeedbackViewController.m */; };
@@ -73,6 +74,8 @@
 		60D9D9051AA7C49700FE8FD1 /* PCA_loading.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PCA_loading.jpg; sourceTree = SOURCE_ROOT; };
 		60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyInfoViewController.m; sourceTree = "<group>"; };
 		60D9D9091AA7C4EE00FE8FD1 /* MyInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyInfoViewController.h; sourceTree = "<group>"; };
+		693548A81AA8B3A100A2C04D /* SaveTheInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveTheInfoViewController.h; sourceTree = "<group>"; };
+		693548A91AA8B3A100A2C04D /* SaveTheInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SaveTheInfoViewController.m; sourceTree = "<group>"; };
 		76F0D8921AA8103C00802941 /* CourseListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourseListTableViewController.h; path = ../CourseListTableViewController.h; sourceTree = "<group>"; };
 		76F0D8931AA8103C00802941 /* CourseListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CourseListTableViewController.m; path = ../CourseListTableViewController.m; sourceTree = "<group>"; };
 		76F0D8981AA810AF00802941 /* CourseViewViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CourseViewViewController.h; path = ../CourseViewViewController.h; sourceTree = "<group>"; };
@@ -123,6 +126,8 @@
 			isa = PBXGroup;
 			children = (
 				894E7D071AA82C4B00990FE3 /* FeedbackViewController.h */,
+				693548A81AA8B3A100A2C04D /* SaveTheInfoViewController.h */,
+				693548A91AA8B3A100A2C04D /* SaveTheInfoViewController.m */,
 				894E7D081AA82C4B00990FE3 /* FeedbackViewController.m */,
 				76F0D8921AA8103C00802941 /* CourseListTableViewController.h */,
 				76F0D8931AA8103C00802941 /* CourseListTableViewController.m */,
@@ -297,6 +302,7 @@
 				598744BD1AA22D62000265C6 /* AppDelegate.m in Sources */,
 				76F0D89A1AA810AF00802941 /* CourseViewViewController.m in Sources */,
 				59E82BE71AA81C1300BA1783 /* PretestViewController.m in Sources */,
+				693548AA1AA8B3A100A2C04D /* SaveTheInfoViewController.m in Sources */,
 				309F1DAC1AA7CD63003C14EB /* ForgotPasswordViewController.m in Sources */,
 				309F1DA61AA7CD34003C14EB /* SignInViewController.m in Sources */,
 				59E82BF31AA81CFA00BA1783 /* DismissPretestSegue.m in Sources */,
