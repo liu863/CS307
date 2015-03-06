@@ -18,7 +18,7 @@
   [super viewDidLoad];
   
   Course * course1 = [[Course alloc] init];
-  course1.courseName = @"CS308";
+  course1.courseName = @"CS381";
   course1.courseDescription = @"asd";
   course1.courseTag = @"123";
   course1.courseRating = [NSNumber numberWithDouble:1.6];
@@ -27,7 +27,7 @@
   //[self.courseList addObject:course1];
   self.courseList = [[NSMutableArray alloc] initWithObjects: course1, nil];
   Course * course2 = [[Course alloc] init];
-  course2.courseName = @"CS301";
+  course2.courseName = @"CS307";
   course2.courseDescription = @"a123d";
   course2.courseTag = @"234";
   course2.courseRating = [NSNumber numberWithDouble:2];
