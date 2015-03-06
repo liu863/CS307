@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ForgotPasswordViewController : UIViewController
+@property (weak, nonatomic) IBOutlet UILabel *findpwd;
 @property (weak, nonatomic) IBOutlet UITextField *Email;
 
 @end
