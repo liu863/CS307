@@ -1,0 +1,68 @@
+Client2Server:
+
+/* Create account with username, password, and email address. */
+createu|username|password|email_address\0
+
+/* Login with username and password */
+loginur|username|password\0
+//if SUCCESS
+/* Get entire user info */
+getuinf|username\0
+/* Get entire course list for view courses button, store in course class */
+getclst\0
+
+/* Reset password with username and email address */
+resetpw|username|email_address\0
+
+/* Change nickname with username */
+changen|username|new_nickname\0
+
+/* Change email address with username */
+changee|username|new_email_address\0
+
+/* Change token courses with username */
+changec|username|course1;course2;course3…\0
+
+/* Get course list with tags */
+getclst|three_continuous_int_from_0_to_9\0
+
+/* Get course info with course name */
+getcinf|course_name\0
+
+/* Send comment with course name and username */
+/* If rating is less than 10, add a complementary ‘6’ at the front */
+comment|username|course_name|rating(60_to_50)|up_to_ten_int_represent_tags|comment\0
+
+
+Server2Client:
+
+General_response:
+SUCCESS\0	//for every information that match the database
+XUEBENG\0	//for every failed operations that may cause by database error,
+		//connection error, wrong format, invalid information, etc.
+
+/* Responses to createu */
+SUCCESS\0
+urexist\0	//username already exist in database
+
+/* Responses to loginur */
+SUCCESS\0
+lgnfail\0	//username does not exist or unmatched username and password
+/* Response to getuinf */
+usrinfo|username|nickname|email_address|course1;course2;course3…\0
+/* Response to getclst */
+crslist|course1;course2;course3…\0
+
+/* Responses to getclst (with tags) */
+crslist|course1;course2;course3…\0
+
+/* Responses to getcinf */
+/* If rating is less than 10, add a complementary ‘6’ at the front */
+crsinfo|course_name|rating(60_to_50)|three_int_represent_tags|comments|pretest|answer\0
+/* Expansion of comments */
+…|nickname1::comment1||nickname2::comment2||nickname3::comment3…|…
+/* Expansion of pretest */
+…|question1::choice_A:choice_B(:choice_C:choice_D)||question2…|…
+/* Expansion of answer */
+…|0-A_1-B_2-C_3-D…\0
+
