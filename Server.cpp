@@ -16,20 +16,18 @@
 #include "Server.h"
 #include "database.h"
 
+const char *DBERROR = "Database error\n";
 
 const char *SUCCESS = "SUCCESS\n";
 
-const char *DBERROR = "Database error\n";
+const char *XUEBENG = "XUEBENG\n";
 
-const char *USREXIST = "User already exist\n";
+const char *UREXIST = "urexist\n";
 
-const char *WRONGPW = "Unmatched username and password\n";
+const char *LGNFAIL = "lgnfail\n";
 
-const char *USRNOTEXIST = "User not exist\n";
+const char *UNEXIST = "unexist\n";
 
-const char *WRONGEVENTINFO = "Invalid event information\n";
-
-const char *LOADEVENTLISTERROR = "Fail to load event list\n";
 
 extern "C" void background(int sig) {
 	int status;
@@ -39,12 +37,12 @@ extern "C" void background(int sig) {
     
 int QueueLength = 5;
 pthread_mutex_t mutex;
-int port = 6666;
+int port = 6667;
 char cport[20] = {0};
 int splitLength = 0;
 struct Databases database;
 
-// Processes time request
+//Processes time request
 void processRequest(int socket);
 void processThreadRequest(int slaveSocket);
 char** split(char* str, char id);
@@ -54,46 +52,46 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "Database start error\n");
 		exit(-1);
 	}
+    	
+    	//Set the IP address and port for this server
+    	struct sockaddr_in serverIPAddress; 
+    	memset( &serverIPAddress, 0, sizeof(serverIPAddress) );
+    	serverIPAddress.sin_family = AF_INET;
+    	serverIPAddress.sin_addr.s_addr = INADDR_ANY;
+   	serverIPAddress.sin_port = htons((u_short) port);
     
-    // Set the IP address and port for this server
-    struct sockaddr_in serverIPAddress; 
-    memset( &serverIPAddress, 0, sizeof(serverIPAddress) );
-    serverIPAddress.sin_family = AF_INET;
-    serverIPAddress.sin_addr.s_addr = INADDR_ANY;
-    serverIPAddress.sin_port = htons((u_short) port);
+    	//Allocate a socket
+    	int masterSocket =  socket(PF_INET, SOCK_STREAM, 0);
+    	if ( masterSocket < 0) {
+        	perror("socket");
+        	exit(-1);
+    	}
     
-    // Allocate a socket
-    int masterSocket =  socket(PF_INET, SOCK_STREAM, 0);
-    if ( masterSocket < 0) {
-        perror("socket");
-        exit(-1);
-    }
+    	//Set socket options to reuse port. Otherwise we will
+    	//have to wait about 2 minutes before reusing the same port number
+    	int optval = 1; 
+    	int err = setsockopt(masterSocket, SOL_SOCKET, SO_REUSEADDR, (char*)&optval, sizeof(int));
     
-    // Set socket options to reuse port. Otherwise we will
-    // have to wait about 2 minutes before reusing the same port number
-    int optval = 1; 
-    int err = setsockopt(masterSocket, SOL_SOCKET, SO_REUSEADDR, (char*)&optval, sizeof(int));
-    
-    // Bind the socket to the IP address and port
-    int error = bind(masterSocket, (struct sockaddr *)&serverIPAddress, sizeof(serverIPAddress)); 
+    	//Bind the socket to the IP address and port
+    	int error = bind(masterSocket, (struct sockaddr *)&serverIPAddress, sizeof(serverIPAddress)); 
 	if (error) {
-        perror("bind");
-        exit(-1);
-    }
+        	perror("bind");
+        	exit(-1);
+    	}
     
-    // Put socket in listening mode and set the 
-    // size of the queue of unprocessed connections
-    error = listen( masterSocket, QueueLength);
-    if (error) {
-        perror("listen");
-        exit(-1);
-    }
+    	//Put socket in listening mode and set the 
+    	//size of the queue of unprocessed connections
+    	error = listen( masterSocket, QueueLength);
+    	if (error) {
+       	perror("listen");
+        	exit(-1);
+    	}
 
 	signal(SIGCHLD, background);
 
-    while (1) {
+    	while (1) {
         
-        // Accept incoming connections
+        //Accept incoming connections
         struct sockaddr_in clientIPAddress;
         int alen = sizeof( clientIPAddress );
         int slaveSocket = accept( masterSocket,	
@@ -120,16 +118,16 @@ void processThreadRequest(int slaveSocket) {
 }
 
 void processRequest(int fd) {
-    char msg[5000] = {0};
-    int msglen = 0;
-    int n;
+    	char msg[5000] = {0};
+    	int msglen = 0;
+    	int n;
 	char** splitCommend;
     
-    // Currently character read
-    unsigned char newChar;
+    	//Currently character read
+   	unsigned char newChar;
 	unsigned char lastChar = 0;
     
-    while (msglen < 5000 && (n = read(fd, &newChar, sizeof(newChar))) > 0) {
+    	while (msglen < 5000 && (n = read(fd, &newChar, sizeof(newChar))) > 0) {
 		if (lastChar == '\015' && newChar == '\012') {
 			msglen--;
 			break;
@@ -137,28 +135,11 @@ void processRequest(int fd) {
         msg[msglen] = newChar;
         msglen++;
 		lastChar = newChar;
-    }
-    // Add null character at the end of the string
-    msg[msglen] = 0;   
-    printf("msg:%s$\n", msg);
-	/*
-	Server receive:
-	createu|user|pw
-	loginur|user|pw
-	createe|user|time|des|loc
-	deletee|user|time|des|loc
-	loadevs|user
-
-	Server send:
-	SUCCESS
-	Database error
-	User already exist
-	Unmatched username and password
-	User not exist
-	Invalid event information
-	Fail to load event list
-	id|time|des|loc||...
-	*/
+    	}
+	// Add null character at the end of the string
+	msg[msglen] = 0;   
+	printf("msg:%s$\n", msg);
+	
 	splitCommend = split(msg, '|');
 
 	if (!strcmp(splitCommend[0], "createu")) {
@@ -167,9 +148,11 @@ void processRequest(int fd) {
 
 		int reval = database.addUser(username, password);
 		if (reval == -1)
-			write(fd, DBERROR, strlen(DBERROR));
+			//write(fd, DBERROR, strlen(DBERROR));
+			;
 		else if (reval == -2)
-			write(fd, USREXIST, strlen(USREXIST));			
+			//write(fd, USREXIST, strlen(USREXIST));
+			;		
 		else
 			write(fd, SUCCESS, strlen(SUCCESS));
 	}
@@ -179,9 +162,11 @@ void processRequest(int fd) {
 
 		int reval = database.passwordCheck(username, password);
 		if (reval == -1)
-			write(fd, DBERROR, strlen(DBERROR));
+			//write(fd, DBERROR, strlen(DBERROR));
+			;
 		else if (reval == 0)
-			write(fd, WRONGPW, strlen(WRONGPW));
+			//write(fd, WRONGPW, strlen(WRONGPW));
+			;
 		else
 			write(fd, SUCCESS, strlen(SUCCESS));
 	}
@@ -193,11 +178,14 @@ void processRequest(int fd) {
 
 		int reval = database.createEvent(username, eventtime, eventdes, eventloc);
 		if (reval == -1)
-			write(fd, DBERROR, strlen(DBERROR));
+			//write(fd, DBERROR, strlen(DBERROR));
+			;
 		else if (reval == -2)
-			write(fd, USRNOTEXIST, strlen(USRNOTEXIST));
+			//write(fd, USRNOTEXIST, strlen(USRNOTEXIST));
+			;
 		else if (reval == -3)
-			write(fd, WRONGEVENTINFO, strlen(WRONGEVENTINFO));
+			//write(fd, WRONGEVENTINFO, strlen(WRONGEVENTINFO));
+			;
 		else
 			write(fd, SUCCESS, strlen(SUCCESS));
 	}
@@ -209,11 +197,14 @@ void processRequest(int fd) {
 
 		int reval = database.deleteEvent(username, eventtime, eventdes, eventloc);
 		if (reval == -1)
-			write(fd, DBERROR, strlen(DBERROR));
+			//write(fd, DBERROR, strlen(DBERROR));
+			;
 		else if (reval == -2)
-			write(fd, USRNOTEXIST, strlen(USRNOTEXIST));
+			//write(fd, USRNOTEXIST, strlen(USRNOTEXIST));
+			;
 		else if (reval == -3)
-			write(fd, WRONGEVENTINFO, strlen(WRONGEVENTINFO));
+			//write(fd, WRONGEVENTINFO, strlen(WRONGEVENTINFO));
+			;
 		else
 			write(fd, SUCCESS, strlen(SUCCESS));
 	}
@@ -221,20 +212,80 @@ void processRequest(int fd) {
 		char *username = splitCommend[1];
 
 		if (!database.ifUserExist(username))
-			write(fd, USRNOTEXIST, strlen(USRNOTEXIST));
+			//write(fd, USRNOTEXIST, strlen(USRNOTEXIST));
+			;
 		else {
 			char *eventlist = database.getUserEventList(username);
 			if (eventlist != NULL)
-				write(fd, eventlist, strlen(eventlist));
+				//write(fd, eventlist, strlen(eventlist));
+				;
 			else
-				write(fd, LOADEVENTLISTERROR, strlen(LOADEVENTLISTERROR));
+				//write(fd, LOADEVENTLISTERROR, strlen(LOADEVENTLISTERROR));
+				;
 		}
 	}
 	else
 		write(fd, "check connection\n", 17);
 }
 
-char** split(char* str, char id){
+/* return 1 if create success
+   return 0 otherwise */
+int createu(char **commendList) {
+	return 0;
+}
+
+/* return 1 if create success
+   return 0 otherwise */
+int loginur(char **commendList) {
+	return 0;
+}
+
+/* return user info */
+char* getuinf(char **commendList) {
+	return NULL;
+}
+
+/* return course list 
+   [with or without tags] */
+char* getclst(char **commendList) {
+	return NULL;
+}
+
+/* return 1 if create success
+   return 0 otherwise */
+int resetpw(char **commendList) {
+	return 0;
+}
+
+/* return 1 if create success
+   return 0 otherwise */
+int changen(char **commendList) {
+	return 0;
+}
+
+/* return 1 if create success
+   return 0 otherwise */
+int changee(char **commendList) {
+	return 0;
+}
+
+/* return 1 if create success
+   return 0 otherwise */
+int changec(char **commendList) {
+	return 0;
+}
+
+/* return course info */
+char* getcinf(char **commendList) {
+	return NULL;
+}
+
+/* update comment */
+void comment(char **commendList) {
+	
+}
+
+char** split(char* str, char id) {
 	splitLength = 1;
 	if (str==NULL)
 		return NULL;
