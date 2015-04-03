@@ -58,7 +58,7 @@ crslist|course1;course2;course3…\0
 
 /* Responses to getcinf */
 /* If rating is less than 10, add a complementary ‘6’ at the front */
-crsinfo|course_name|rating(60_to_50)|three_int_represent_tags|comments|pretest|answer\0
+crsinfo|course_name|rating(60_to_50)|description|three_int_represent_tags|comments|pretest|answer\0
 /* Expansion of comments */
 …|nickname1::comment1||nickname2::comment2||nickname3::comment3…|…
 /* Expansion of pretest */

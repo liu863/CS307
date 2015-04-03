@@ -6,36 +6,41 @@
 #include <ctime>
 #include "database.h"
 
-const char *DATABASE_NAME = "DEMODATABASE.db";
+const char *DATABASE_NAME = 	"PCA.db";
 
-const char *SQL_CREATE_USER = "CREATE TABLE IF NOT EXISTS USER("
-							  "USERNAME   TEXT      NOT NULL,"
-							  "PASSWORD   CHAR(50)  NOT NULL);";
+const char *SQL_CREATE_USER = 	"CREATE TABLE IF NOT EXISTS USER("
+							  	"USERNAME	TEXT		NOT NULL,"
+							  	"PASSWORD	CHAR(50)	NOT NULL,"
+								"EMAIL		TEXT		NOT NULL,"
+								"NICKNAME	TEXT,"
+								"COURSES	TEXT);";
 
-const char *SQL_CREATE_EVENT = "CREATE TABLE IF NOT EXISTS EVENT("
-							   "USERNAME     TEXT      NOT NULL,"
-							   "EVENTTIME    TEXT      NOT NULL,"
-							   "DESCRIPTION  TEXT      NOT NULL,"
-							   "LOCATION     TEXT);";
+const char *SQL_CREATE_COURSE = 	"CREATE TABLE IF NOT EXISTS COURSE("
+							   		"COURSENAME		TEXT	NOT NULL,"
+							   		"RATING			TEXT"
+							   		"DESCRIPTION	TEXT	NOT NULL,"
+									"TAGS			TEXT,"
+							   		"COMMENT		TEXT,"
+									"PRETEST		TEXT);";
 
-const char *SQL_INSERT_USER = "INSERT INTO USER (USERNAME, PASSWORD) "
-							  "VALUES ('%s', '%s');";
+const char *SQL_INSERT_USER = 	"INSERT INTO USER (USERNAME, PASSWORD, EMAIL) "
+							  	"VALUES ('%s', '%s', '%s');";
 
-const char *SQL_CHECK_USER = "SELECT USERNAME from USER where USERNAME like '%s';";
+const char *SQL_CHECK_USER = 	"SELECT USERNAME from USER where USERNAME like '%s';";
 
-const char *SQL_CHECK_PASSWORD = "SELECT USERNAME from USER where "
-								 "USERNAME like '%s' and PASSWORD like '%s';";
+const char *SQL_CHECK_PASSWORD = 	"SELECT USERNAME from USER where "
+								 	"USERNAME like '%s' and PASSWORD like '%s';";
 
-const char *SQL_ADD_EVENT = "INSERT INTO EVENT "
-							"(USERNAME, EVENTTIME, DESCRIPTION, LOCATION) "
-							"VALUES ('%s', '%s', '%s', '%s');";
+const char *SQL_ADD_EVENT = 	"INSERT INTO EVENT "
+								"(USERNAME, EVENTTIME, DESCRIPTION, LOCATION) "
+								"VALUES ('%s', '%s', '%s', '%s');";
 
-const char *SQL_REMOVE_EVENT = "DELETE from EVENT where "
-							   "USERNAME = '%s' and EVENTTIME = '%s' and "
-							   "DESCRIPTION = '%s' and LOCATION = '%s';";
+const char *SQL_REMOVE_EVENT = 	"DELETE from EVENT where "
+							   	"USERNAME = '%s' and EVENTTIME = '%s' and "
+							   	"DESCRIPTION = '%s' and LOCATION = '%s';";
 
-const char *SQL_GET_EVENT = "SELECT from EVENT where "
-							"USERNAME like '%s';";
+const char *SQL_GET_EVENT = 	"SELECT from EVENT where "
+								"USERNAME like '%s';";
 
 
 sqlite3 *db;
@@ -47,8 +52,7 @@ int res = 0;
 int userCount;
 
 
-int 
-Databases::initDatabases() {
+int Databases::initDatabases() {
 	rc = sqlite3_open(DATABASE_NAME, &db);
 	/* Open database */
 	if (rc) {
@@ -60,7 +64,7 @@ Databases::initDatabases() {
 	}
 
 	rc = sqlite3_exec(db, SQL_CREATE_USER, NULL, 0, &zErrMsg);
-	rc += sqlite3_exec(db, SQL_CREATE_EVENT, NULL, 0, &zErrMsg);
+	rc += sqlite3_exec(db, SQL_CREATE_COURSE, NULL, 0, &zErrMsg);
 
 	/* Execute SQL statement */
 	if (rc != (SQLITE_OK * 3)){
@@ -75,14 +79,13 @@ Databases::initDatabases() {
 	return 1;
 }
 
-int
-Databases::addUser(char* userName, char* password) {
+int Databases::addUser(char* userName, char* password, char* email) {
 	
     if (ifUserExist(userName))
 		return -2;
 	
 	char insertBuffer[300];
-	sprintf(insertBuffer, SQL_INSERT_USER, userName, password);
+	sprintf(insertBuffer, SQL_INSERT_USER, userName, password, email);
 	rc = sqlite3_exec(db, insertBuffer, NULL, 0, &zErrMsg);
 	if( rc != SQLITE_OK ){
    		fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -93,8 +96,7 @@ Databases::addUser(char* userName, char* password) {
    	return 0;
 }
 
-int
-cbIfUserExist(void *NotUsed, int argc, char **argv, char **azColName) {
+int cbIfUserExist(void *NotUsed, int argc, char **argv, char **azColName) {
 	int i;
 	userCount++;
 	for(i = 0; i < argc; i++){
@@ -104,8 +106,7 @@ cbIfUserExist(void *NotUsed, int argc, char **argv, char **azColName) {
 	return 0;
 }
 
-int 
-Databases::ifUserExist(char* userName) {
+int Databases::ifUserExist(char* userName) {
 	char checkBuffer[300];	
 	sprintf(checkBuffer, SQL_CHECK_USER, userName);
 	userCount = 0;
@@ -120,8 +121,7 @@ Databases::ifUserExist(char* userName) {
 	return userCount;
 }
 
-int 
-Databases::passwordCheck(char* userName, char* passWord){
+int Databases::passwordCheck(char* userName, char* passWord){
 	char checkBuffer[300];
 	sprintf(checkBuffer, SQL_CHECK_PASSWORD, userName, passWord);
 	userCount = 0;
@@ -136,83 +136,48 @@ Databases::passwordCheck(char* userName, char* passWord){
 	return userCount;
 }
 
-int
-Databases::createEvent(char* userName, char* eventDes, char* eventTime, char* eventLoc) {
-
-	if (!ifUserExist(userName))
-		return -2;
-
-	if (eventDes == NULL || eventTime == NULL)
-		return -3;
-
-	char checkBuffer[300];
-	sprintf(checkBuffer, SQL_ADD_EVENT, userName, eventDes, eventTime, eventLoc);
-	rc = sqlite3_exec(db, checkBuffer, NULL, 0, &zErrMsg);
-	
-	if( rc != SQLITE_OK ){
-   		fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      	sqlite3_free(zErrMsg);
-      	return -1;
-   	}
-	
-   	return 0;
+int Databases::changeNickname(char* userName, char* nickname) {
+	return 0;
 }
 
-int
-Databases::deleteEvent(char* userName, char* eventDes, char* eventTime, char* eventLoc) {
-
-	if (userName == NULL || !ifUserExist(userName))
-		return -2;
-
-	if (eventDes == NULL || eventTime == NULL)
-		return -3;
-
-	char checkBuffer[300];
-	sprintf(checkBuffer, SQL_REMOVE_EVENT, userName, eventDes, eventTime, eventLoc);
-	rc = sqlite3_exec(db, checkBuffer, NULL, 0, &zErrMsg);
-	
-	if( rc != SQLITE_OK ){
-   		fprintf(stderr, "SQL error: %s\n", zErrMsg);
-      	sqlite3_free(zErrMsg);
-      	return -1;
-   	}
-	
-   	return 0;
+int Databases::changeEmail(char* userName, char* email) {
+	return 0;
 }
 
-//time|des|loc||...
-char* 
-Databases::getUserEventList(char* userName) {
-	char checkBuffer[300];
-	sprintf(checkBuffer, SQL_GET_EVENT, userName);
-	char tmp[999999] = {0};
-
-
-	if (sqlite3_prepare(db, checkBuffer, -1, &statement, &pzTest) == SQLITE_OK) {
-		fprintf(stderr, "prep ok\n");
-		while (1) {
-			res = sqlite3_step(statement);
-			if (res == SQLITE_ROW){
-				strcat(tmp, (char*)sqlite3_column_text(statement, 1));
-				strcat(tmp, "|");
-				strcat(tmp, (char*)sqlite3_column_text(statement, 2));
-				strcat(tmp, "|");
-				strcat(tmp, (char*)sqlite3_column_text(statement, 3));
-				strcat(tmp, "||");
-			}
-			else {
-				if (tmp == NULL || strlen(tmp) - 4 < 1)
-					return NULL;
-				char *re = (char*)malloc(strlen(tmp) - 1);
-				strncpy(re, tmp, strlen(tmp) - 2);
-				re[strlen(tmp) - 2] = 0;
-				return re;
-	        }
-    	}
-	}
-	else
-		return NULL;
+int Databases::changeCourse(char* userName, char* course) {
+	return 0;
 }
+
+int Databases::changePassword(char* userName, char* password) {
+	return 0;
+}
+
+char* Databases::getUser(char* userName) {
+	return NULL;
+}
+
+char* Databases::getCourselist(char* tags) {
+	return NULL;
+}
+
+char* Databases::getCourse(char* course) {
+	return NULL;
+}
+
+int Databases::updateRating(char* course, char* rating) {
+	return 0;
+}
+
+int Databases::updateTags(char* course, char* tags) {
+	return 0;
+}
+
+int Databases::updateComment(char* course, char* comment) {
+	return 0;
+}
+
+
+
 
 
 

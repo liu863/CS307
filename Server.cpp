@@ -145,8 +145,9 @@ void processRequest(int fd) {
 	if (!strcmp(splitCommend[0], "createu")) {
 		char *username = splitCommend[1];
 		char *password = splitCommend[2];
+		char *email = splitCommend[3];
 
-		int reval = database.addUser(username, password);
+		int reval = database.addUser(username, password, email);
 		if (reval == -1)
 			//write(fd, DBERROR, strlen(DBERROR));
 			;
@@ -169,60 +170,6 @@ void processRequest(int fd) {
 			;
 		else
 			write(fd, SUCCESS, strlen(SUCCESS));
-	}
-	else if (!strcmp(splitCommend[0], "createe")) {
-		char *username = splitCommend[1];
-		char *eventtime = splitCommend[2];
-		char *eventdes = splitCommend[3];
-		char *eventloc = splitCommend[4];
-
-		int reval = database.createEvent(username, eventtime, eventdes, eventloc);
-		if (reval == -1)
-			//write(fd, DBERROR, strlen(DBERROR));
-			;
-		else if (reval == -2)
-			//write(fd, USRNOTEXIST, strlen(USRNOTEXIST));
-			;
-		else if (reval == -3)
-			//write(fd, WRONGEVENTINFO, strlen(WRONGEVENTINFO));
-			;
-		else
-			write(fd, SUCCESS, strlen(SUCCESS));
-	}
-	else if (!strcmp(splitCommend[0], "deletee")) {
-		char *username = splitCommend[1];
-		char *eventtime = splitCommend[2];
-		char *eventdes = splitCommend[3];
-		char *eventloc = splitCommend[4];
-
-		int reval = database.deleteEvent(username, eventtime, eventdes, eventloc);
-		if (reval == -1)
-			//write(fd, DBERROR, strlen(DBERROR));
-			;
-		else if (reval == -2)
-			//write(fd, USRNOTEXIST, strlen(USRNOTEXIST));
-			;
-		else if (reval == -3)
-			//write(fd, WRONGEVENTINFO, strlen(WRONGEVENTINFO));
-			;
-		else
-			write(fd, SUCCESS, strlen(SUCCESS));
-	}
-	else if (!strcmp(splitCommend[0], "loadevs")) {
-		char *username = splitCommend[1];
-
-		if (!database.ifUserExist(username))
-			//write(fd, USRNOTEXIST, strlen(USRNOTEXIST));
-			;
-		else {
-			char *eventlist = database.getUserEventList(username);
-			if (eventlist != NULL)
-				//write(fd, eventlist, strlen(eventlist));
-				;
-			else
-				//write(fd, LOADEVENTLISTERROR, strlen(LOADEVENTLISTERROR));
-				;
-		}
 	}
 	else
 		write(fd, "check connection\n", 17);
