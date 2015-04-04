@@ -164,15 +164,18 @@ int Databases::passwordCheck(char* userName, char* passWord){
 	return userCount;
 }
 //xuhao
-int Databases::changeNickname(char* userName, char* nickName) {
-	char checkBuffer[300];
-	sprintf(checkBuffer, SQL_UPDATE_NICKNAME, userName, nickName);
 
-	//rc = sqlite3_exec(userdb, checkBuffer, cbIf)
+int Databases::changeNickname(char* userName, char* nickname) {
+
+	char checkBuffer[300];
+	sprintf(checkBufer, SQL_UPDATE_NICKNAME, userName, nickName);
+	rc = sqlite3_exec()
+
 	return 0;
 }
 //xuhao
 int Databases::changeEmail(char* userName, char* email) {
+	
 	return 0;
 }
 //xu
