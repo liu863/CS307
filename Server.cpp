@@ -111,10 +111,13 @@ int main(int argc, char **argv) {
 
 void processThreadRequest(int slaveSocket) {
 	processRequest(slaveSocket);
-	close(slaveSocket);
+	fprintf(stderr,"flag 0\n");
+	int ret = close(slaveSocket);
+	fprintf(stderr,"close = %d\n", ret);
 }
 
 void processRequest(int fd) {
+
     char msg[5000] = {0};
     int msglen = 0;
     int n;
@@ -161,9 +164,9 @@ void processRequest(int fd) {
 			write(fd, SUCCESS, strlen(SUCCESS));
 	}
 	else if (!strcmp(splitCommend[0], "getuinf")) {
-		char* reval = "aaa";//getuinf(splitCommend);
+		char* reval = getuinf(splitCommend);
 		if(reval != NULL)
-			write(fd, "name|password|email", strlen("name|password|email"));
+			write(fd, SUCCESS, strlen(SUCCESS));
 		else
 			write(fd, DBERROR, strlen(DBERROR));
 	}
@@ -174,13 +177,16 @@ void processRequest(int fd) {
 		else
 			write(fd, DBERROR, strlen(DBERROR));
 	}
+
 	else if (!strcmp(splitCommend[0], "resetpw")) {
+		fprintf(stderr,"%d\n", fd);
 		int reval = resetpw(splitCommend);
-		if(reval == 1)
-			write(fd, SUCCESS, strlen(SUCCESS));
-		else
-			write(fd, DBERROR, strlen(DBERROR));
+		fprintf(stderr,"asdad %d\n",reval);
+		
+//			write(fd, "BUG\n", strlen("BUG\n"));
+
 	}
+
 	else if (!strcmp(splitCommend[0], "changen")) {
 		int reval = changen(splitCommend);
 		if(reval == 1)
@@ -244,6 +250,7 @@ void processRequest(int fd) {
 
 	else
 		write(fd, "check connection\n", 17);
+	fprintf(stderr,"asdsad\n");
 }
 
 /* return 1 if create success
@@ -294,10 +301,12 @@ int resetpw(char **commendList) {
 	char *username = commendList[1];
 	char *email_address = commendList[2];
 	int reset = (rand() % (999999 - 100000 + 1)) + 100000;
+	fprintf(stderr, "pw is : %s %s\n",username,email_address);
 	//to do send reset to email
 	char *password;
 	sprintf(password, "%d\0", reset);
-	int reval = database.changePassword(username, password);//check cast
+	fprintf(stderr, "pw is : %s\n",password);
+	int reval = database.changePassword(username, "11111");//check cast
 	return reval;
 }
 

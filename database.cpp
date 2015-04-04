@@ -39,7 +39,7 @@ const char *SQL_UPDATE_EMAIL = "UPDATE USER SET EMAIL = '%s' WHERE USERNAME = '%
 
 const char *SQL_UPDATE_NICKNAME = "UPDATE USER SET NICKNAME = '%s' WHERE USERNAME = '%s';";
 
-const char *SQL_UPDATE_COURSE = "UPDATE USER SET COURSE = '%s' WHERE USERNAME = '%s';";
+const char *SQL_UPDATE_COURSE = "UPDATE USER SET COURSES = '%s' WHERE USERNAME = '%s';";
 
 const char *SQL_UPDATE_RATING = "UPDATE COURSE SET RATING = '%s' WHERE COURSENAME = '%s';";
 
@@ -163,28 +163,67 @@ int Databases::passwordCheck(char* userName, char* passWord){
 	
 	return userCount;
 }
-//xuhao
+
 
 int Databases::changeNickname(char* userName, char* nickName) {
-
 	char checkBuffer[300];
-	sprintf(checkBuffer, SQL_UPDATE_NICKNAME, userName, nickName);
-	//rc = sqlite3_exec()
+	sprintf(checkBuffer, SQL_UPDATE_NICKNAME, nickName, userName);
+	fprintf(stderr, "cheb: %s\n", checkBuffer);
+	rc = sqlite3_exec(userdb, checkBuffer, NULL, 0, &zErrMsg);
 
-	return 0;
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return -1;
+	}
+
+	return 1;
 }
-//xuhao
+//niu
 int Databases::changeEmail(char* userName, char* email) {
 	
-	return 0;
+	char checkBuffer[300];
+	sprintf(checkBuffer, SQL_UPDATE_EMAIL, email, userName);
+	fprintf(stderr, "cheb: %s\n", checkBuffer);
+	rc = sqlite3_exec(userdb, checkBuffer, NULL, 0, &zErrMsg);
+
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return -1;
+	}
+
+	return 1;
 }
 //xu
 int Databases::changeCourse(char* userName, char* course) {
-	return 0;
+	char checkBuffer[300];
+	sprintf(checkBuffer, SQL_UPDATE_COURSE, course, userName);
+	fprintf(stderr, "cheb: %s\n", checkBuffer);
+	rc = sqlite3_exec(userdb, checkBuffer, NULL, 0, &zErrMsg);
+
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return -1;
+	}
+
+	return 1;
 }
 //xu
 int Databases::changePassword(char* userName, char* password) {
-	return 0;
+	char checkBuffer[300];
+	sprintf(checkBuffer, SQL_UPDATE_PASSWORD, password, userName);
+	//fprintf(stderr, "cheb: %s\n", checkBuffer);
+	rc = sqlite3_exec(userdb, checkBuffer, NULL, 0, &zErrMsg);
+
+	if (rc != SQLITE_OK) {
+		//fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return -1;
+	}
+	//fprintf(stderr, "cheb: %s\n", checkBuffer);
+	return 1;
 }
 //liu
 char* Databases::getUser(char* userName) {
@@ -199,7 +238,16 @@ char* Databases::getCourse(char* course) {
 	return NULL;
 }
 //xu
+
+int getRating(void* data, int argc, char **argv, char **azColName) {
+	
+}
+
 int Databases::updateRating(char* course, char* rating) {
+	char sql_to_execute[300];
+	char* data;
+	sprintf(sql_to_execute, SQL_GET_COURSE);
+	//rc = sqlite3_exec(coursedb, sql_to_execute, getRating, data)
 	return 0;
 }
 //liu
