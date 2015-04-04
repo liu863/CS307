@@ -31,17 +31,7 @@ const char *SQL_CHECK_USER = 	"SELECT USERNAME from USER where USERNAME like '%s
 const char *SQL_CHECK_PASSWORD = 	"SELECT USERNAME from USER where "
 								 	"USERNAME like '%s' and PASSWORD like '%s';";
 
-const char *SQL_ADD_EVENT = 	"INSERT INTO EVENT "
-								"(USERNAME, EVENTTIME, DESCRIPTION, LOCATION) "
-								"VALUES ('%s', '%s', '%s', '%s');";
-
-const char *SQL_REMOVE_EVENT = 	"DELETE from EVENT where "
-							   	"USERNAME = '%s' and EVENTTIME = '%s' and "
-							   	"DESCRIPTION = '%s' and LOCATION = '%s';";
-
-const char *SQL_GET_EVENT = 	"SELECT from EVENT where "
-								"USERNAME like '%s';";
-
+const char *SQL_
 
 sqlite3 *db;
 char *zErrMsg = 0;
@@ -49,7 +39,7 @@ int rc;
 sqlite3_stmt *statement;
 const char *pzTest;
 int res = 0;
-int userCount;
+int userCount;//if cbuser is called
 
 
 int Databases::initDatabases() {
@@ -80,7 +70,7 @@ int Databases::initDatabases() {
 }
 
 int Databases::addUser(char* userName, char* password, char* email) {
-	
+	//if user already exists, return -2
     if (ifUserExist(userName))
 		return -2;
 	
