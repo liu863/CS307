@@ -141,43 +141,43 @@ int Databases::passwordCheck(char* userName, char* passWord){
 	
 	return userCount;
 }
-
+//xuhao
 int Databases::changeNickname(char* userName, char* nickname) {
 	return 0;
 }
-
+//xuhao
 int Databases::changeEmail(char* userName, char* email) {
 	return 0;
 }
-
+//fang
 int Databases::changeCourse(char* userName, char* course) {
 	return 0;
 }
-
+//wang
 int Databases::changePassword(char* userName, char* password) {
 	return 0;
 }
-
+//liu
 char* Databases::getUser(char* userName) {
 	return NULL;
 }
-
+//liu
 char* Databases::getCourselist(char* tags) {
 	return NULL;
 }
-
+//liu
 char* Databases::getCourse(char* course) {
 	return NULL;
 }
-
+//xu
 int Databases::updateRating(char* course, char* rating) {
 	return 0;
 }
-
+//qi
 int Databases::updateTags(char* course, char* tags) {
 	return 0;
 }
-
+//niu
 int Databases::updateComment(char* course, char* comment) {
 	return 0;
 }
