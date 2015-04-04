@@ -23,15 +23,31 @@ const char *SQL_CREATE_COURSE = 	"CREATE TABLE IF NOT EXISTS COURSE("
 							   		"COMMENT		TEXT,"
 									"PRETEST		TEXT);";
 
-const char *SQL_INSERT_USER = 	"INSERT INTO USER (USERNAME, PASSWORD, EMAIL) "
-							  	"VALUES ('%s', '%s', '%s');";
+const char *SQL_INSERT_USER = 	"INSERT INTO USER (USERNAME, PASSWORD, EMAIL, NICKNAME) "
+							  	"VALUES ('%s', '%s', '%s', '%s');";
 
 const char *SQL_CHECK_USER = 	"SELECT USERNAME from USER where USERNAME like '%s';";
 
 const char *SQL_CHECK_PASSWORD = 	"SELECT USERNAME from USER where "
 								 	"USERNAME like '%s' and PASSWORD like '%s';";
 
-const char *SQL_
+const char *SQL_UPDATE_PASSWORD = "UPDATE USER SET PASSWORD = '%s' WHERE USERNAME = '%s';";
+
+const char *SQL_UPDATE_EMAIL = "UPDATE USER SET EMAIL = '%s' WHERE USERNAME = '%s';";
+
+const char *SQL_UPDATE_NICKNAME = "UPDATE USER SET NICKNAME = '%s' WHERE USERNAME = '%s';";
+
+const char *SQL_UPDATE_COURSE = "UPDATE USER SET COURSE = '%s' WHERE USERNAME = '%s';";
+
+const char *SQL_UPDATE_RATING = "UPDATE COURSE SET RATING = '%s' WHERE COURSENAME = '%s';";
+
+const char *SQL_UPDATE_TAGS = "UPDATE COURSE SET TAGS = '%s' WHERE COURSENAME = '%s';";
+
+const char *SQL_UPDATE_COMMENT = "UPDATE COURSE SET COMMENT = '%s' WHERE COURSENAME = '%s';";
+
+const char *SQL_GET_USER = "SELECT * FROM USER;";
+
+const char *SQL_GET_COURSE = "SELECT * FROM COURSE;";
 
 sqlite3 *db;
 char *zErrMsg = 0;
@@ -75,7 +91,7 @@ int Databases::addUser(char* userName, char* password, char* email) {
 		return -2;
 	
 	char insertBuffer[300];
-	sprintf(insertBuffer, SQL_INSERT_USER, userName, password, email);
+	sprintf(insertBuffer, SQL_INSERT_USER, userName, password, email, userName);
 	rc = sqlite3_exec(db, insertBuffer, NULL, 0, &zErrMsg);
 	if( rc != SQLITE_OK ){
    		fprintf(stderr, "SQL error: %s\n", zErrMsg);
