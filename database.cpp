@@ -6,7 +6,9 @@
 #include <ctime>
 #include "database.h"
 
-const char *DATABASE_NAME = 	"PCA.db";
+const char *USER_DATABASE_NAME = 	"PCA_user.db";
+
+const char *COURSE_DATABASE_NAME = 	"PCA_course.db";
 
 const char *SQL_CREATE_USER = 	"CREATE TABLE IF NOT EXISTS USER("
 							  	"USERNAME	TEXT		NOT NULL,"
@@ -49,7 +51,7 @@ const char *SQL_GET_USER = "SELECT * FROM USER;";
 
 const char *SQL_GET_COURSE = "SELECT * FROM COURSE;";
 
-sqlite3 *db;
+sqlite3 *userdb, *coursedb;
 char *zErrMsg = 0;
 int rc;
 sqlite3_stmt *statement;
@@ -59,18 +61,17 @@ int userCount;//if cbuser is called
 
 
 int Databases::initDatabases() {
-	rc = sqlite3_open(DATABASE_NAME, &db);
+	rc = sqlite3_open(USER_DATABASE_NAME, &userdb);
 	/* Open database */
 	if (rc) {
-		fprintf(stderr, "Can't open database: %s\n", sqlite3_errmsg(db));
+		fprintf(stderr, "Can't open user database: %s\n", sqlite3_errmsg(userdb));
 		return 0;
 	}
 	else {
-      	fprintf(stdout, "Opened database successfully\n");
+      	fprintf(stdout, "Opened user database successfully\n");
 	}
 
-	rc = sqlite3_exec(db, SQL_CREATE_USER, NULL, 0, &zErrMsg);
-	rc += sqlite3_exec(db, SQL_CREATE_COURSE, NULL, 0, &zErrMsg);
+	rc = sqlite3_exec(userdb, SQL_CREATE_USER, NULL, 0, &zErrMsg);
 
 	/* Execute SQL statement */
 	if (rc != (SQLITE_OK * 3)){
@@ -79,7 +80,28 @@ int Databases::initDatabases() {
 		return -1;
 	}
 	else {
-		fprintf(stdout, "Table created successfully\n");
+		fprintf(stdout, "User table created successfully\n");
+	}
+	
+	
+	rc = sqlite3_open(COURSE_DATABASE_NAME, &coursedb);
+
+	if (rc) {
+		fprintf(stderr, "Can't open course database: %s\n", sqlite3_errmsg(coursedb));
+		return 0;
+	}
+	else {
+      	fprintf(stdout, "Opened course database successfully\n");
+	}
+	
+	rc = sqlite3_exec(coursedb, SQL_CREATE_COURSE, NULL, 0, &zErrMsg);
+	if (rc != (SQLITE_OK * 3)){
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return -1;
+	}
+	else {
+		fprintf(stdout, "Course table created successfully\n");
 	}
 	
 	return 1;
@@ -92,7 +114,7 @@ int Databases::addUser(char* userName, char* password, char* email) {
 	
 	char insertBuffer[300];
 	sprintf(insertBuffer, SQL_INSERT_USER, userName, password, email, userName);
-	rc = sqlite3_exec(db, insertBuffer, NULL, 0, &zErrMsg);
+	rc = sqlite3_exec(userdb, insertBuffer, NULL, 0, &zErrMsg);
 	if( rc != SQLITE_OK ){
    		fprintf(stderr, "SQL error: %s\n", zErrMsg);
       	sqlite3_free(zErrMsg);
@@ -116,7 +138,7 @@ int Databases::ifUserExist(char* userName) {
 	char checkBuffer[300];	
 	sprintf(checkBuffer, SQL_CHECK_USER, userName);
 	userCount = 0;
-	rc = sqlite3_exec(db, checkBuffer, cbIfUserExist, 0, &zErrMsg);
+	rc = sqlite3_exec(userdb, checkBuffer, cbIfUserExist, 0, &zErrMsg);
 
 	if( rc != SQLITE_OK ){
 		fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -131,7 +153,7 @@ int Databases::passwordCheck(char* userName, char* passWord){
 	char checkBuffer[300];
 	sprintf(checkBuffer, SQL_CHECK_PASSWORD, userName, passWord);
 	userCount = 0;
-	rc = sqlite3_exec(db, checkBuffer, cbIfUserExist, 0, &zErrMsg);
+	rc = sqlite3_exec(userdb, checkBuffer, cbIfUserExist, 0, &zErrMsg);
 	
 	if(rc != SQLITE_OK){
 		fprintf(stderr, "SQL error: %s\n", zErrMsg);
@@ -142,10 +164,11 @@ int Databases::passwordCheck(char* userName, char* passWord){
 	return userCount;
 }
 //xuhao
-int Databases::changeNickname(char* userName, char* nickname) {
+int Databases::changeNickname(char* userName, char* nickName) {
 	char checkBuffer[300];
-	sprintf(checkBufer, SQL_UPDATE_NICKNAME, userName, nickName);
-	rc = sqlite3_exec()
+	sprintf(checkBuffer, SQL_UPDATE_NICKNAME, userName, nickName);
+
+	//rc = sqlite3_exec(userdb, checkBuffer, cbIf)
 	return 0;
 }
 //xuhao
@@ -156,7 +179,7 @@ int Databases::changeEmail(char* userName, char* email) {
 int Databases::changeCourse(char* userName, char* course) {
 	return 0;
 }
-//wang
+//xu
 int Databases::changePassword(char* userName, char* password) {
 	return 0;
 }
@@ -176,11 +199,11 @@ char* Databases::getCourse(char* course) {
 int Databases::updateRating(char* course, char* rating) {
 	return 0;
 }
-//qi
+//liu
 int Databases::updateTags(char* course, char* tags) {
 	return 0;
 }
-//niu
+//xu
 int Databases::updateComment(char* course, char* comment) {
 	return 0;
 }
