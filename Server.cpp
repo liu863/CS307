@@ -151,20 +151,6 @@ void processRequest(int fd) {
 			write(fd, SUCCESS, strlen(SUCCESS));
 		}
 	}
-	else if (!strcmp(splitCommend[0], "loginur")) {
-		char *username = splitCommend[1];
-		char *password = splitCommend[2];
-
-		int reval = database.passwordCheck(username, password);
-		if (reval == -1)
-			//write(fd, DBERROR, strlen(DBERROR));
-			;
-		else if (reval == 0)
-			//write(fd, WRONGPW, strlen(WRONGPW));
-			;
-		else
-			write(fd, SUCCESS, strlen(SUCCESS));
-	}
 
 	/* Newly Added' */
 	else if (!strcmp(splitCommend[0], "loginur")) {
@@ -175,9 +161,9 @@ void processRequest(int fd) {
 			write(fd, SUCCESS, strlen(SUCCESS));
 	}
 	else if (!strcmp(splitCommend[0], "getuinf")) {
-		char* reval = getuinf(splitCommend);
+		char* reval = "aaa";//getuinf(splitCommend);
 		if(reval != NULL)
-			write(fd, SUCCESS, strlen(SUCCESS));
+			write(fd, "name|password|email", strlen("name|password|email"));
 		else
 			write(fd, DBERROR, strlen(DBERROR));
 	}
@@ -232,6 +218,7 @@ void processRequest(int fd) {
 		else {
 			write (fd, courseinfo, strlen(courseinfo));
 			write(fd, "courseinfo success\n", strlen("comment success\n"));
+			
 		}
 	}
 
