@@ -165,6 +165,96 @@ void processRequest(int fd) {
 		else
 			write(fd, SUCCESS, strlen(SUCCESS));
 	}
+
+	/* Newly Added' */
+	else if (!strcmp(splitCommend[0], "loginur")) {
+		int reval = loginur(splitCommend);
+		if (reval == -1)
+			write(fd, DBERROR, strlen(DBERROR));
+		else
+			write(fd, SUCCESS, strlen(SUCCESS));
+	}
+	else if (!strcmp(splitCommend[0], "getuinf")) {
+		char* reval = getuinf(splitCommend);
+		if(reval != NULL)
+			write(fd, SUCCESS, strlen(SUCCESS));
+		else
+			write(fd, DBERROR, strlen(DBERROR));
+	}
+	else if (!strcmp(splitCommend[0], "getclst")) {
+		char* reval = getclst(splitCommend);
+		if(reval != NULL)
+			write(fd, SUCCESS, strlen(SUCCESS));
+		else
+			write(fd, DBERROR, strlen(DBERROR));
+	}
+	else if (!strcmp(splitCommend[0], "resetpw")) {
+		int reval = resetpw(splitCommend);
+		if(reval == 1)
+			write(fd, SUCCESS, strlen(SUCCESS));
+		else
+			write(fd, DBERROR, strlen(DBERROR));
+	}
+	else if (!strcmp(splitCommend[0], "changen")) {
+		int reval = changen(splitCommend);
+		if(reval == 1)
+			write(fd, SUCCESS, strlen(SUCCESS));
+		else
+			write(fd, DBERROR, strlen(DBERROR));
+	}
+	else if (!strcmp(splitCommend[0], "changee")) {
+		int reval = changee(splitCommend);
+		if(reval == 1)
+			write(fd, SUCCESS, strlen(SUCCESS));
+		else
+			write(fd, DBERROR, strlen(DBERROR));
+	}
+
+	/* Newly Added */
+	else if ( !strcmp(splitCommend[0], "changec") ) {
+		int reval = changec(splitCommend);
+		if (reval == -1) {
+			write(fd, "change course err\n", strlen("change course err\n"));
+		}
+		else if (reval == 0) {
+			write(fd, "callback err\n", strlen("callback err\n"));
+		}
+		else {
+			write(fd, "change course success\n", strlen("change course success\n"));
+		}
+	}
+	else if ( !strcmp(splitCommend[0], "getcinf") ) {
+		char * courseinfo = getcinf(splitCommend);
+
+		if (courseinfo == NULL) {
+			write(fd, "courseinfo err\n", strlen("courseinfo err\n"));
+		}
+		else {
+			write (fd, courseinfo, strlen(courseinfo));
+			write(fd, "courseinfo success\n", strlen("comment success\n"));
+		}
+	}
+
+	else if ( !strcmp(splitCommend[0], "comment") ) {
+		char * username = splitCommend[1];
+		char * course = splitCommend[2];
+		char * rating = splitCommend[3];
+		char * tags = splitCommend[4];
+		char * comments = splitCommend[5];
+
+		int reval = database.ifUserExist(username);
+		if (reval == -1) {
+			write(fd, "comment database err\n", strlen("comment database err\n"));
+		}
+		else if (reval == 0) {
+			write(fd, "comment call back err\n", strlen("comment call back err\n"));
+		}
+		else {
+			comment(splitCommend);
+			write(fd, "comment success\n", strlen("comment success\n"));
+		}
+	}
+
 	else
 		write(fd, "check connection\n", 17);
 }
@@ -184,52 +274,95 @@ int createu(char **commendList) {
 /* return 1 if create success
    return 0 otherwise */
 int loginur(char **commendList) {
-	return 0;
+	char *username = commendList[1];
+	char *password = commendList[2];
+	int reval = database.passwordCheck(username, password);
+	return reval;
 }
 
 /* return user info */
 char* getuinf(char **commendList) {
-	return NULL;
+	char *username = commendList[1];
+	char* reval = database.getUser(username);
+	return reval;
 }
 
 /* return course list 
    [with or without tags] */
 char* getclst(char **commendList) {
-	return NULL;
+	char* reval;
+	if(commendList[1]==NULL) {//check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		reval = database.getCourselist((char *)"000");
+	}
+	else {
+		char *tags = commendList[1];
+		reval = database.getCourselist(tags);
+	}
+	return reval;
 }
 
 /* return 1 if create success
    return 0 otherwise */
 int resetpw(char **commendList) {
-	return 0;
+	char *username = commendList[1];
+	char *email_address = commendList[2];
+	int reset = (rand() % (999999 - 100000 + 1)) + 100000;
+	//to do send reset to email
+	char *password;
+	sprintf(password, "%d\0", reset);
+	int reval = database.changePassword(username, password);//check cast
+	return reval;
 }
 
 /* return 1 if create success
    return 0 otherwise */
 int changen(char **commendList) {
-	return 0;
+	char *username = commendList[1];
+	char *new_nickname = commendList[2];
+	int reval = database.changeNickname(username, new_nickname);
+	return reval;
 }
 
 /* return 1 if create success
    return 0 otherwise */
 int changee(char **commendList) {
-	return 0;
+	char *username = commendList[1];
+	char *new_email_address = commendList[2];
+	int reval = database.changeEmail(username, new_email_address);
+	return reval;
 }
 
 /* return 1 if create success
    return 0 otherwise */
 int changec(char **commendList) {
-	return 0;
+	char * user = commendList[1];
+	char * coursetoken = commendList[2];
+	return database.changeCourse(user, coursetoken);
 }
 
 /* return course info */
 char* getcinf(char **commendList) {
-	return NULL;
+	char * course = commendList[1];
+	return database.getCourse(course);
 }
 
 /* update comment */
 void comment(char **commendList) {
-	
+	char * course = commendList[2];
+	char * rating = commendList[3];
+	if ( rating[0] == 6 ) {
+		rating[0] = 0;
+	}
+	char * tags = commendList[4];
+	char * comment = (char*)malloc(strlen(commendList[1])+10+strlen(commendList[5]));
+	*comment = '\0';
+	strcat(comment, "User ");
+	strcat(comment, commendList[1]);
+	strcat(comment, ": ");
+	strcat(comment, commendList[5]);
+	database.updateComment(course, comment); 
+	database.updateRating(course, rating); 
+	database.updateTags(course, tags);
 }
 
 char** split(char* str, char id) {

@@ -137,10 +137,12 @@ int Databases::passwordCheck(char* userName, char* passWord){
 }
 
 int Databases::changeNickname(char* userName, char* nickname) {
+	
 	return 0;
 }
 
 int Databases::changeEmail(char* userName, char* email) {
+	
 	return 0;
 }
 
