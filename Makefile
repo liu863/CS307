@@ -11,5 +11,5 @@ Server : Server.o database.o
 	$(CXX) -o $@ -c -I. $<
 
 clean:
-	rm -f *.o myhttpd
+	rm -f *.o Server
 
