@@ -43,9 +43,6 @@ int splitLength = 0;
 struct Databases database;
 
 //Processes time request
-void processRequest(int socket);
-void processThreadRequest(int slaveSocket);
-char** split(char* str, char id);
 
 int main(int argc, char **argv) {
 	if (database.initDatabases() != 1) {
@@ -58,7 +55,7 @@ int main(int argc, char **argv) {
     	memset( &serverIPAddress, 0, sizeof(serverIPAddress) );
     	serverIPAddress.sin_family = AF_INET;
     	serverIPAddress.sin_addr.s_addr = INADDR_ANY;
-   	serverIPAddress.sin_port = htons((u_short) port);
+   		serverIPAddress.sin_port = htons((u_short) port);
     
     	//Allocate a socket
     	int masterSocket =  socket(PF_INET, SOCK_STREAM, 0);
@@ -118,16 +115,16 @@ void processThreadRequest(int slaveSocket) {
 }
 
 void processRequest(int fd) {
-    	char msg[5000] = {0};
-    	int msglen = 0;
-    	int n;
+    char msg[5000] = {0};
+    int msglen = 0;
+    int n;
 	char** splitCommend;
     
-    	//Currently character read
+    //Currently character read
    	unsigned char newChar;
 	unsigned char lastChar = 0;
     
-    	while (msglen < 5000 && (n = read(fd, &newChar, sizeof(newChar))) > 0) {
+    while (msglen < 5000 && (n = read(fd, &newChar, sizeof(newChar))) > 0) {
 		if (lastChar == '\015' && newChar == '\012') {
 			msglen--;
 			break;
@@ -135,7 +132,7 @@ void processRequest(int fd) {
         msg[msglen] = newChar;
         msglen++;
 		lastChar = newChar;
-    	}
+    }
 	// Add null character at the end of the string
 	msg[msglen] = 0;   
 	printf("msg:%s$\n", msg);
@@ -143,19 +140,16 @@ void processRequest(int fd) {
 	splitCommend = split(msg, '|');
 
 	if (!strcmp(splitCommend[0], "createu")) {
-		char *username = splitCommend[1];
-		char *password = splitCommend[2];
-		char *email = splitCommend[3];
-
-		int reval = database.addUser(username, password, email);
-		if (reval == -1)
-			//write(fd, DBERROR, strlen(DBERROR));
-			;
-		else if (reval == -2)
-			//write(fd, USREXIST, strlen(USREXIST));
-			;		
-		else
+		int reval = createu(splitCommend);
+		if (reval == -1) {
+			write(fd, DBERROR, strlen(DBERROR));
+		}
+		else if (reval == -2) {
+			write(fd, UREXIST, strlen(UREXIST));
+		}	
+		else {
 			write(fd, SUCCESS, strlen(SUCCESS));
+		}
 	}
 	else if (!strcmp(splitCommend[0], "loginur")) {
 		char *username = splitCommend[1];
@@ -178,7 +172,13 @@ void processRequest(int fd) {
 /* return 1 if create success
    return 0 otherwise */
 int createu(char **commendList) {
-	return 0;
+	char *username = commendList[1];
+	char *password = commendList[2];
+	char *email = commendList[3];
+
+	int reval = database.addUser(username, password, email);
+	return reval;
+	
 }
 
 /* return 1 if create success
