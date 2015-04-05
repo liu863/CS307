@@ -142,6 +142,7 @@ void processRequest(int fd) {
 	
 	splitCommend = split(msg, '|');
 
+	// Create a new user
 	if (!strcmp(splitCommend[0], "createu")) {
 		int reval = createu(splitCommend);
 		if (reval == -1) {
@@ -155,7 +156,7 @@ void processRequest(int fd) {
 		}
 	}
 
-	/* Newly Added' */
+	// Login with username and password
 	else if (!strcmp(splitCommend[0], "loginur")) {
 		int reval = loginur(splitCommend);
 		if (reval == -1)
@@ -163,6 +164,8 @@ void processRequest(int fd) {
 		else
 			write(fd, SUCCESS, strlen(SUCCESS));
 	}
+	
+	// Get the user information
 	else if (!strcmp(splitCommend[0], "getuinf")) {
 		char* reval = getuinf(splitCommend);
 		if(reval != NULL) {
@@ -172,6 +175,8 @@ void processRequest(int fd) {
 		else
 			write(fd, XUEBENG, strlen(XUEBENG));
 	}
+	
+	// Get the course list from the database
 	else if (!strcmp(splitCommend[0], "getclst")) {
 		char* reval = getclst(splitCommend);
 		if(reval != NULL) {
@@ -182,6 +187,7 @@ void processRequest(int fd) {
 			write(fd, DBERROR, strlen(DBERROR));
 	}
 
+	// Reset user's password
 	else if (!strcmp(splitCommend[0], "resetpw")) {
 		fprintf(stderr,"%d\n", fd);
 		int reval = resetpw(splitCommend);
@@ -191,6 +197,7 @@ void processRequest(int fd) {
 
 	}
 
+	// Change user nickname
 	else if (!strcmp(splitCommend[0], "changen")) {
 		int reval = changen(splitCommend);
 		if(reval == 1)
@@ -198,6 +205,8 @@ void processRequest(int fd) {
 		else
 			write(fd, DBERROR, strlen(DBERROR));
 	}
+	
+	// Change user email address
 	else if (!strcmp(splitCommend[0], "changee")) {
 		int reval = changee(splitCommend);
 		if(reval == 1)
@@ -206,7 +215,7 @@ void processRequest(int fd) {
 			write(fd, DBERROR, strlen(DBERROR));
 	}
 
-	/* Newly Added */
+	// Change course
 	else if ( !strcmp(splitCommend[0], "changec") ) {
 		int reval = changec(splitCommend);
 		if (reval == -1) {
@@ -219,6 +228,8 @@ void processRequest(int fd) {
 			write(fd, "change course success\n", strlen("change course success\n"));
 		}
 	}
+	
+	// Get course infomation
 	else if ( !strcmp(splitCommend[0], "getcinf") ) {
 		char * courseinfo = getcinf(splitCommend);
 
@@ -231,7 +242,8 @@ void processRequest(int fd) {
 			free(courseinfo);			
 		}
 	}
-
+	
+	// Save the comment, rating to database
 	else if ( !strcmp(splitCommend[0], "comment") ) {
 		char * username = splitCommend[1];
 		char * course = splitCommend[2];
@@ -289,7 +301,7 @@ char* getuinf(char **commendList) {
    [with or without tags] */
 char* getclst(char **commendList) {
 	char* reval;
-	if(commendList[1]==NULL) {//check!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+	if(commendList[1]==NULL) {
 		reval = database.getCourselist((char *)"000");
 	}
 	else {
@@ -350,8 +362,8 @@ char* getcinf(char **commendList) {
 void comment(char **commendList) {
 	char * course = commendList[2];
 	char * rating = commendList[3];
-	if ( rating[0] == 6 ) {
-		rating[0] = 0;
+	if ( rating[0] == '6' ) {
+		rating[0] = '0';
 	}
 	char * tags = commendList[4];
 	char * comment = (char*)malloc(strlen(commendList[1])+10+strlen(commendList[5]));
