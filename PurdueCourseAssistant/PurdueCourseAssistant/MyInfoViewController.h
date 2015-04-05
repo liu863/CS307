@@ -13,4 +13,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *Emailaddr;
 @property (weak, nonatomic) IBOutlet UITextView *Courses;
 
+-(void)initNetworkCommunication;
+-(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode;
+-(void)sendRequest: (NSString *) request;
 @end

@@ -10,6 +10,7 @@
 		309F1DA61AA7CD34003C14EB /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F1DA51AA7CD34003C14EB /* SignInViewController.m */; };
 		309F1DA91AA7CD4D003C14EB /* SignUpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F1DA81AA7CD4D003C14EB /* SignUpViewController.m */; };
 		309F1DAC1AA7CD63003C14EB /* ForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 309F1DAB1AA7CD63003C14EB /* ForgotPasswordViewController.m */; };
+		596006101AD1DD520031D833 /* ServerInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5960060F1AD1DD520031D833 /* ServerInfo.m */; };
 		598744BA1AA22D62000265C6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744B91AA22D62000265C6 /* main.m */; };
 		598744BD1AA22D62000265C6 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744BC1AA22D62000265C6 /* AppDelegate.m */; };
 		598744C31AA22D62000265C6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 598744C11AA22D62000265C6 /* Main.storyboard */; };
@@ -48,6 +49,8 @@
 		309F1DA81AA7CD4D003C14EB /* SignUpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpViewController.m; sourceTree = "<group>"; };
 		309F1DAA1AA7CD63003C14EB /* ForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ForgotPasswordViewController.h; sourceTree = "<group>"; };
 		309F1DAB1AA7CD63003C14EB /* ForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ForgotPasswordViewController.m; sourceTree = "<group>"; };
+		5960060E1AD1DD520031D833 /* ServerInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerInfo.h; sourceTree = "<group>"; };
+		5960060F1AD1DD520031D833 /* ServerInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerInfo.m; sourceTree = "<group>"; };
 		598744B41AA22D62000265C6 /* PurdueCourseAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PurdueCourseAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		598744B81AA22D62000265C6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		598744B91AA22D62000265C6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -136,6 +139,8 @@
 				60D9D9091AA7C4EE00FE8FD1 /* MyInfoViewController.h */,
 				60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */,
 				598744BB1AA22D62000265C6 /* AppDelegate.h */,
+				5960060E1AD1DD520031D833 /* ServerInfo.h */,
+				5960060F1AD1DD520031D833 /* ServerInfo.m */,
 				598744BC1AA22D62000265C6 /* AppDelegate.m */,
 				598744DD1AA2381E000265C6 /* Course.h */,
 				598744DE1AA2381E000265C6 /* Course.m */,
@@ -303,6 +308,7 @@
 				76F0D89A1AA810AF00802941 /* CourseViewViewController.m in Sources */,
 				59E82BE71AA81C1300BA1783 /* PretestViewController.m in Sources */,
 				693548AA1AA8B3A100A2C04D /* SaveTheInfoViewController.m in Sources */,
+				596006101AD1DD520031D833 /* ServerInfo.m in Sources */,
 				309F1DAC1AA7CD63003C14EB /* ForgotPasswordViewController.m in Sources */,
 				309F1DA61AA7CD34003C14EB /* SignInViewController.m in Sources */,
 				59E82BF31AA81CFA00BA1783 /* DismissPretestSegue.m in Sources */,

@@ -7,25 +7,110 @@
 //
 
 #import "MyInfoViewController.h"
+#import "ServerInfo.h"
 
 @interface MyInfoViewController ()
 
 @end
+
+CFReadStreamRef readStream;
+CFWriteStreamRef writeStream;
+
+NSInputStream *inputStream;
+NSOutputStream *outputStream;
+
+NSString * s;
 
 @implementation MyInfoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self initNetworkCommunication];
+    /*
     _Name.text = @"Jiaping Qi";
     _Emailaddr.text = @"qi33@purdue.edu";
     _Courses.text = @"CS307\nCS180\nCS182\nCS240\nCS250\nCS251\nCS252\nCS381\nCS408\n";
     _Courses.editable = NO;
+     */
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+/***************************************************/
+// Client Implementation
+/***************************************************/
+
+- (void)initNetworkCommunication {
+    ServerInfo * server = [[ServerInfo alloc] init];
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (__bridge CFStringRef)server.hostAddress, (int)server.port, &readStream, &writeStream);
+    if(!CFWriteStreamOpen(writeStream)) {
+        NSLog(@"Error: writeStream");
+        return;
+    }
+    inputStream = (__bridge NSInputStream *)readStream;
+    outputStream = (__bridge NSOutputStream *)writeStream;
+    [inputStream setDelegate:self];
+    [outputStream setDelegate:self];
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inputStream open];
+    [outputStream open];
+    
+}
+
+
+-(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
+    switch (eventCode) {
+        case NSStreamEventHasSpaceAvailable: {
+            if(stream == outputStream){
+                NSLog(@"none\n");
+            }
+            break;
+        }
+        case NSStreamEventHasBytesAvailable: {
+            if(stream == inputStream) {
+                uint8_t buf[1024];
+                unsigned int len = 0;
+                len = [inputStream read:buf maxLength:1024];
+                if(len > 0) {
+                    NSMutableData* data=[[NSMutableData alloc] initWithLength:0];
+                    [data appendBytes: (const void *)buf length:len];
+                    s = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                    
+                    /***************************************************/
+                    // Process Server Respond
+                    /***************************************************/
+                    NSLog(@"Respond received: %@", s);
+                    
+                    
+                    
+                    /***************************************************/
+                    // End
+                    /***************************************************/
+                    
+                }
+            }
+            break;
+        }
+        case NSStreamEventEndEncountered: {
+            NSLog(@"Stream closed\n");
+            break;
+        }
+        default: {
+            NSLog(@"Stream is sending an Event: %lu", eventCode);
+            break;
+        }
+    }
+}
+
+-(void)sendRequest: (NSString *) request{
+    NSData *data = [[NSData alloc] initWithData:[request dataUsingEncoding:NSASCIIStringEncoding]];
+    [outputStream write:[data bytes] maxLength:[data length]];
+    [outputStream close];
 }
 
 /*
