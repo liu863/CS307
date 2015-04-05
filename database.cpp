@@ -297,17 +297,99 @@ char* Databases::getCourse(char* course) {
 	courseinfo[strlen(courseinfo) - 1] = 0;
 	return courseinfo;
 }
+
 //xu
-
-int getRating(void* data, int argc, char **argv, char **azColName) {
-	
-}
-
+//the format for rating: 6X == 0.X
+//otherwise XX=X.X
+//error: cannot greater than 6, need to check in client
+//format for rating XXXXX first two means the rate and second XX means how many people rated
 int Databases::updateRating(char* course, char* rating) {
+	//get the newly arrived rating
+	fprintf(stderr, "rating is passed in database = %s\n", rating);
+	fprintf(stderr, "coursename is %s\n", course);
+	double rate = 0.0;
+	if (rating == NULL)
+		return -1;
+	if (rating[0] == '6') {
+		rating[0] = rating[1];
+		rating[1] = '\0';
+		rate = atoi(rating) / 10;
+	}
+	else {
+		rate = (double)atoi(rating)/10;
+	}
+	fprintf(stderr,"here the rate is %.1f\n", rate);
+	char* courseinfo = (char*) malloc(32768);
+	memset(courseinfo, 0, 32768);
 	char sql_to_execute[300];
-	char* data;
-	//sprintf(sql_to_execute, SQL_GET_COURSE);
-	//rc = sqlite3_exec(coursedb, sql_to_execute, getRating, data)
+	sprintf(sql_to_execute, SQL_GET_COURSE, course);
+	rc = sqlite3_exec(coursedb, sql_to_execute, cbGetInfo, courseinfo, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return 0;
+	}
+	fprintf(stderr, "courseinfo is :%s\n", courseinfo);
+	char* pt = strstr(courseinfo, "|");
+	fprintf(stderr,"11111 here the char is\n");
+	char rat[8];
+	int counter = 0;
+	pt++;
+	while (*pt != '|') {
+		printf("entered!\n");
+		rat[counter++] = *pt;
+		pt++;
+	}
+	rat[counter] = '\0';
+	fprintf(stderr, "original rate: %s\n", rat);
+	double c_rate;
+	char* t_people = (char*) malloc(sizeof(char) * 8);
+	int total;
+	if (rat == NULL) {
+		c_rate = 0.0;
+	}
+	if (rat[0] == '6') {
+		char m = rat[1];
+		c_rate = atoi(&m)/10;
+	} 
+	fprintf(stderr,"current rate is %.1f\n", c_rate);
+	int c = 2;
+	while (rat[c] != '\0') {
+		t_people[c-2] = rat[c++];
+	}
+	if (t_people[0] == '\0')	total = 0;
+	total = atoi(t_people);
+	total++;
+	c_rate+=rate;
+	c_rate = (double)c_rate/total;
+	fprintf(stderr, "now the rate is %.1f\n", c_rate);
+	char to_be_update[10];
+	if (c_rate < 1) {		
+		to_be_update[0] = '6';
+		int temp = (int)c_rate*10;
+		char rated = (char)(((int)'0')+temp);
+		to_be_update[1] = rated;
+	} else {
+		int temp1 = (int)c_rate;
+		int temp2 = c_rate*10 - 10*temp1;
+		printf("temp 2 is %d\n", temp2);
+		char tem1 = (char)(((int)'0')+temp1);
+		char tem2 = (char)(((int)'0')+temp2);
+		to_be_update[0] = tem1;
+		to_be_update[1] = tem2;
+	}
+	char ppl[15];
+	sprintf(ppl, "%d", total);
+	strcat(to_be_update, ppl);
+	fprintf(stderr, "the write back thing is %s\n", to_be_update);
+	char query2[300];
+	sprintf(query2, SQL_UPDATE_RATING, to_be_update, course);
+	rc = sqlite3_exec(coursedb, query2, NULL, 0, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return 0;
+	}
 	return 0;
 }
 //liu
