@@ -314,9 +314,62 @@ int Databases::updateRating(char* course, char* rating) {
 int Databases::updateTags(char* course, char* tags) {
 	return 0;
 }
+
 //xu
 int Databases::updateComment(char* course, char* comment) {
-	return 0;
+	fprintf( stderr, "\nStart Update Comment\n" );
+	fprintf( stderr, "Update Comment: course = %s, comment = %s\n", course, comment );
+	
+	// Get the current course info
+	char sql_command[300];
+	sprintf( sql_command, SQL_GET_COURSE, course );
+	char* courseInfo = (char*)malloc( 9999*sizeof(char) );
+	memset( courseInfo, 0, 9999 );
+	rc = sqlite3_exec( coursedb, sql_command, cbGetInfo, courseInfo, &zErrMsg );
+	
+	if (rc != SQLITE_OK) {
+		fprintf( stderr, "SQL error: %s\n", zErrMsg );
+		sqlite3_free(zErrMsg);
+		return 0;
+	}
+	fprintf( stderr, "The course: %s\n", courseInfo );
+	
+	// Get the current course comment
+	char* start = strstr( courseInfo, "User" );
+	fprintf( stderr, "Current comment: %s\n", start );
+	
+	// Check if this is the first comment
+	if ( start == NULL ) {
+		// Update the new course comment
+		char commitBuffer[9999];
+		sprintf( commitBuffer, SQL_UPDATE_COMMENT, comment, course );
+		rc = sqlite3_exec( coursedb, commitBuffer, NULL, 0, &zErrMsg );
+		if (rc != SQLITE_OK) {
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+			return -1;
+		}
+		fprintf( stderr, "Update Comment Finished\n\n" );
+		return 1;
+	}
+	else {
+		// Add the comment after the current comment
+		char* new_comment = (char*)malloc( strlen(start)+5+strlen(comment) );
+		sprintf( new_comment, "%s%s", start, comment );
+		fprintf( stderr, "New comment: %s\n", new_comment );	
+	
+		// Update the new course comment
+		char commitBuffer[9999];
+		sprintf( commitBuffer, SQL_UPDATE_COMMENT, new_comment, course );
+		rc = sqlite3_exec( coursedb, commitBuffer, NULL, 0, &zErrMsg );
+		if (rc != SQLITE_OK) {
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+			return -1;
+		}
+		fprintf( stderr, "Update Comment Finished\n\n" );
+		return 1;
+	}
 }
 
 
