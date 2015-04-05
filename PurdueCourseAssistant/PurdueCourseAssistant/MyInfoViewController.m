@@ -27,12 +27,7 @@ NSString * s;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self initNetworkCommunication];
-    /*
-    _Name.text = @"Jiaping Qi";
-    _Emailaddr.text = @"qi33@purdue.edu";
-    _Courses.text = @"CS307\nCS180\nCS182\nCS240\nCS250\nCS251\nCS252\nCS381\nCS408\n";
-    _Courses.editable = NO;
-     */
+    [self sendRequest: @"getuinf|aa"];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -46,7 +41,9 @@ NSString * s;
 
 - (void)initNetworkCommunication {
     ServerInfo * server = [[ServerInfo alloc] init];
-    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, (__bridge CFStringRef)server.hostAddress, (int)server.port, &readStream, &writeStream);
+    CFStringRef hostAddress = (__bridge CFStringRef)server.hostAddress;
+    int port = [server.port intValue];
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, hostAddress, port, &readStream, &writeStream);
     if(!CFWriteStreamOpen(writeStream)) {
         NSLog(@"Error: writeStream");
         return;
@@ -85,7 +82,10 @@ NSString * s;
                     // Process Server Respond
                     /***************************************************/
                     NSLog(@"Respond received: %@", s);
-                    
+                    NSArray * respond = [s componentsSeparatedByString:@"|"];
+                    _Name.text = respond[3];
+                    _Emailaddr.text = respond[2];
+                    _Courses.text = respond[4];
                     
                     
                     /***************************************************/
