@@ -43,6 +43,7 @@ NSString * s;
     ServerInfo * server = [[ServerInfo alloc] init];
     CFStringRef hostAddress = (__bridge CFStringRef)server.hostAddress;
     int port = [server.port intValue];
+    NSLog(@"host = %@, port = %d", hostAddress, port);
     CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, hostAddress, port, &readStream, &writeStream);
     if(!CFWriteStreamOpen(writeStream)) {
         NSLog(@"Error: writeStream");
@@ -108,7 +109,8 @@ NSString * s;
 }
 
 -(void)sendRequest: (NSString *) request{
-    NSData *data = [[NSData alloc] initWithData:[request dataUsingEncoding:NSASCIIStringEncoding]];
+    NSString * tmp = [NSString stringWithFormat:@"%@\r\n", request];
+    NSData *data = [[NSData alloc] initWithData:[tmp dataUsingEncoding:NSASCIIStringEncoding]];
     [outputStream write:[data bytes] maxLength:[data length]];
     [outputStream close];
 }
