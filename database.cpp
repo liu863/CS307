@@ -405,9 +405,16 @@ int Databases::updateTags(char* course, char* tags) {
  *	Comment use '||' to separate
  *	No maximum comments
  **/
+ 
+// Set to 1 to start debug
+int debug_for_comment = 0; 
+ 
 int Databases::updateComment(char* course, char* comment) {
-	fprintf( stderr, "\nStart Update Comment\n" );
-	fprintf( stderr, "Update Comment: course = %s, comment = %s\n", course, comment );
+
+	if ( debug_for_comment ) {
+		fprintf( stderr, "\nStart Update Comment\n" );
+		fprintf( stderr, "Update Comment: course = %s, comment = %s\n", course, comment );
+	}
 	
 	// Get the current course info
 	char sql_command[300];
@@ -421,11 +428,17 @@ int Databases::updateComment(char* course, char* comment) {
 		sqlite3_free(zErrMsg);
 		return 0;
 	}
-	fprintf( stderr, "The course: %s\n", courseInfo );
+	
+	if ( debug_for_comment ) {
+		fprintf( stderr, "The course: %s\n", courseInfo );
+	}
 	
 	// Get the current course comment
 	char* start = strstr( courseInfo, "User" );
-	fprintf( stderr, "Current comment: %s\n", start );
+	
+	if ( debug_for_comment ) {
+		fprintf( stderr, "Current comment: %s\n", start );
+	}
 	
 	// Check if this is the first comment
 	if ( start == NULL ) {
@@ -438,15 +451,21 @@ int Databases::updateComment(char* course, char* comment) {
 			sqlite3_free(zErrMsg);
 			return -1;
 		}
-		fprintf( stderr, "Update Comment Finished\n\n" );
+		
+		if ( debug_for_comment ) {
+			fprintf( stderr, "Update Comment Finished\n\n" );
+		}
 		return 1;
 	}
 	else {
 		// Add the comment after the current comment
 		char* new_comment = (char*)malloc( strlen(start)+5+strlen(comment) );
 		sprintf( new_comment, "%s%s", start, comment );
-		fprintf( stderr, "New comment: %s\n", new_comment );	
-	
+		
+		if ( debug_for_comment ) {		
+			fprintf( stderr, "New comment: %s\n", new_comment );	
+		}
+		
 		// Update the new course comment
 		char commitBuffer[9999];
 		sprintf( commitBuffer, SQL_UPDATE_COMMENT, new_comment, course );
@@ -456,7 +475,10 @@ int Databases::updateComment(char* course, char* comment) {
 			sqlite3_free(zErrMsg);
 			return -1;
 		}
-		fprintf( stderr, "Update Comment Finished\n\n" );
+		
+		if ( debug_for_comment ) {
+			fprintf( stderr, "Update Comment Finished\n\n" );
+		}
 		return 1;
 	}
 }
