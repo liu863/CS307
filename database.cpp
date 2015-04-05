@@ -19,7 +19,7 @@ const char *SQL_CREATE_USER = 	"CREATE TABLE IF NOT EXISTS USER("
 
 const char *SQL_CREATE_COURSE = 	"CREATE TABLE IF NOT EXISTS COURSE("
 							   		"COURSENAME		TEXT	NOT NULL,"
-							   		"RATING			TEXT"
+							   		"RATING			TEXT,"
 							   		"DESCRIPTION	TEXT	NOT NULL,"
 									"TAGS			TEXT,"
 							   		"COMMENT		TEXT,"
@@ -47,9 +47,11 @@ const char *SQL_UPDATE_TAGS = "UPDATE COURSE SET TAGS = '%s' WHERE COURSENAME = 
 
 const char *SQL_UPDATE_COMMENT = "UPDATE COURSE SET COMMENT = '%s' WHERE COURSENAME = '%s';";
 
-const char *SQL_GET_USER = "SELECT * FROM USER;";
+const char *SQL_GET_USER = "SELECT * from USER where USERNAME like '%s';";
 
-const char *SQL_GET_COURSE = "SELECT * FROM COURSE;";
+const char *SQL_GET_COURSE = "SELECT * from COURSE where COURSENAME like '%s';";
+
+const char *SQL_GET_COURSELIST = "SELECT COURSENAME, TAGS from COURSE;";
 
 sqlite3 *userdb, *coursedb;
 char *zErrMsg = 0;
@@ -226,16 +228,74 @@ int Databases::changePassword(char* userName, char* password) {
 	return 1;
 }
 //liu
+int cbGetInfo(void *info, int argc, char **argv, char **azColName) {
+	int i;
+	for(i = 0; i < argc; i++){
+		fprintf(stderr, "%d %s = %s\n",argc, azColName[i], argv[i] ? argv[i] : "NULL");
+		if (!strcmp(azColName[i], "RATING")) {
+			strcat((char*)info, argv[i] ? argv[i] : "");
+			strcat((char*)info, "|");;
+		}
+		else if (!strcmp(azColName[i], "TAGS")) {
+			strcat((char*)info, argv[i] ? argv[i] : "");
+			strcat((char*)info, "|");
+		}
+		else {
+			strcat((char*)info, argv[i] ? argv[i] : "");
+			strcat((char*)info, "|");
+		}
+	}
+	//printf("%s\n", (char*)info);
+	return 0;
+}
+
 char* Databases::getUser(char* userName) {
-	return NULL;
+	char *userinfo = (char*)malloc(500);
+	memset(userinfo, 0, 500);
+	char checkBuffer[300];
+	sprintf(checkBuffer, SQL_GET_USER, userName);
+
+	rc = sqlite3_exec(userdb, checkBuffer, cbGetInfo, userinfo, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return NULL;
+	}
+	userinfo[strlen(userinfo) - 1] = 0;
+	return userinfo;
 }
 //liu
 char* Databases::getCourselist(char* tags) {
-	return NULL;
+	char *courselist = (char*)malloc(2048);
+	memset(courselist, 0, 2048);
+	char checkBuffer[300];
+	//sprintf(checkBuffer, SQL_GET_COURSELIST);
+
+	rc = sqlite3_exec(coursedb, SQL_GET_COURSELIST, cbGetInfo, courselist, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return NULL;
+	}
+	courselist[strlen(courselist) - 1] = 0;
+	return courselist;
+	//SQL_GET_COURSELIST
 }
 //liu
 char* Databases::getCourse(char* course) {
-	return NULL;
+	char *courseinfo = (char*)malloc(32768);
+	memset(courseinfo, 0, 32768);
+	char checkBuffer[300];
+	sprintf(checkBuffer, SQL_GET_COURSE, course);
+
+	rc = sqlite3_exec(coursedb, checkBuffer, cbGetInfo, courseinfo, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return NULL;
+	}
+	courseinfo[strlen(courseinfo) - 1] = 0;
+	return courseinfo;
 }
 //xu
 
@@ -246,7 +306,7 @@ int getRating(void* data, int argc, char **argv, char **azColName) {
 int Databases::updateRating(char* course, char* rating) {
 	char sql_to_execute[300];
 	char* data;
-	sprintf(sql_to_execute, SQL_GET_COURSE);
+	//sprintf(sql_to_execute, SQL_GET_COURSE);
 	//rc = sqlite3_exec(coursedb, sql_to_execute, getRating, data)
 	return 0;
 }

@@ -37,7 +37,7 @@ extern "C" void background(int sig) {
     
 int QueueLength = 5;
 pthread_mutex_t mutex;
-int port = 6667;
+int port = 6666;
 char cport[20] = {0};
 int splitLength = 0;
 struct Databases database;
@@ -165,15 +165,19 @@ void processRequest(int fd) {
 	}
 	else if (!strcmp(splitCommend[0], "getuinf")) {
 		char* reval = getuinf(splitCommend);
-		if(reval != NULL)
-			write(fd, SUCCESS, strlen(SUCCESS));
+		if(reval != NULL) {
+			write(fd, reval, strlen(reval));
+			free(reval);
+		}
 		else
-			write(fd, DBERROR, strlen(DBERROR));
+			write(fd, XUEBENG, strlen(XUEBENG));
 	}
 	else if (!strcmp(splitCommend[0], "getclst")) {
 		char* reval = getclst(splitCommend);
-		if(reval != NULL)
-			write(fd, SUCCESS, strlen(SUCCESS));
+		if(reval != NULL) {
+			write(fd, reval, strlen(reval));
+			free(reval);
+		}
 		else
 			write(fd, DBERROR, strlen(DBERROR));
 	}
@@ -224,7 +228,7 @@ void processRequest(int fd) {
 		else {
 			write (fd, courseinfo, strlen(courseinfo));
 			write(fd, "courseinfo success\n", strlen("comment success\n"));
-			
+			free(courseinfo);			
 		}
 	}
 

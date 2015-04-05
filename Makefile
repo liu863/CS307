@@ -12,4 +12,3 @@ Server : Server.o database.o
 
 clean:
 	rm -f *.o Server
-
