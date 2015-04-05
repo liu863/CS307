@@ -397,7 +397,14 @@ int Databases::updateTags(char* course, char* tags) {
 	return 0;
 }
 
-//xu
+/**
+ *	qi33
+ *	Use to update the comment
+ *	If there is no comment, then add a new comment
+ *	Otherwise will concatenate the new comment after original comment list
+ *	Comment use '||' to separate
+ *	No maximum comments
+ **/
 int Databases::updateComment(char* course, char* comment) {
 	fprintf( stderr, "\nStart Update Comment\n" );
 	fprintf( stderr, "Update Comment: course = %s, comment = %s\n", course, comment );
