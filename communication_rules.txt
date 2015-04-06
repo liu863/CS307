@@ -9,7 +9,7 @@ loginur|username|password\0
 /* Get entire user info */
 getuinf|username\0
 /* Get entire course list for view courses button, store in course class */
-getclst\0
+getclst|000\0
 
 /* Reset password with username and email address */
 resetpw|username|email_address\0
@@ -43,11 +43,11 @@ XUEBENG\0	//for every failed operations that may cause by database error,
 
 /* Responses to createu */
 SUCCESS\0
-urexist\0	//username already exist in database
+UREXIST\0	//username already exist in database
 
 /* Responses to loginur */
 SUCCESS\0
-lgnfail\0	//username does not exist or unmatched username and password
+LGNFAIL\0	//username does not exist or unmatched username and password
 /* Response to getuinf */
 usrinfo|username|nickname|email_address|course1;course2;course3…\0
 /* Response to getclst */
@@ -65,4 +65,15 @@ crsinfo|course_name|rating(60_to_50)|description|three_int_represent_tags|commen
 …|question1::choice_A:choice_B(:choice_C:choice_D)||question2…|…
 /* Expansion of answer */
 …|0-A_1-B_2-C_3-D…\0
+
+
+
+
+
+
+
+
+
+
+
 

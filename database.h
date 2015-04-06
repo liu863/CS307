@@ -2,6 +2,7 @@ struct Databases{
 	int initDatabases();
 	int addUser(char* userName, char* password, char* email);
 	int ifUserExist(char* userName);
+	int ifCourseExist(char* courseName);
 	int passwordCheck(char* userName, char* password);//login use
 	int changeNickname(char* userName, char* nickname);
 	int changeEmail(char* userName, char* email);

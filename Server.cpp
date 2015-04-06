@@ -22,11 +22,11 @@ const char *SUCCESS = "SUCCESS\n";
 
 const char *XUEBENG = "XUEBENG\n";
 
-const char *UREXIST = "urexist\n";
+const char *UREXIST = "UREXIST\n";
 
-const char *LGNFAIL = "lgnfail\n";
+const char *LGNFAIL = "LGNFAIL\n";
 
-const char *UNEXIST = "unexist\n";
+const char *UNEXIST = "UNEXIST\n";
 
 
 extern "C" void background(int sig) {
@@ -50,60 +50,57 @@ int main(int argc, char **argv) {
 		exit(-1);
 	}
     	
-    	//Set the IP address and port for this server
-    	struct sockaddr_in serverIPAddress; 
-    	memset( &serverIPAddress, 0, sizeof(serverIPAddress) );
-    	serverIPAddress.sin_family = AF_INET;
-    	serverIPAddress.sin_addr.s_addr = INADDR_ANY;
-   		serverIPAddress.sin_port = htons((u_short) port);
+    //Set the IP address and port for this server
+    struct sockaddr_in serverIPAddress; 
+    memset( &serverIPAddress, 0, sizeof(serverIPAddress) );
+    serverIPAddress.sin_family = AF_INET;
+    serverIPAddress.sin_addr.s_addr = INADDR_ANY;
+   	serverIPAddress.sin_port = htons((u_short) port);
     
-    	//Allocate a socket
-    	int masterSocket =  socket(PF_INET, SOCK_STREAM, 0);
-    	if ( masterSocket < 0) {
-        	perror("socket");
-        	exit(-1);
-    	}
-    
-    	//Set socket options to reuse port. Otherwise we will
-    	//have to wait about 2 minutes before reusing the same port number
-    	int optval = 1; 
-    	int err = setsockopt(masterSocket, SOL_SOCKET, SO_REUSEADDR, (char*)&optval, sizeof(int));
-    
-    	//Bind the socket to the IP address and port
-    	int error = bind(masterSocket, (struct sockaddr *)&serverIPAddress, sizeof(serverIPAddress)); 
+   	//Allocate a socket
+   	int masterSocket =  socket(PF_INET, SOCK_STREAM, 0);
+   	if ( masterSocket < 0) {
+       	perror("socket");
+       	exit(-1);
+   	}
+   
+   	//Set socket options to reuse port. Otherwise we will
+   	//have to wait about 2 minutes before reusing the same port number
+   	int optval = 1; 
+   	int err = setsockopt(masterSocket, SOL_SOCKET, SO_REUSEADDR, (char*)&optval, sizeof(int));
+   
+   	//Bind the socket to the IP address and port
+   	int error = bind(masterSocket, (struct sockaddr *)&serverIPAddress, sizeof(serverIPAddress)); 
 	if (error) {
-        	perror("bind");
-        	exit(-1);
-    	}
+       	perror("bind");
+       	exit(-1);
+   	}
     
-    	//Put socket in listening mode and set the 
-    	//size of the queue of unprocessed connections
-    	error = listen( masterSocket, QueueLength);
-    	if (error) {
-       	perror("listen");
-        	exit(-1);
-    	}
+   	//Put socket in listening mode and set the 
+   	//size of the queue of unprocessed connections
+   	error = listen( masterSocket, QueueLength);
+   	if (error) {
+      	perror("listen");
+       	exit(-1);
+   	}
 
 	signal(SIGCHLD, background);
 
-    	while (1) {
-        
-        //Accept incoming connections
-        struct sockaddr_in clientIPAddress;
-        int alen = sizeof( clientIPAddress );
-        int slaveSocket = accept( masterSocket,	
-                                 (struct sockaddr *)&clientIPAddress,
-                                 (socklen_t*)&alen);
-        
-        if (slaveSocket < 0) {
-            perror( "accept" );
-            exit(-1);
-        }
+ 	while (1) {       
+		//Accept incoming connections
+		struct sockaddr_in clientIPAddress;
+		int alen = sizeof( clientIPAddress );
+		int slaveSocket = accept( masterSocket, (struct sockaddr*)&clientIPAddress, (socklen_t*)&alen);
 	
+		if (slaveSocket < 0) {
+			perror( "accept" );
+			exit(-1);
+		}
+		
 		pthread_t t;
 		pthread_attr_t attr;
-   		pthread_attr_init(&attr);
-   		pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
+		pthread_attr_init(&attr);
+		pthread_attr_setscope(&attr, PTHREAD_SCOPE_SYSTEM);
 		pthread_mutex_init(&mutex,NULL);
 		pthread_create(&t, &attr, (void * (*)(void *))processThreadRequest, (void *)slaveSocket);
    	}
@@ -111,9 +108,7 @@ int main(int argc, char **argv) {
 
 void processThreadRequest(int slaveSocket) {
 	processRequest(slaveSocket);
-	fprintf(stderr,"flag 0\n");
 	int ret = close(slaveSocket);
-	fprintf(stderr,"close = %d\n", ret);
 }
 
 void processRequest(int fd) {
@@ -159,73 +154,96 @@ void processRequest(int fd) {
 	// Login with username and password
 	else if (!strcmp(splitCommend[0], "loginur")) {
 		int reval = loginur(splitCommend);
-		if (reval == -1)
+		if (reval == -1) {
 			write(fd, DBERROR, strlen(DBERROR));
-		else
+		}
+		else {
 			write(fd, SUCCESS, strlen(SUCCESS));
+		}
 	}
 	
 	// Get the user information
 	else if (!strcmp(splitCommend[0], "getuinf")) {
 		char* reval = getuinf(splitCommend);
 		if(reval != NULL) {
+			write(fd, "usrinfo|", 8);
 			write(fd, reval, strlen(reval));
 			free(reval);
 		}
-		else
+		else {
 			write(fd, XUEBENG, strlen(XUEBENG));
+		}
 	}
 	
 	// Get the course list from the database
 	else if (!strcmp(splitCommend[0], "getclst")) {
 		char* reval = getclst(splitCommend);
 		if(reval != NULL) {
+			write(fd, "crslist|", 8);
 			write(fd, reval, strlen(reval));
 			free(reval);
 		}
-		else
-			write(fd, DBERROR, strlen(DBERROR));
+		else {
+			write(fd, XUEBENG, strlen(XUEBENG));
+		}
 	}
 
 	// Reset user's password
 	else if (!strcmp(splitCommend[0], "resetpw")) {
-		fprintf(stderr,"%d\n", fd);
 		int reval = resetpw(splitCommend);
-		fprintf(stderr,"asdad %d\n",reval);
-		
-//			write(fd, "BUG\n", strlen("BUG\n"));
-
+		if (reval == 1) {
+			write(fd, SUCCESS, strlen(SUCCESS));
+		}
+		else if (reval == -1) {
+			write(fd, DBERROR, strlen(DBERROR));
+		}
+		else if (reval == -2) {
+			write(fd, UNEXIST, strlen(UNEXIST));
+		}
+		else {
+			write(fd, XUEBENG, strlen(XUEBENG));
+		}
 	}
 
 	// Change user nickname
 	else if (!strcmp(splitCommend[0], "changen")) {
 		int reval = changen(splitCommend);
-		if(reval == 1)
+		if(reval == 1) {
 			write(fd, SUCCESS, strlen(SUCCESS));
-		else
+		}
+		else if (reval == -1) {
 			write(fd, DBERROR, strlen(DBERROR));
+		}
+		else {
+			write(fd, XUEBENG, strlen(XUEBENG));
+		}
 	}
 	
 	// Change user email address
 	else if (!strcmp(splitCommend[0], "changee")) {
 		int reval = changee(splitCommend);
-		if(reval == 1)
+		if(reval == 1) {
 			write(fd, SUCCESS, strlen(SUCCESS));
-		else
+		}
+		else if(reval == -1) {
 			write(fd, DBERROR, strlen(DBERROR));
+		}
+		else {
+			write(fd, XUEBENG, strlen(XUEBENG));
+		}
 	}
 
 	// Change course
 	else if ( !strcmp(splitCommend[0], "changec") ) {
 		int reval = changec(splitCommend);
-		if (reval == -1) {
-			write(fd, "change course err\n", strlen("change course err\n"));
+		if (reval == 1) {
+			write(fd, SUCCESS, strlen(SUCCESS));
 		}
-		else if (reval == 0) {
-			write(fd, "callback err\n", strlen("callback err\n"));
+		else if (reval == -1) {
+			write(fd, DBERROR, strlen(DBERROR));
 		}
 		else {
-			write(fd, "change course success\n", strlen("change course success\n"));
+			write(fd, XUEBENG, strlen(XUEBENG));
 		}
 	}
 	
@@ -234,12 +252,12 @@ void processRequest(int fd) {
 		char * courseinfo = getcinf(splitCommend);
 
 		if (courseinfo == NULL) {
-			write(fd, "courseinfo err\n", strlen("courseinfo err\n"));
+			write(fd, XUEBENG, strlen(XUEBENG));
 		}
 		else {
-			write (fd, courseinfo, strlen(courseinfo));
-			write(fd, "courseinfo success\n", strlen("comment success\n"));
-			free(courseinfo);			
+			write(fd, "crsinfo|", 8);
+			write(fd, courseinfo, strlen(courseinfo));
+			free(courseinfo);
 		}
 	}
 	
@@ -252,21 +270,21 @@ void processRequest(int fd) {
 		char * comments = splitCommend[5];
 
 		int reval = database.ifUserExist(username);
+		reval = database.ifCourseExist(course);
 		if (reval == -1) {
-			write(fd, "comment database err\n", strlen("comment database err\n"));
+			write(fd, DBERROR, strlen(DBERROR));
 		}
-		else if (reval == 0) {
-			write(fd, "comment call back err\n", strlen("comment call back err\n"));
+		else if (reval == 1) {
+			comment(splitCommend);
+			write(fd, SUCCESS, strlen(SUCCESS));
 		}
 		else {
-			comment(splitCommend);
-			write(fd, "comment success\n", strlen("comment success\n"));
+			write(fd, XUEBENG, strlen(XUEBENG));
 		}
 	}
-
-	else
-		write(fd, "check connection\n", 17);
-	fprintf(stderr,"asdsad\n");
+	else {
+		write(fd, "check communication rules\n", 26);
+	}
 }
 
 /* return 1 if create success
@@ -314,15 +332,24 @@ char* getclst(char **commendList) {
 /* return 1 if create success
    return 0 otherwise */
 int resetpw(char **commendList) {
+	int reval;
 	char *username = commendList[1];
-	char *email_address = commendList[2];
-	int reset = (rand() % (999999 - 100000 + 1)) + 100000;
-	fprintf(stderr, "pw is : %s %s\n",username,email_address);
-	//to do send reset to email
-	char *password;
-	sprintf(password, "%d\0", reset);
-	fprintf(stderr, "pw is : %s\n",password);
-	int reval = database.changePassword(username, "11111");//check cast
+	char *email = commendList[2];
+	//check username and get email
+	if (database.ifUserExist(username)) {
+		//get new random pw
+		int i;
+		char new_pw[6];
+		for (i = 0; i < 6; i++) {
+			new_pw[i] = email[i] + i + 2;
+		}
+		//store new pw into db
+		reval = database.changePassword(username, new_pw);
+		//TODO: send new pw to email;
+	}
+	else {
+		reval = -2;
+	}
 	return reval;
 }
 
@@ -362,7 +389,8 @@ char* getcinf(char **commendList) {
 void comment(char **commendList) {
 	char * course = commendList[2];
 	char * rating = commendList[3];
-	if ( rating[0] == '6' ) {
+//	fprintf(stderr, "rating: %s\n", rating);
+	if (rating[0] == '6') {
 		rating[0] = '0';
 	}
 	char * tags = commendList[4];

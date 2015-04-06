@@ -5,6 +5,7 @@
 #include <cstring>
 #include <ctime>
 #include "database.h"
+#include "Server.h"
 
 const char *USER_DATABASE_NAME = 	"PCA_user.db";
 
@@ -30,6 +31,8 @@ const char *SQL_INSERT_USER = 	"INSERT INTO USER (USERNAME, PASSWORD, EMAIL, NIC
 
 const char *SQL_CHECK_USER = 	"SELECT USERNAME from USER where USERNAME like '%s';";
 
+const char *SQL_CHECK_COURSE = 	"SELECT COURSENAME from COURSE where COURSENAME like '%s';";
+
 const char *SQL_CHECK_PASSWORD = 	"SELECT USERNAME from USER where "
 								 	"USERNAME like '%s' and PASSWORD like '%s';";
 
@@ -42,6 +45,8 @@ const char *SQL_UPDATE_NICKNAME = "UPDATE USER SET NICKNAME = '%s' WHERE USERNAM
 const char *SQL_UPDATE_COURSE = "UPDATE USER SET COURSES = '%s' WHERE USERNAME = '%s';";
 
 const char *SQL_UPDATE_RATING = "UPDATE COURSE SET RATING = '%s' WHERE COURSENAME = '%s';";
+
+const char *SQL_GET_TAGS = "SELECT TAGS from COURSE where COURSENAME like '%s';";
 
 const char *SQL_UPDATE_TAGS = "UPDATE COURSE SET TAGS = '%s' WHERE COURSENAME = '%s';";
 
@@ -60,6 +65,9 @@ sqlite3_stmt *statement;
 const char *pzTest;
 int res = 0;
 int userCount;//if cbuser is called
+int courseCount;
+int tagflag; //indicate get tags(0), get tag counts(1), select course(2)
+char *urtags;
 
 
 int Databases::initDatabases() {
@@ -124,6 +132,30 @@ int Databases::addUser(char* userName, char* password, char* email) {
    	}
 
    	return 0;
+}
+
+int cbIfCourseExist(void *NotUsed, int argc, char **argv, char **azColName) {
+	int i;
+	courseCount++;
+	for(i = 0; i < argc; i++){
+		fprintf(stderr, "%d %s = %s\n",argc, azColName[i], argv[i] ? argv[i] : "NULL");
+	}
+	return 0;
+}
+
+int Databases::ifCourseExist(char* courseName) {
+	char checkBuffer[300];	
+	sprintf(checkBuffer, SQL_CHECK_COURSE, courseName);
+	courseCount = 0;
+	rc = sqlite3_exec(coursedb, checkBuffer, cbIfCourseExist, 0, &zErrMsg);
+
+	if( rc != SQLITE_OK ){
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return -1;
+	}
+	
+	return courseCount;
 }
 
 int cbIfUserExist(void *NotUsed, int argc, char **argv, char **azColName) {
@@ -231,14 +263,46 @@ int Databases::changePassword(char* userName, char* password) {
 int cbGetInfo(void *info, int argc, char **argv, char **azColName) {
 	int i;
 	for(i = 0; i < argc; i++){
-		fprintf(stderr, "%d %s = %s\n",argc, azColName[i], argv[i] ? argv[i] : "NULL");
-		if (!strcmp(azColName[i], "RATING")) {
-			strcat((char*)info, argv[i] ? argv[i] : "");
-			strcat((char*)info, "|");;
-		}
-		else if (!strcmp(azColName[i], "TAGS")) {
-			strcat((char*)info, argv[i] ? argv[i] : "");
-			strcat((char*)info, "|");
+		//fprintf(stderr, "%d %s = %s\n",argc, azColName[i], argv[i] ? argv[i] : "NULL");
+		if (!strcmp(azColName[i], "TAGS")) {
+			if (tagflag == 0) {
+				int j, k, tags[10];
+				//change into 3 ints
+				for (j = 0; j < 10; j++) {
+					char temp[5] = {0};
+					strncpy(temp, argv[i] + j * 5, 4);
+					tags[j] = atoi(temp);
+				}
+				int in1 = 0, in2 = 0, in3 = 0;
+				for (j = 0; j < 10; j++) {
+					in1 = tags[j] > tags[in1] ? j : in1;
+				}
+				for (j = 0; j < 10; j++) {
+					if (j != in1)
+						in2 = tags[j] > tags[in2] ? j : in2;
+				}
+				for (j = 0; j < 10; j++) {
+					if (j != in1 && j != in2)
+						in3 = tags[j] > tags[in3] ? j : in3;
+				}
+				//fprintf(stderr, "index: %d %d %d\n", in1, in2, in3);
+				char tagtouser[4] = {0};
+				tagtouser[0] = in1 + '0';
+				tagtouser[1] = in2 + '0';
+				tagtouser[2] = in3 + '0';
+				strcat((char*)info, tagtouser);
+				strcat((char*)info, "|");
+			}
+			else if (tagflag == 2) {
+				//select course
+				if (!strcmp(urtags, "000")) {
+					;
+				}
+			}
+			else {
+				//get raw tags string
+				strcat((char*)info, argv[i] ? argv[i] : "");
+			}
 		}
 		else {
 			strcat((char*)info, argv[i] ? argv[i] : "");
@@ -246,6 +310,91 @@ int cbGetInfo(void *info, int argc, char **argv, char **azColName) {
 		}
 	}
 	//printf("%s\n", (char*)info);
+	return 0;
+}
+
+//liu
+int Databases::updateTags(char* course, char* tags) {
+	if (tags == NULL || !strcmp(tags, ""))
+		return 1;
+	int reval;
+	char tagcount[100];
+	memset(tagcount, 0, 100);
+	char checkBuffer[300];
+	memset(checkBuffer, 0, 300);
+	sprintf(checkBuffer, SQL_GET_TAGS, course);
+	tagflag = 1;
+
+	rc = sqlite3_exec(coursedb, checkBuffer, cbGetInfo, tagcount, &zErrMsg);
+	if (rc != SQLITE_OK) {
+		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+		sqlite3_free(zErrMsg);
+		return -1;
+	}
+	fprintf(stderr, "tags:%s$\n", tagcount);
+	
+	//tags from user
+	int tag1 = tags[0] - '0';
+	int tag2 = tags[1] - '0';
+	int tag3 = tags[2] - '0';
+//	fprintf(stderr, "user tags: %d %d %d\n", tag1, tag2, tag3);
+	if (!strcmp(tagcount, "")) {
+		//firsttime
+		int i;
+		for (i = 0; i < 10; i++) {
+			if (i == tag1 || i == tag2 || i == tag3) {
+				strcat(tagcount, "0001;");
+			}
+			else {
+				strcat(tagcount, "0000;");
+			}
+		}
+		tagcount[strlen(tagcount) - 1] = 0;
+
+		memset(checkBuffer, 0, 300);
+		sprintf(checkBuffer, SQL_UPDATE_TAGS, tagcount, course);
+		rc = sqlite3_exec(coursedb, checkBuffer, NULL, 0, &zErrMsg);
+		if (rc != SQLITE_OK) {
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+			return -1;
+		}
+	}
+	else {
+		int i, count;
+		char temp[5] = {0};
+		char bytes[6] = {0};
+		char newtagcount[100] = {0};
+		for (i = 0; i < 10; i++) {
+			//get old tag count
+			strncpy(temp, tagcount + i * 5, 4);
+			count = atoi(temp);
+			//add 1
+			if (i == tag1 || i == tag2 || i == tag3)
+				count++;
+			//fprintf(stderr, "new count %d\n", count);
+			//strcat to newtagcount
+			bytes[0] = count / 1000 + '0';
+			bytes[1] = (count - count / 1000) / 100 + '0';
+			bytes[2] = ((count - count / 1000) / 100) / 10 + '0';
+			bytes[3] = count - ((count - count / 1000) / 100) / 10 + '0';
+			bytes[4] = ';';
+//			fprintf(stderr, "bytes %d is: %s\n", i, bytes);
+			strcat(newtagcount, bytes);
+		}
+		newtagcount[strlen(newtagcount) - 1] = 0;
+//		fprintf(stderr, "newcount: %s\n", newtagcount);
+
+		memset(checkBuffer, 0, 300);
+		sprintf(checkBuffer, SQL_UPDATE_TAGS, newtagcount, course);
+		rc = sqlite3_exec(coursedb, checkBuffer, NULL, 0, &zErrMsg);
+		if (rc != SQLITE_OK) {
+			fprintf(stderr, "SQL error: %s\n", zErrMsg);
+			sqlite3_free(zErrMsg);
+			return -1;
+		}
+
+	}
 	return 0;
 }
 
@@ -264,12 +413,16 @@ char* Databases::getUser(char* userName) {
 	userinfo[strlen(userinfo) - 1] = 0;
 	return userinfo;
 }
+
 //liu
 char* Databases::getCourselist(char* tags) {
-	char *courselist = (char*)malloc(2048);
+	char courselist[2048];
 	memset(courselist, 0, 2048);
+	char *relist = (char*)malloc(2048);
+	memset(relist, 0, 2048);
 	char checkBuffer[300];
-	//sprintf(checkBuffer, SQL_GET_COURSELIST);
+	urtags = tags;
+	tagflag = 0;
 
 	rc = sqlite3_exec(coursedb, SQL_GET_COURSELIST, cbGetInfo, courselist, &zErrMsg);
 	if (rc != SQLITE_OK) {
@@ -278,15 +431,29 @@ char* Databases::getCourselist(char* tags) {
 		return NULL;
 	}
 	courselist[strlen(courselist) - 1] = 0;
-	return courselist;
+	//fprintf(stderr, "%s\n", courselist);
+	char **clisttag = split(courselist, '|');
+	int i = 0;
+	while (clisttag[i] != NULL && clisttag[i + 1] != NULL) {
+		//fprintf(stderr, "%d:%s$%s\n", i, clisttag[i], tags);
+		if (!strcmp(clisttag[i + 1], tags) || !strcmp(tags, "000")) {
+			strcat(relist, clisttag[i]);
+			strcat(relist, "|");
+		}
+		i = i + 2;
+	}
+	relist[strlen(relist) - 1] = 0;
+	return relist;
 	//SQL_GET_COURSELIST
 }
+
 //liu
 char* Databases::getCourse(char* course) {
 	char *courseinfo = (char*)malloc(32768);
 	memset(courseinfo, 0, 32768);
 	char checkBuffer[300];
 	sprintf(checkBuffer, SQL_GET_COURSE, course);
+	tagflag = 0;
 
 	rc = sqlite3_exec(coursedb, checkBuffer, cbGetInfo, courseinfo, &zErrMsg);
 	if (rc != SQLITE_OK) {
@@ -305,8 +472,8 @@ char* Databases::getCourse(char* course) {
 //format for rating XXXXX first two means the rate and second XX means how many people rated
 int Databases::updateRating(char* course, char* rating) {
 	//get the newly arrived rating
-	fprintf(stderr, "rating is passed in database = %s\n", rating);
-	fprintf(stderr, "coursename is %s\n", course);
+//	fprintf(stderr, "rating is passed in database = %s\n", rating);
+//	fprintf(stderr, "coursename is %s\n", course);
 	double rate = 0.0;
 	if (rating == NULL)
 		return -1;
@@ -318,70 +485,80 @@ int Databases::updateRating(char* course, char* rating) {
 	else {
 		rate = (double)atoi(rating)/10;
 	}
-	fprintf(stderr,"here the rate is %.1f\n", rate);
+//	fprintf(stderr,"here the rate is %.1f\n", rate);
 	char* courseinfo = (char*) malloc(32768);
 	memset(courseinfo, 0, 32768);
 	char sql_to_execute[300];
 	sprintf(sql_to_execute, SQL_GET_COURSE, course);
 	rc = sqlite3_exec(coursedb, sql_to_execute, cbGetInfo, courseinfo, &zErrMsg);
 	if (rc != SQLITE_OK) {
-		fprintf(stderr, "SQL error: %s\n", zErrMsg);
+//		fprintf(stderr, "SQL error: %s\n", zErrMsg);
 		sqlite3_free(zErrMsg);
 		return 0;
 	}
-	fprintf(stderr, "courseinfo is :%s\n", courseinfo);
+//	fprintf(stderr, "courseinfo is :%s\n", courseinfo);
 	char* pt = strstr(courseinfo, "|");
-	fprintf(stderr,"11111 here the char is\n");
+//	fprintf(stderr,"11111 here the char is\n");
 	char rat[8];
 	int counter = 0;
 	pt++;
 	while (*pt != '|') {
-		printf("entered!\n");
+//		printf("entered!\n");
 		rat[counter++] = *pt;
 		pt++;
 	}
 	rat[counter] = '\0';
-	fprintf(stderr, "original rate: %s\n", rat);
+//	fprintf(stderr, "original rate: %s\n", rat);
 	double c_rate;
 	char* t_people = (char*) malloc(sizeof(char) * 8);
 	int total;
-	if (rat == NULL) {
+	if (rat == NULL || !strcmp(rat, "")) {
 		c_rate = 0.0;
 	}
-	if (rat[0] == '6') {
+	else if (rat[0] == '6') {
 		char m = rat[1];
-		c_rate = atoi(&m)/10;
+		c_rate = ((double)(0 + (m - '0')))/10;
 	} 
-	fprintf(stderr,"current rate is %.1f\n", c_rate);
+	else {
+		char t1 = rat[0];
+		char t2 = rat[1];
+		double tt1 = (0 + (t1- '0'));
+		double tt2 = ((double)(0 + (t2 - '0')))/10;
+		c_rate = tt1+tt2;
+	}
+//	fprintf(stderr,"current rate is %.1f\n", c_rate);
 	int c = 2;
 	while (rat[c] != '\0') {
 		t_people[c-2] = rat[c++];
 	}
 	if (t_people[0] == '\0')	total = 0;
 	total = atoi(t_people);
+	c_rate = c_rate*total;
 	total++;
 	c_rate+=rate;
 	c_rate = (double)c_rate/total;
-	fprintf(stderr, "now the rate is %.1f\n", c_rate);
+//	fprintf(stderr, "now the rate is %.1f\n", c_rate);
 	char to_be_update[10];
 	if (c_rate < 1) {		
 		to_be_update[0] = '6';
-		int temp = (int)c_rate*10;
+		int temp = c_rate*10;
+//		fprintf(stderr, "dec is %d\n", temp);
 		char rated = (char)(((int)'0')+temp);
 		to_be_update[1] = rated;
 	} else {
 		int temp1 = (int)c_rate;
 		int temp2 = c_rate*10 - 10*temp1;
-		printf("temp 2 is %d\n", temp2);
+//		printf("temp 2 is %d\n", temp2);
 		char tem1 = (char)(((int)'0')+temp1);
 		char tem2 = (char)(((int)'0')+temp2);
 		to_be_update[0] = tem1;
 		to_be_update[1] = tem2;
 	}
-	char ppl[15];
+	char ppl[15] = {0};
 	sprintf(ppl, "%d", total);
+//	fprintf(stderr, "ppl is %s\n", ppl);
 	strcat(to_be_update, ppl);
-	fprintf(stderr, "the write back thing is %s\n", to_be_update);
+//	fprintf(stderr, "the write back thing is %s\n", to_be_update);
 	char query2[300];
 	sprintf(query2, SQL_UPDATE_RATING, to_be_update, course);
 	rc = sqlite3_exec(coursedb, query2, NULL, 0, &zErrMsg);
@@ -390,10 +567,6 @@ int Databases::updateRating(char* course, char* rating) {
 		sqlite3_free(zErrMsg);
 		return 0;
 	}
-	return 0;
-}
-//liu
-int Databases::updateTags(char* course, char* tags) {
 	return 0;
 }
 
