@@ -345,7 +345,14 @@ int resetpw(char **commendList) {
 		}
 		//store new pw into db
 		reval = database.changePassword(username, new_pw);
-		//TODO: send new pw to email;
+		//send new pw to email;
+		char mail[100] = {0};
+		FILE *fptr = fopen("temppw", "w+");
+		fprintf(fptr, "Your new password is:\n");
+		fprintf(fptr, "%s\n", new_pw);
+		fclose(fptr);
+		sprintf(mail, "/usr/bin/mailx -s 'Password Reset' %s < temppw", email);
+		system(mail);
 	}
 	else {
 		reval = -2;
