@@ -10,6 +10,11 @@
 
 @interface FeedbackViewController : UIViewController
 
+-(void)initNetworkCommunication;
+-(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode;
+-(void)sendRequest: (NSString *) request;
+
+
 @property (weak, nonatomic) IBOutlet UILabel *score;
 
 @property (weak, nonatomic) IBOutlet UISlider *slider;

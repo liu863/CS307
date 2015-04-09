@@ -7,12 +7,21 @@
 //
 
 #import "FeedbackViewController.h"
+#import "ServerInfo.h"
 
 @interface FeedbackViewController ()
 
 @end
 
 @implementation FeedbackViewController
+
+CFReadStreamRef readStream;
+CFWriteStreamRef writeStream;
+
+NSInputStream *inputStream;
+NSOutputStream *outputStream;
+
+NSString * s;
 
 int tag[10] = {0,0,0,0,0,0,0,0,0,0};
 
@@ -43,17 +52,32 @@ int tag[10] = {0,0,0,0,0,0,0,0,0,0};
 }
 
 - (IBAction)buttonPressed:(id)sender {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Thanks for your feedback!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    [alertView show];
-    NSLog(@"Received Rating: %1.1f\n", [_slider value]);
+    
+    int fake_rating = [_slider value] * 10;
+    if ( fake_rating < 10 ) {
+        fake_rating = fake_rating + 60;
+    }
+    NSString * feedback_rating = [NSString stringWithFormat:@"%d", fake_rating];
+    
+    NSString * feedback_tags = @"";
     int i = 0;
     while (i < 10) {
         if (tag[i] == 1)
-            NSLog(@"Received Tag: %d (index)\n", i);
+            feedback_tags = [feedback_tags stringByAppendingString:[NSString stringWithFormat:@"%d", i]];
         i++;
     }
-    NSLog(@"Received Comment: %@\n", [_comment text]);
+    
+    NSString * feedback_send = [NSString stringWithFormat:@"comment|qi33|CS307|%@|%@|%@", feedback_rating, feedback_tags, [_comment text]];
+    NSLog(@"%@", feedback_send);
+    
+    [self initNetworkCommunication];
+
+    [self sendRequest: feedback_send];
+    
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Thanks for your feedback!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alertView show];
 }
+
 
 - (IBAction)tag1Pressed:(id)sender {
     if (tag[0] == 0) {
@@ -166,4 +190,69 @@ int tag[10] = {0,0,0,0,0,0,0,0,0,0};
         [_tag10 setBackgroundColor:lightblue];
     }
 }
+
+
+- (void)initNetworkCommunication {
+    ServerInfo * server = [[ServerInfo alloc] init];
+    CFStringRef hostAddress = (__bridge CFStringRef)server.hostAddress;
+    int port = [server.port intValue];
+    NSLog(@"host = %@, port = %d", hostAddress, port);
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, hostAddress, port, &readStream, &writeStream);
+    if(!CFWriteStreamOpen(writeStream)) {
+        NSLog(@"Error: writeStream");
+        return;
+    }
+    inputStream = (__bridge NSInputStream *)readStream;
+    outputStream = (__bridge NSOutputStream *)writeStream;
+    [inputStream setDelegate:self];
+    [outputStream setDelegate:self];
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream open];
+    [inputStream open];
+    
+    
+}
+
+
+-(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
+    switch (eventCode) {
+        case NSStreamEventHasSpaceAvailable: {
+            if(stream == outputStream){
+                NSLog(@"none\n");
+            }
+            break;
+        }
+        case NSStreamEventHasBytesAvailable: {
+            if(stream == inputStream) {
+                uint8_t buf[1024];
+                unsigned int len = 0;
+                len = [inputStream read:buf maxLength:1024];
+                if(len > 0) {
+                    NSMutableData* data=[[NSMutableData alloc] initWithLength:0];
+                    [data appendBytes: (const void *)buf length:len];
+                    s = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                }
+            }
+            break;
+        }
+        case NSStreamEventEndEncountered: {
+            NSLog(@"Stream closed\n");
+            break;
+        }
+        default: {
+            NSLog(@"Stream is sending an Event: %lu", eventCode);
+            break;
+        }
+    }
+}
+
+-(void)sendRequest: (NSString *) request{
+    NSString * tmp = [NSString stringWithFormat:@"%@\r\n", request];
+    NSData *data = [[NSData alloc] initWithData:[tmp dataUsingEncoding:NSASCIIStringEncoding]];
+    [outputStream write:[data bytes] maxLength:[data length]];
+    [outputStream close];
+    [self initNetworkCommunication];
+}
+
 @end

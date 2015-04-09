@@ -7,6 +7,8 @@
 //
 
 #import "TagsViewController.h"
+#import "ServerInfo.h"
+
 
 @interface TagsViewController ()
 
@@ -14,7 +16,15 @@
 
 @implementation TagsViewController
 
-int tags[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+CFReadStreamRef readStream;
+CFWriteStreamRef writeStream;
+
+NSInputStream *inputStream;
+NSOutputStream *outputStream;
+
+NSString * s;
+
+int tags[10] = {0,0,0,0,0,0,0,0,0,0};
 int count = 0;
 
 - (void)viewDidLoad {
@@ -38,16 +48,22 @@ int count = 0;
 */
 
 - (IBAction)goPressed:(id)sender {
-    if (count > 3) {
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"You can not choose more than 3 tags!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    if (count != 3) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"You can not choose more or less than 3 tags!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
     }
     else {
-        for (int i = 0; i < 12; i++) {
+        NSString * courselist_tags = @"";
+
+        for (int i = 0; i < 10; i++) {
             if (tags[i] == 1) {
-                NSLog(@"Tag: %d (index) is choose!\n", i);
+                courselist_tags = [courselist_tags stringByAppendingString:[NSString stringWithFormat:@"%d", i]];
             }
         }
+        NSString * tags_send = [NSString stringWithFormat:@"getclst|%@", courselist_tags];
+        NSLog(@"%@", tags_send);
+        [self initNetworkCommunication];
+        [self sendRequest: tags_send];
     }
 }
 
@@ -130,4 +146,125 @@ int count = 0;
         count--;
     }
 }
+
+- (IBAction)tag7Pressed:(id)sender {
+    if (tags[6] == 0) {
+        tags[6] = 1;
+        UIColor * purple = [[UIColor alloc] initWithRed:0.76574755333434186 green:0.55948865053223462 blue:1 alpha:1];
+        [_tag7 setBackgroundColor:purple];
+        count++;
+    } else {
+        tags[6] = 0;
+        UIColor * lightblue = [[UIColor alloc] initWithRed:0.63970924949999997 green:0.91012415170000005 blue:1 alpha:1];
+        [_tag7 setBackgroundColor:lightblue];
+        count--;
+    }
+}
+
+- (IBAction)tag8Pressed:(id)sender {
+    if (tags[7] == 0) {
+        tags[7] = 1;
+        UIColor * purple = [[UIColor alloc] initWithRed:0.76574755333434186 green:0.55948865053223462 blue:1 alpha:1];
+        [_tag8 setBackgroundColor:purple];
+        count++;
+    } else {
+        tags[7] = 0;
+        UIColor * lightblue = [[UIColor alloc] initWithRed:0.63970924949999997 green:0.91012415170000005 blue:1 alpha:1];
+        [_tag8 setBackgroundColor:lightblue];
+        count--;
+    }
+}
+
+- (IBAction)tag9Pressed:(id)sender {
+    if (tags[8] == 0) {
+        tags[8] = 1;
+        UIColor * purple = [[UIColor alloc] initWithRed:0.76574755333434186 green:0.55948865053223462 blue:1 alpha:1];
+        [_tag9 setBackgroundColor:purple];
+        count++;
+    } else {
+        tags[8] = 0;
+        UIColor * lightblue = [[UIColor alloc] initWithRed:0.63970924949999997 green:0.91012415170000005 blue:1 alpha:1];
+        [_tag9 setBackgroundColor:lightblue];
+        count--;
+    }
+}
+
+- (IBAction)tag10:(id)sender {
+    if (tags[9] == 0) {
+        tags[9] = 1;
+        UIColor * purple = [[UIColor alloc] initWithRed:0.76574755333434186 green:0.55948865053223462 blue:1 alpha:1];
+        [_tag10 setBackgroundColor:purple];
+        count++;
+    } else {
+        tags[9] = 0;
+        UIColor * lightblue = [[UIColor alloc] initWithRed:0.63970924949999997 green:0.91012415170000005 blue:1 alpha:1];
+        [_tag10 setBackgroundColor:lightblue];
+        count--;
+    }
+}
+
+- (void)initNetworkCommunication {
+    ServerInfo * server = [[ServerInfo alloc] init];
+    CFStringRef hostAddress = (__bridge CFStringRef)server.hostAddress;
+    int port = [server.port intValue];
+    NSLog(@"host = %@, port = %d", hostAddress, port);
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, hostAddress, port, &readStream, &writeStream);
+    if(!CFWriteStreamOpen(writeStream)) {
+        NSLog(@"Error: writeStream");
+        return;
+    }
+    inputStream = (__bridge NSInputStream *)readStream;
+    outputStream = (__bridge NSOutputStream *)writeStream;
+    [inputStream setDelegate:self];
+    [outputStream setDelegate:self];
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream open];
+    [inputStream open];
+    
+    
+}
+
+
+-(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
+    switch (eventCode) {
+        case NSStreamEventHasSpaceAvailable: {
+            if(stream == outputStream){
+                NSLog(@"none\n");
+            }
+            break;
+        }
+        case NSStreamEventHasBytesAvailable: {
+            if(stream == inputStream) {
+                uint8_t buf[1024];
+                unsigned int len = 0;
+                len = [inputStream read:buf maxLength:1024];
+                if(len > 0) {
+                    NSMutableData* data=[[NSMutableData alloc] initWithLength:0];
+                    [data appendBytes: (const void *)buf length:len];
+                    s = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                    NSLog(@"Respond received: %@", s);
+                }
+            }
+            break;
+        }
+        case NSStreamEventEndEncountered: {
+            NSLog(@"Stream closed\n");
+            break;
+        }
+        default: {
+            NSLog(@"Stream is sending an Event: %lu", eventCode);
+            break;
+        }
+    }
+}
+
+-(void)sendRequest: (NSString *) request{
+    NSString * tmp = [NSString stringWithFormat:@"%@\r\n", request];
+    NSData *data = [[NSData alloc] initWithData:[tmp dataUsingEncoding:NSASCIIStringEncoding]];
+    [outputStream write:[data bytes] maxLength:[data length]];
+    [outputStream close];
+    [self initNetworkCommunication];
+}
+
 @end
