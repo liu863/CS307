@@ -37,7 +37,7 @@ extern "C" void background(int sig) {
     
 int QueueLength = 5;
 pthread_mutex_t mutex;
-int port = 6666;
+int port = 6667;
 char cport[20] = {0};
 int splitLength = 0;
 struct Databases database;
