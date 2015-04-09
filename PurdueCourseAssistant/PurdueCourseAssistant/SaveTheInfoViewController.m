@@ -7,16 +7,28 @@
 //
 
 #import "SaveTheInfoViewController.h"
+#import "ServerInfo.h"
 
 @interface SaveTheInfoViewController ()
 
+//@property(strong, nonatomic) NSString * username;
+
 @end
+
+CFReadStreamRef readStream;
+CFWriteStreamRef writeStream;
+
+NSInputStream *inputStream;
+NSOutputStream *outputStream;
+
+NSString * s;
 
 @implementation SaveTheInfoViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self initNetworkCommunication];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -25,16 +37,100 @@
 }
 
 - (IBAction)save:(id)sender {
+    NSString *username = @"Jiaping Qi";
     NSString *nickname = [_nickname text];
     NSString *email = [_email text];
     NSString *courselist = [_courselist text];
-    if([_nickname.text length] != 0)
+    if([_nickname.text length] != 0) {
         NSLog(@"%@", nickname);
-    if([_email.text length] != 0)
+        NSString *changen = [NSString stringWithFormat:@"changen|%@|%@", username, nickname];
+        [self sendRequest: changen];
+        [self initNetworkCommunication];
+    }
+    if([_email.text length] != 0) {
         NSLog(@"%@", email);
-    if([_courselist.text length] != 0)
+        NSString *changee = [NSString stringWithFormat:@"changee|%@|%@", username, email];
+        [self sendRequest: changee];
+        [self initNetworkCommunication];
+    }
+    if([_courselist.text length] != 0) {
         NSLog(@"%@", courselist);
+        NSString *changec = [NSString stringWithFormat:@"changec|%@|%@", username, courselist];
+        [self sendRequest:changec];
+    }
 }
+
+- (void)initNetworkCommunication {
+    ServerInfo * server = [[ServerInfo alloc] init];
+    CFStringRef hostAddress = (__bridge CFStringRef)server.hostAddress;
+    int port = [server.port intValue];
+    NSLog(@"host = %@, port = %d", hostAddress, port);
+    CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, hostAddress, port, &readStream, &writeStream);
+    if(!CFWriteStreamOpen(writeStream)) {
+        NSLog(@"Error: writeStream");
+        return;
+    }
+    inputStream = (__bridge NSInputStream *)readStream;
+    outputStream = (__bridge NSOutputStream *)writeStream;
+    [inputStream setDelegate:self];
+    [outputStream setDelegate:self];
+    [inputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [outputStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [inputStream open];
+    [outputStream open];
+    
+}
+
+-(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode {
+    switch (eventCode) {
+        case NSStreamEventHasSpaceAvailable: {
+            if(stream == outputStream){
+                NSLog(@"none\n");
+            }
+            break;
+        }
+        case NSStreamEventHasBytesAvailable: {
+            if(stream == inputStream) {
+                uint8_t buf[1024];
+                unsigned int len = 0;
+                len = [inputStream read:buf maxLength:1024];
+                if(len > 0) {
+                    NSMutableData* data=[[NSMutableData alloc] initWithLength:0];
+                    [data appendBytes: (const void *)buf length:len];
+                    s = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                    
+                    /***************************************************/
+                    // Process Server Respond
+                    /***************************************************/
+
+                    
+                    
+                    /***************************************************/
+                    // End
+                    /***************************************************/
+                    
+                }
+            }
+            break;
+        }
+        case NSStreamEventEndEncountered: {
+            NSLog(@"Stream closed\n");
+            break;
+        }
+        default: {
+            NSLog(@"Stream is sending an Event: %lu", eventCode);
+            break;
+        }
+    }
+}
+
+-(void)sendRequest: (NSString *) request{
+    NSString * tmp = [NSString stringWithFormat:@"%@\r\n", request];
+    NSData *data = [[NSData alloc] initWithData:[tmp dataUsingEncoding:NSASCIIStringEncoding]];
+    [outputStream write:[data bytes] maxLength:[data length]];
+    [outputStream close];
+}
+
 
 /*
 #pragma mark - Navigation
