@@ -16,7 +16,7 @@
 @property (strong, nonatomic) NSString *coursename;
 @property (weak, nonatomic) IBOutlet UILabel *rate;
 @property (weak, nonatomic) IBOutlet UITextView *CourseD;
-@property (weak, nonatomic) IBOutlet UILabel *Comment;
+@property (weak, nonatomic) IBOutlet UITextView *Comment;
 
 @end
 CFReadStreamRef readStream;
@@ -161,9 +161,7 @@ NSString * s;
           NSLog(@"Respo received: %@", self.rate.text);
           self.tag2.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
           self.tag3.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
-          _Comment.numberOfLines = 0;
-          [_Comment sizeToFit];
-          self.Comment.text = respond[5];
+          self.Comment.text = @"sdasdsdasd\n\n\n\nsdsdasdsdasd\n\n\n\nsdsdasdsdasd\n\n\n\nsdsdasdsdasd\n\n\n\nsdf";//respond[5];
            NSLog(@"Respo received: %@", self.rate.text);
           
           
