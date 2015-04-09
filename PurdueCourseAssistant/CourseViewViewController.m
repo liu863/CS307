@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *tag3;
 @property (strong, nonatomic) NSString *coursename;
 @property (weak, nonatomic) IBOutlet UILabel *rate;
-@property (weak, nonatomic) IBOutlet UILabel *CourseD;
+@property (weak, nonatomic) IBOutlet UITextView *CourseD;
 @property (weak, nonatomic) IBOutlet UILabel *Comment;
 
 @end
@@ -41,7 +41,8 @@ NSString * s;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+  [self.CourseD setHidden:NO];
+  [self.Comment setHidden:YES];
   /*
   Course *course1 = [[Course alloc] init];
   course1.courseName = @"CS308";
@@ -160,6 +161,8 @@ NSString * s;
           NSLog(@"Respo received: %@", self.rate.text);
           self.tag2.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
           self.tag3.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
+          _Comment.numberOfLines = 0;
+          [_Comment sizeToFit];
           self.Comment.text = respond[5];
            NSLog(@"Respo received: %@", self.rate.text);
           
