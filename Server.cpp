@@ -166,8 +166,12 @@ void processRequest(int fd) {
 	else if (!strcmp(splitCommend[0], "getuinf")) {
 		char* reval = getuinf(splitCommend);
 		if(reval != NULL) {
-			write(fd, "usrinfo|", 8);
-			write(fd, reval, strlen(reval));
+			char uinf[300] = {0};
+			strcat(uinf, "usrinfo|");
+			strcat(uinf, reval);
+			//write(fd, "usrinfo|", 8);
+			//write(fd, reval, strlen(reval));
+			write(fd, uinf, strlen(uinf));
 			free(reval);
 		}
 		else {

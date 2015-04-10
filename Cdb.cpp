@@ -14,8 +14,8 @@ const char *SQL_CREATE_COURSE = 	"CREATE TABLE IF NOT EXISTS COURSE("
 							   		"RATING			TEXT,"
 							   		"DESCRIPTION	TEXT	NOT NULL,"
 									"TAGS			TEXT,"
-							   		"COMMENT		TEXT,"
-									"PRETEST		TEXT);";
+							   		"PRETEST		TEXT,"
+									"COMMENT		TEXT);";
 
 const char *SQL_INSERT_COURSE = 	"INSERT INTO COURSE (COURSENAME, DESCRIPTION, TAGS, PRETEST) "
 							  		"VALUES ('%s', '%s', '%s', '%s');";

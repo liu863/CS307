@@ -23,8 +23,8 @@ const char *SQL_CREATE_COURSE = 	"CREATE TABLE IF NOT EXISTS COURSE("
 							   		"RATING			TEXT,"
 							   		"DESCRIPTION	TEXT	NOT NULL,"
 									"TAGS			TEXT,"
-							   		"COMMENT		TEXT,"
-									"PRETEST		TEXT);";
+							   		"PRETEST		TEXT,"
+									"COMMENT		TEXT);";
 
 const char *SQL_INSERT_USER = 	"INSERT INTO USER (USERNAME, PASSWORD, EMAIL, NICKNAME) "
 							  	"VALUES ('%s', '%s', '%s', '%s');";
@@ -499,7 +499,7 @@ int Databases::updateRating(char* course, char* rating) {
 //	fprintf(stderr, "courseinfo is :%s\n", courseinfo);
 	char* pt = strstr(courseinfo, "|");
 //	fprintf(stderr,"11111 here the char is\n");
-	char rat[8];
+	char rat[8] = {0};
 	int counter = 0;
 	pt++;
 	while (*pt != '|') {
@@ -510,7 +510,7 @@ int Databases::updateRating(char* course, char* rating) {
 	rat[counter] = '\0';
 //	fprintf(stderr, "original rate: %s\n", rat);
 	double c_rate;
-	char* t_people = (char*) malloc(sizeof(char) * 8);
+	char t_people[8] = {0};//(char*) malloc(sizeof(char) * 8);
 	int total;
 	if (rat == NULL || !strcmp(rat, "")) {
 		c_rate = 0.0;
@@ -538,7 +538,7 @@ int Databases::updateRating(char* course, char* rating) {
 	c_rate+=rate;
 	c_rate = (double)c_rate/total;
 //	fprintf(stderr, "now the rate is %.1f\n", c_rate);
-	char to_be_update[10];
+	char to_be_update[10] = {0};
 	if (c_rate < 1) {		
 		to_be_update[0] = '6';
 		int temp = c_rate*10;
@@ -565,8 +565,10 @@ int Databases::updateRating(char* course, char* rating) {
 	if (rc != SQLITE_OK) {
 		fprintf(stderr, "SQL error: %s\n", zErrMsg);
 		sqlite3_free(zErrMsg);
+		free(courseinfo);
 		return 0;
 	}
+	free(courseinfo);
 	return 0;
 }
 
