@@ -8,6 +8,8 @@
 
 #import "MyInfoViewController.h"
 #import "ServerInfo.h"
+#import "Course.h"
+#import "User.h"
 
 @interface MyInfoViewController ()
 
@@ -23,11 +25,14 @@ NSString * s;
 
 @implementation MyInfoViewController
 
+
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self initNetworkCommunication];
-    [self sendRequest: @"getuinf|aa"];
+    NSString *tmp = [NSString stringWithFormat:@"getuinf|%@", user.user_id];
+    [self sendRequest: tmp];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -84,10 +89,16 @@ NSString * s;
                     /***************************************************/
                     NSLog(@"Respond received: %@", s);
                     NSArray * respond = [s componentsSeparatedByString:@"|"];
-                    _Name.text = respond[3];
-                    _Emailaddr.text = respond[2];
-                    _Courses.text = respond[4];
                     
+                    user.email = respond[3];
+                    user.user_id = respond[4];
+                    user.courses = respond[5];
+                     
+                    
+                    
+                    _Emailaddr.text = user.email;
+                    _Name.text = user.user_id;
+                    _Courses.text = user.courses;
                     
                     /***************************************************/
                     // End

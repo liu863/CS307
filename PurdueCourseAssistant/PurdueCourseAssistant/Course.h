@@ -10,10 +10,14 @@
 
 @interface Course : NSObject
 
+extern Course *course;
+
 @property (strong, nonatomic) NSString * courseName;
 @property (strong, nonatomic) NSString * courseDescription;
 @property (strong, nonatomic) NSString * courseTag;
 @property (strong, nonatomic) NSNumber * courseRating;
 @property (strong, nonatomic) NSMutableArray * courseComment;
+@property (strong, nonatomic) NSString * courseList;
+@property (strong, nonatomic) NSString * courseInfo;
 
 @end

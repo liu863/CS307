@@ -8,18 +8,9 @@
 
 #import "User.h"
 
+
 @implementation User
--(id)init{
-    self = [super init];
-    if(self){
-        _user_id = @"Jiaping Qi";
-        _pwd = @"123456";
-        _email = @"qi33@purdue.edu";
-        Course * course = [[Course alloc] init];
-        _courses = [[NSMutableArray alloc] initWithObjects: course,
-                    nil];
-    }
-    return self;
-}
+
+User *user = nil;
 
 @end
