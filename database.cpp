@@ -287,9 +287,45 @@ int cbGetInfo(void *info, int argc, char **argv, char **azColName) {
 				}
 				//fprintf(stderr, "index: %d %d %d\n", in1, in2, in3);
 				char tagtouser[4] = {0};
+				int small = 0, middle = 0, large = 0;
+				if (in1 > in2 && in1 > in3) {
+					tagtouser[2] = in1 + '0';
+					if (in2 > in3) {
+						tagtouser[1] = in2 + '0';
+						tagtouser[0] = in3 + '0';
+					}
+					else {
+						tagtouser[0] = in2 + '0';
+						tagtouser[1] = in3 + '0';
+					}
+				}
+				else if (in2 > in1 && in2 > in3) {
+					tagtouser[2] = in2 + '0';
+					if (in1 > in3) {
+						tagtouser[1] = in1 + '0';
+						tagtouser[0] = in3 + '0';
+					}
+					else {
+						tagtouser[0] = in1 + '0';
+						tagtouser[1] = in3 + '0';
+					}
+				}
+				else if (in3 > in1 && in3 > in2) {
+					tagtouser[2] = in3 + '0';
+					if (in2 > in1) {
+						tagtouser[1] = in2 + '0';
+						tagtouser[0] = in1 + '0';
+					}
+					else {
+						tagtouser[0] = in2 + '0';
+						tagtouser[1] = in1 + '0';
+					}
+				}
+				/*
 				tagtouser[0] = in1 + '0';
 				tagtouser[1] = in2 + '0';
 				tagtouser[2] = in3 + '0';
+				*/
 				strcat((char*)info, tagtouser);
 				strcat((char*)info, "|");
 			}
