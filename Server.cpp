@@ -37,7 +37,7 @@ extern "C" void background(int sig) {
     
 int QueueLength = 5;
 pthread_mutex_t mutex;
-int port = 6667;
+int port = 6666;
 char cport[20] = {0};
 int splitLength = 0;
 struct Databases database;
@@ -157,8 +157,11 @@ void processRequest(int fd) {
 		if (reval == -1) {
 			write(fd, DBERROR, strlen(DBERROR));
 		}
-		else {
+		else if (reval == 1) {
 			write(fd, SUCCESS, strlen(SUCCESS));
+		}
+		else {
+			write(fd, XUEBENG, strlen(XUEBENG));
 		}
 	}
 	
