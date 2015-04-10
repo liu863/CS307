@@ -27,13 +27,15 @@ NSOutputStream *outputStream;
 NSString * s;
 
 int tags[10] = {0,0,0,0,0,0,0,0,0,0};
-int count = 0;
+int count;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    count = 0;
     [self initNetworkCommunication];
-    [self sendRequest: @"getclst|013"];
+    //[self sendRequest: @"getclst|013"];
+    NSLog(@"init count:%d", count);
     
 }
 
@@ -54,24 +56,53 @@ int count = 0;
 
 - (IBAction)goPressed:(id)sender {
     if (count != 3) {
+        count = 0;
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"You can not choose more or less than 3 tags!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
+        UIColor * lightblue = [[UIColor alloc] initWithRed:0.63970924949999997 green:0.91012415170000005 blue:1 alpha:1];
+        [_tag1 setBackgroundColor:lightblue];
+        [_tag2 setBackgroundColor:lightblue];
+        [_tag3 setBackgroundColor:lightblue];
+        [_tag4 setBackgroundColor:lightblue];
+        [_tag5 setBackgroundColor:lightblue];
+        [_tag6 setBackgroundColor:lightblue];
+        [_tag7 setBackgroundColor:lightblue];
+        [_tag8 setBackgroundColor:lightblue];
+        [_tag9 setBackgroundColor:lightblue];
+        [_tag10 setBackgroundColor:lightblue];
+        for (int i = 0; i < 10; i++)
+            tags[i] = 0;
     }
     else {
+        course.fromtags = @"YES";
         NSString * courselist_tags = @"";
 
         for (int i = 0; i < 10; i++) {
             if (tags[i] == 1) {
                 courselist_tags = [courselist_tags stringByAppendingString:[NSString stringWithFormat:@"%d", i]];
             }
+            tags[i] = 0;
         }
         NSString * tags_send = [NSString stringWithFormat:@"getclst|%@", courselist_tags];
         NSLog(@"sent message: %@", tags_send);
-
         
+        UIColor * lightblue = [[UIColor alloc] initWithRed:0.63970924949999997 green:0.91012415170000005 blue:1 alpha:1];
+        [_tag1 setBackgroundColor:lightblue];
+        [_tag2 setBackgroundColor:lightblue];
+        [_tag3 setBackgroundColor:lightblue];
+        [_tag4 setBackgroundColor:lightblue];
+        [_tag5 setBackgroundColor:lightblue];
+        [_tag6 setBackgroundColor:lightblue];
+        [_tag7 setBackgroundColor:lightblue];
+        [_tag8 setBackgroundColor:lightblue];
+        [_tag9 setBackgroundColor:lightblue];
+        [_tag10 setBackgroundColor:lightblue];
         [self sendRequest: tags_send];
         //[self initNetworkCommunication];
     }
+    count = 0;
+    NSLog(@"count:%d", count);
+    sleep(1);
 }
 
 - (IBAction)tag1Pressed:(id)sender {
@@ -86,6 +117,7 @@ int count = 0;
         [_tag1 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 0 count:%d", count);
 }
 - (IBAction)tag2Pressed:(id)sender {
     if (tags[1] == 0) {
@@ -99,6 +131,7 @@ int count = 0;
         [_tag2 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 1 count:%d", count);
 }
 
 - (IBAction)tag3Pressed:(id)sender {
@@ -113,6 +146,7 @@ int count = 0;
         [_tag3 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 2 count:%d", count);
 }
 - (IBAction)tag4Pressed:(id)sender {
     if (tags[3] == 0) {
@@ -126,6 +160,7 @@ int count = 0;
         [_tag4 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 3 count:%d", count);
 }
 - (IBAction)tag5Pressed:(id)sender {
     if (tags[4] == 0) {
@@ -139,6 +174,7 @@ int count = 0;
         [_tag5 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 4 count:%d", count);
 }
 - (IBAction)tag6Pressed:(id)sender {
     if (tags[5] == 0) {
@@ -152,6 +188,7 @@ int count = 0;
         [_tag6 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 5 count:%d", count);
 }
 
 - (IBAction)tag7Pressed:(id)sender {
@@ -166,6 +203,7 @@ int count = 0;
         [_tag7 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 6 count:%d", count);
 }
 
 - (IBAction)tag8Pressed:(id)sender {
@@ -180,6 +218,7 @@ int count = 0;
         [_tag8 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 7 count:%d", count);
 }
 
 - (IBAction)tag9Pressed:(id)sender {
@@ -194,6 +233,7 @@ int count = 0;
         [_tag9 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 8 count:%d", count);
 }
 
 - (IBAction)tag10:(id)sender {
@@ -208,6 +248,7 @@ int count = 0;
         [_tag10 setBackgroundColor:lightblue];
         count--;
     }
+    NSLog(@"this is 9 count:%d", count);
 }
 
 - (void)initNetworkCommunication {

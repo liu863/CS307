@@ -45,7 +45,15 @@ int i;
   // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
   // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    courses = course.courseList;
+    if ([course.fromtags  isEqualToString:@"NO"]) {
+        NSLog(@"NONONONO");
+        courses = course.allcourse;
+    }
+    else {
+        NSLog(@"YESYES");
+        
+        courses = course.courseList;
+    }
     NSLog(@"courseList in ListVC = %@", courses);
     list = [courses componentsSeparatedByString:@"|"];
     count = [list count];

@@ -13,5 +13,6 @@
 -(void)initNetworkCommunication;
 -(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode;
 -(void)sendRequest: (NSString *) request;
+@property (strong, nonatomic) IBOutlet UIButton *viewcourse;
 
 @end

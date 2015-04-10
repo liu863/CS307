@@ -19,5 +19,7 @@ extern Course *course;
 @property (strong, nonatomic) NSMutableArray * courseComment;
 @property (strong, nonatomic) NSString * courseList;
 @property (strong, nonatomic) NSString * courseInfo;
+@property (strong, nonatomic) NSString * allcourse;
+@property (strong, nonatomic) NSString * fromtags;
 
 @end

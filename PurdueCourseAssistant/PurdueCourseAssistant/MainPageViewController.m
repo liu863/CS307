@@ -41,6 +41,11 @@ NSString * s;
     // Dispose of any resources that can be recreated.
 }
 
+
+- (IBAction)viewallCourse:(id)sender {
+    course.fromtags = @"NO";
+}
+
 /***************************************************/
 // Client Implementation
 /***************************************************/
@@ -90,6 +95,7 @@ NSString * s;
                     /***************************************************/
                     NSLog(@"Main Page Respond received: %@", s);
                     course.courseList = [[NSString alloc] initWithString: s];
+                    course.allcourse = [[NSString alloc] initWithString: s];
                     NSLog(@"Main Page courselist updated: %@", s);
                     /***************************************************/
                     // End
