@@ -15,5 +15,6 @@
 @property (strong, nonatomic) NSString * courseID;
 @property (strong, nonatomic) NSMutableArray * questions;
 @property (strong, nonatomic) NSMutableArray * answers;
+-(id) initWithCourseTitle: (NSString *) courseTitle;
 
 @end

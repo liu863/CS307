@@ -9,6 +9,7 @@
 #import "PretestViewController.h"
 #import "Question.h"
 #import "Pretest.h"
+#import "Course.h"
 
 @interface PretestViewController ()
 
@@ -26,7 +27,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     //Load the test and initialize instence variables
-    thisTest = [[Pretest alloc] init];
+    thisTest = [[Pretest alloc] initWithCourseTitle:course.courseName];
     
     _courseID.text = [NSString stringWithFormat: @"%@ PRE-TEST", thisTest.courseID];
     _courseID.font = [UIFont fontWithName:@"TrebuchetMS-Bold" size:18];

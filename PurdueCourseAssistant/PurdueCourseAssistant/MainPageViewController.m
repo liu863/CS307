@@ -1,38 +1,39 @@
 //
-//  MyInfoViewController.m
-//  Start
+//  MainPageViewController.m
+//  PurdueCourseAssistant
 //
-//  Created by ZhengshangLiu on 15/3/4.
-//  Copyright (c) 2015年 ZhengshangLiu. All rights reserved.
+//  Created by SQuare on 4/10/15.
+//  Copyright (c) 2015 team_9. All rights reserved.
 //
 
-#import "MyInfoViewController.h"
+#import "MainPageViewController.h"
 #import "ServerInfo.h"
 #import "Course.h"
 #import "User.h"
 
-@interface MyInfoViewController ()
+@interface MainPageViewController ()
 
 @end
 
 CFReadStreamRef readStream;
 CFWriteStreamRef writeStream;
 
-NSInputStream *inputStream;
-NSOutputStream *outputStream;
+NSInputStream * inputStream;
+NSOutputStream * outputStream;
 
 NSString * s;
 
-@implementation MyInfoViewController
-
+@implementation MainPageViewController
 
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     [self initNetworkCommunication];
-    NSString *tmp = [NSString stringWithFormat:@"getuinf|%@", user.user_id];
-    [self sendRequest: tmp];
+    NSLog(@"flag 111111");
+    [self sendRequest:@"getclst|000"];
+    NSLog(@"request sent");
 }
 
 - (void)didReceiveMemoryWarning {
@@ -87,16 +88,9 @@ NSString * s;
                     /***************************************************/
                     // Process Server Respond
                     /***************************************************/
-                    NSLog(@"Respond received: %@", s);
-                    NSArray * respond = [s componentsSeparatedByString:@"|"];
-                    
-                    user.email = respond[3];
-                    user.user_id = respond[4];
-                    user.courses = respond[5];
-                    
-                    _Emailaddr.text = user.email;
-                    _Name.text = user.user_id;
-                    _Courses.text = user.courses;
+                    NSLog(@"Main Page Respond received: %@", s);
+                    course.courseList = [[NSString alloc] initWithString: s];
+                    NSLog(@"Main Page courselist updated: %@", s);
                     /***************************************************/
                     // End
                     /***************************************************/

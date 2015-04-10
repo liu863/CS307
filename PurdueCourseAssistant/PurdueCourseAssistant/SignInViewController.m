@@ -82,13 +82,15 @@ NSString *s;
                         user = [[User alloc] init];
                         course = [[Course alloc] init];
                         user.user_id = Username;
-                        [self performSegueWithIdentifier:@"LoginSegue" sender:self];
+                        course.courseName = @"CS307";
+                        //[self performSegueWithIdentifier:@"LoginSegue" sender:self];
                         
                     }else{
                         UIAlertView *alert = [[ UIAlertView alloc] initWithTitle:@"Wrong Message" message:@"Wrong Password or Invaild Username." delegate:self cancelButtonTitle:@"CANCE" otherButtonTitles:@"OK", nil];
                         [alert show];
                         
                     }
+                    
                     //NSArray * respond = [s componentsSeparatedByString:@"|"];
                     // _Name.text = respond[3];
                     // _Emailaddr.text = respond[2];

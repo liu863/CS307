@@ -19,6 +19,7 @@
 		598744D41AA22D63000265C6 /* PurdueCourseAssistantTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744D31AA22D63000265C6 /* PurdueCourseAssistantTests.m */; };
 		598744DF1AA2381E000265C6 /* Course.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744DE1AA2381E000265C6 /* Course.m */; };
 		598744E21AA23890000265C6 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 598744E11AA23890000265C6 /* User.m */; };
+		59A1723F1AD79506006577B6 /* MainPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59A1723E1AD79506006577B6 /* MainPageViewController.m */; };
 		59E82BE71AA81C1300BA1783 /* PretestViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E82BE61AA81C1300BA1783 /* PretestViewController.m */; };
 		59E82BEA1AA81C5A00BA1783 /* Pretest.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E82BE91AA81C5A00BA1783 /* Pretest.m */; };
 		59E82BED1AA81C8100BA1783 /* Question.m in Sources */ = {isa = PBXBuildFile; fileRef = 59E82BEC1AA81C8100BA1783 /* Question.m */; };
@@ -66,6 +67,8 @@
 		598744DE1AA2381E000265C6 /* Course.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Course.m; sourceTree = "<group>"; };
 		598744E01AA23890000265C6 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
 		598744E11AA23890000265C6 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		59A1723D1AD79506006577B6 /* MainPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainPageViewController.h; sourceTree = "<group>"; };
+		59A1723E1AD79506006577B6 /* MainPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainPageViewController.m; sourceTree = "<group>"; };
 		59E82BE51AA81C1300BA1783 /* PretestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PretestViewController.h; sourceTree = "<group>"; };
 		59E82BE61AA81C1300BA1783 /* PretestViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PretestViewController.m; sourceTree = "<group>"; };
 		59E82BE81AA81C5A00BA1783 /* Pretest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Pretest.h; sourceTree = "<group>"; };
@@ -129,13 +132,15 @@
 			isa = PBXGroup;
 			children = (
 				894E7D071AA82C4B00990FE3 /* FeedbackViewController.h */,
+				894E7D081AA82C4B00990FE3 /* FeedbackViewController.m */,
 				693548A81AA8B3A100A2C04D /* SaveTheInfoViewController.h */,
 				693548A91AA8B3A100A2C04D /* SaveTheInfoViewController.m */,
-				894E7D081AA82C4B00990FE3 /* FeedbackViewController.m */,
 				76F0D8921AA8103C00802941 /* CourseListTableViewController.h */,
 				76F0D8931AA8103C00802941 /* CourseListTableViewController.m */,
 				76F0D8981AA810AF00802941 /* CourseViewViewController.h */,
 				76F0D8991AA810AF00802941 /* CourseViewViewController.m */,
+				59A1723D1AD79506006577B6 /* MainPageViewController.h */,
+				59A1723E1AD79506006577B6 /* MainPageViewController.m */,
 				60D9D9091AA7C4EE00FE8FD1 /* MyInfoViewController.h */,
 				60D9D9071AA7C4E500FE8FD1 /* MyInfoViewController.m */,
 				598744BB1AA22D62000265C6 /* AppDelegate.h */,
@@ -307,6 +312,7 @@
 				598744BD1AA22D62000265C6 /* AppDelegate.m in Sources */,
 				76F0D89A1AA810AF00802941 /* CourseViewViewController.m in Sources */,
 				59E82BE71AA81C1300BA1783 /* PretestViewController.m in Sources */,
+				59A1723F1AD79506006577B6 /* MainPageViewController.m in Sources */,
 				693548AA1AA8B3A100A2C04D /* SaveTheInfoViewController.m in Sources */,
 				596006101AD1DD520031D833 /* ServerInfo.m in Sources */,
 				309F1DAC1AA7CD63003C14EB /* ForgotPasswordViewController.m in Sources */,

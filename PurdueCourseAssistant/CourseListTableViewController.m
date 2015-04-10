@@ -10,13 +10,19 @@
 #import "Course.h"
 @interface CourseListTableViewController ()
 
+
 @end
+
+NSArray * list;
+NSUInteger count;
+NSString * courses;
+int i;
 
 @implementation CourseListTableViewController
 - (void)viewDidLoad {
   
   [super viewDidLoad];
-  
+  /*
   Course * course1 = [[Course alloc] init];
   course1.courseName = @"CS381";
   course1.courseDescription = @"asd";
@@ -32,12 +38,19 @@
   course2.courseTag = @"234";
   course2.courseRating = [NSNumber numberWithDouble:2];
   course2.courseComment = @[@"go!o!d", @"bad!"];
-  [self.courseList addObject: course2];
+  [self.courseList addObject: course2];*/
   // Uncomment the following line to preserve selection between presentations.
   // self.clearsSelectionOnViewWillAppear = NO;
   
   // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
   // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    courses = course.courseList;
+    NSLog(@"courseList in ListVC = %@", courses);
+    list = [courses componentsSeparatedByString:@"|"];
+    count = [list count];
+    i = 1;
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -56,25 +69,28 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
   // Return the number of rows in the section.
   //NSLog(@"flag 1= %u", [self.courseList count]);
-  return [self.courseList count];
+  //return [self.courseList count];
+    return count-1;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   printf("~~~~~~~~\n");
-  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
+  
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
   
   //cell.textLabel.text = [tabledata objectAtIndex:indexPath.row];
   if(cell == nil)
   {
     NSLog(@"~~~~~~~~\n");
   }
-  Course *current = [self.courseList objectAtIndex:indexPath.row];
-  
-  cell.textLabel.text = current.courseName;//@"asa";//current.courseName;
+  //Course *current = [self.courseList objectAtIndex:indexPath.row];
+    
+    cell.textLabel.text = list[i++];//@"asa";//current.courseName;
   // Configure the cell...
   
   return cell;
+    
 }
 
 
@@ -123,8 +139,12 @@
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
   [tableView deselectRowAtIndexPath:indexPath animated:NO];
-  Course *currentCourse = [self.courseList objectAtIndex:indexPath.row];
-  NSLog(@"%@\n",currentCourse.courseName);
+  //Course *currentCourse = [self.courseList objectAtIndex:indexPath.row];
+    
+    NSInteger j = indexPath.row;
+    //NSLog(@"flag count = %lu, j = %lu, courseName = %@\n",[list count], j, list[j]);
+    course.courseName = list[j+1];
+    //NSLog(@"courseName ===== %@\n", course.courseName);
 }
 
 @end

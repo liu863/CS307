@@ -8,6 +8,8 @@
 
 #import "SaveTheInfoViewController.h"
 #import "ServerInfo.h"
+#import "User.h"
+#import "Course.h"
 
 @interface SaveTheInfoViewController ()
 
@@ -43,19 +45,20 @@ NSString * s;
     NSString *courselist = [_courselist text];
     if([_nickname.text length] != 0) {
         NSLog(@"%@", nickname);
-        NSString *changen = [NSString stringWithFormat:@"changen|%@|%@", username, nickname];
+        NSString *changen = [NSString stringWithFormat:@"changen|%@|%@", user.user_id, nickname];
         [self sendRequest: changen];
         [self initNetworkCommunication];
     }
     if([_email.text length] != 0) {
         NSLog(@"%@", email);
-        NSString *changee = [NSString stringWithFormat:@"changee|%@|%@", username, email];
+        user.email = email;
+        NSString *changee = [NSString stringWithFormat:@"changee|%@|%@", user.user_id, email];
         [self sendRequest: changee];
         [self initNetworkCommunication];
     }
     if([_courselist.text length] != 0) {
         NSLog(@"%@", courselist);
-        NSString *changec = [NSString stringWithFormat:@"changec|%@|%@", username, courselist];
+        NSString *changec = [NSString stringWithFormat:@"changec|%@|%@", user.user_id, courselist];
         [self sendRequest:changec];
     }
 }

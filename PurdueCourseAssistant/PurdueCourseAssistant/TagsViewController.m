@@ -33,7 +33,7 @@ int count = 0;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self initNetworkCommunication];
-    [self sendRequest: @"getclst|123"];
+    [self sendRequest: @"getclst|013"];
     
 }
 
@@ -66,11 +66,11 @@ int count = 0;
             }
         }
         NSString * tags_send = [NSString stringWithFormat:@"getclst|%@", courselist_tags];
-       
+        NSLog(@"sent message: %@", tags_send);
+
         
         [self sendRequest: tags_send];
         //[self initNetworkCommunication];
-         NSLog(@"sent message: %@", tags_send);
     }
 }
 
@@ -257,9 +257,9 @@ int count = 0;
                     // Process Server Respond
                     /***************************************************/
                     NSLog(@"Respond received: %@", s);
-                    NSArray * respond = [s componentsSeparatedByString:@"|"];
+                    //NSArray * respond = [s componentsSeparatedByString:@"|"];
                     
-                    course.courseList = respond[1];
+                    course.courseList = s;
                     
                     /***************************************************/
                     // End

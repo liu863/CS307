@@ -106,7 +106,7 @@ NSString * s;
           
           NSInteger b = [new integerValue];
           //course.courseRating = [NSNumber numberWithInteger:b];
-          NSLog(@"Respo received: %d", b);
+          //NSLog(@"Respo received: %d", b);
           if (b == 0)
           {
             self.rate.text =[NSString stringWithFormat:@"0.%d",  0];
@@ -126,10 +126,22 @@ NSString * s;
           course.courseDescription = respond[3];
           NSString *tads = respond[4];
           course.courseTag = respond[4];
+            
+            if([tads length] != 0){
           self.tag1.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
-          NSLog(@"Respo received: %@", self.rate.text);
+                NSLog(@"tag = 0, Respo received: %@", self.rate.text);
           self.tag2.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
+
           self.tag3.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
+            }
+            else{
+                self.tag1.text = @"1";
+                NSLog(@"tag != 0, Respo received: %@", self.rate.text);
+                self.tag2.text = @"2";
+                
+                self.tag3.text = @"3";
+            }
+
           self.Comment.text = respond[6];
           course.courseComment = respond[6];
            NSLog(@"Respo received: %@", self.rate.text);
