@@ -27,13 +27,23 @@
 @property (weak, nonatomic) IBOutlet UIButton *tag6;
 - (IBAction)tag6Pressed:(id)sender;
 
-
 @property (weak, nonatomic) IBOutlet UIButton *tag7;
+- (IBAction)tag7Pressed:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIButton *tag8;
+- (IBAction)tag8Pressed:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIButton *tag9;
+- (IBAction)tag9Pressed:(id)sender;
+
 @property (weak, nonatomic) IBOutlet UIButton *tag10;
-@property (weak, nonatomic) IBOutlet UIButton *tag11;
-@property (weak, nonatomic) IBOutlet UIButton *tag12;
+- (IBAction)tag10:(id)sender;
+
+
+-(void)initNetworkCommunication;
+-(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode;
+-(void)sendRequest: (NSString *) request;
+
 @property (weak, nonatomic) IBOutlet UIButton *go;
 - (IBAction)goPressed:(id)sender;
 
