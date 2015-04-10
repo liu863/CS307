@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="0WM-Sh-R0o">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="0WM-Sh-R0o">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -791,7 +791,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YIw-qB-uuN">
-                                <rect key="frame" x="47" y="244" width="60" height="60"/>
+                                <rect key="frame" x="47" y="304" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="TAG">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -801,7 +801,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iHa-Ef-SqF">
-                                <rect key="frame" x="269" y="244" width="60" height="60"/>
+                                <rect key="frame" x="268" y="304" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="TAG">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -811,32 +811,34 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zyR-ao-945">
-                                <rect key="frame" x="47" y="451" width="60" height="60"/>
+                                <rect key="frame" x="47" y="527" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="TAG">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="tag8Pressed:" destination="CiD-kw-Ek7" eventType="touchUpInside" id="xU6-C2-s5L"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8ck-2Y-Zdw">
-                                <rect key="frame" x="268" y="349" width="60" height="60"/>
+                                <rect key="frame" x="268" y="416" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="TAG">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Umn-Y5-g1a">
-                                <rect key="frame" x="102" y="555" width="60" height="60"/>
-                                <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="TAG">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <connections>
+                                    <action selector="tag7Pressed:" destination="CiD-kw-Ek7" eventType="touchUpInside" id="ykC-nx-2LS"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LmG-sr-mjj">
-                                <rect key="frame" x="268" y="451" width="60" height="60"/>
+                                <rect key="frame" x="268" y="527" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="TAG">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="tag10:" destination="CiD-kw-Ek7" eventType="touchUpInside" id="9Ae-5y-qIY"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iwp-7E-1NJ">
                                 <rect key="frame" x="157" y="244" width="60" height="60"/>
@@ -849,7 +851,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SCv-GW-PLe">
-                                <rect key="frame" x="47" y="349" width="60" height="60"/>
+                                <rect key="frame" x="47" y="416" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="TAG">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -864,32 +866,18 @@
                                 <state key="normal" title="TAG">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Y24-8U-WYH">
-                                <rect key="frame" x="213" y="555" width="60" height="60"/>
-                                <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="TAG">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
+                                <connections>
+                                    <action selector="tag9Pressed:" destination="CiD-kw-Ek7" eventType="touchUpInside" id="idg-6K-3G5"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cka-S1-Pf4">
-                                <rect key="frame" x="213" y="144" width="60" height="60"/>
+                                <rect key="frame" x="268" y="179" width="60" height="60"/>
                                 <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <state key="normal" title="TAG">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="tag2Pressed:" destination="CiD-kw-Ek7" eventType="touchUpInside" id="54x-Og-Ozf"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tjT-jh-wQ6">
-                                <rect key="frame" x="102" y="144" width="60" height="60"/>
-                                <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <state key="normal" title="TAG">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="tag1Pressed:" destination="CiD-kw-Ek7" eventType="touchUpInside" id="4Uc-JM-EqX"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="F2y-ZB-eRm">
@@ -903,6 +891,16 @@
                                     <segue destination="d6m-L3-N5k" kind="push" id="Nub-Kh-3Kf"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tjT-jh-wQ6">
+                                <rect key="frame" x="47" y="179" width="60" height="60"/>
+                                <color key="backgroundColor" red="0.63970924949999997" green="0.91012415170000005" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="TAG">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="tag1Pressed:" destination="CiD-kw-Ek7" eventType="touchUpInside" id="4Uc-JM-EqX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
@@ -912,8 +910,6 @@
                         <outlet property="go" destination="F2y-ZB-eRm" id="XLa-bp-aZh"/>
                         <outlet property="tag1" destination="tjT-jh-wQ6" id="Hfs-Kd-PtZ"/>
                         <outlet property="tag10" destination="LmG-sr-mjj" id="47E-ui-lL8"/>
-                        <outlet property="tag11" destination="Umn-Y5-g1a" id="nee-Nx-ebP"/>
-                        <outlet property="tag12" destination="Y24-8U-WYH" id="mVH-n5-spV"/>
                         <outlet property="tag2" destination="cka-S1-Pf4" id="85L-9H-1Zu"/>
                         <outlet property="tag3" destination="YIw-qB-uuN" id="cOb-jV-TOp"/>
                         <outlet property="tag4" destination="iwp-7E-1NJ" id="DMl-Cr-lnD"/>
@@ -1163,7 +1159,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="dCl-H5-si4"/>
         <segue reference="pYV-LW-a0u"/>
+        <segue reference="Nub-Kh-3Kf"/>
     </inferredMetricsTieBreakers>
 </document>

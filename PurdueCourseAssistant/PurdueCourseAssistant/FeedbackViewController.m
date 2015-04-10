@@ -8,6 +8,8 @@
 
 #import "FeedbackViewController.h"
 #import "ServerInfo.h"
+#import "Course.h"
+#import "User.h"
 
 @interface FeedbackViewController ()
 
@@ -67,7 +69,7 @@ int tag[10] = {0,0,0,0,0,0,0,0,0,0};
         i++;
     }
     
-    NSString * feedback_send = [NSString stringWithFormat:@"comment|qi33|CS307|%@|%@|%@", feedback_rating, feedback_tags, [_comment text]];
+    NSString * feedback_send = [NSString stringWithFormat:@"comment|%@|%@|%@|%@|%@", user.user_id,course.courseName, feedback_rating, feedback_tags, [_comment text]];
     NSLog(@"%@", feedback_send);
     
     [self initNetworkCommunication];
@@ -252,7 +254,6 @@ int tag[10] = {0,0,0,0,0,0,0,0,0,0};
     NSData *data = [[NSData alloc] initWithData:[tmp dataUsingEncoding:NSASCIIStringEncoding]];
     [outputStream write:[data bytes] maxLength:[data length]];
     [outputStream close];
-    [self initNetworkCommunication];
 }
 
 @end

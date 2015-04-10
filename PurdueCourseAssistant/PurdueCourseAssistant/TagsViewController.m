@@ -8,6 +8,8 @@
 
 #import "TagsViewController.h"
 #import "ServerInfo.h"
+#import "Course.h"
+#import "User.h"
 
 
 @interface TagsViewController ()
@@ -30,6 +32,9 @@ int count = 0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [self initNetworkCommunication];
+    [self sendRequest: @"getclst|123"];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -61,9 +66,11 @@ int count = 0;
             }
         }
         NSString * tags_send = [NSString stringWithFormat:@"getclst|%@", courselist_tags];
-        NSLog(@"%@", tags_send);
-        [self initNetworkCommunication];
+       
+        
         [self sendRequest: tags_send];
+        //[self initNetworkCommunication];
+         NSLog(@"sent message: %@", tags_send);
     }
 }
 
@@ -207,7 +214,7 @@ int count = 0;
     ServerInfo * server = [[ServerInfo alloc] init];
     CFStringRef hostAddress = (__bridge CFStringRef)server.hostAddress;
     int port = [server.port intValue];
-    NSLog(@"host = %@, port = %d", hostAddress, port);
+    // NSLog(@"host = %@, port = %d", hostAddress, port);
     CFStreamCreatePairWithSocketToHost(kCFAllocatorDefault, hostAddress, port, &readStream, &writeStream);
     if(!CFWriteStreamOpen(writeStream)) {
         NSLog(@"Error: writeStream");
@@ -230,12 +237,14 @@ int count = 0;
     switch (eventCode) {
         case NSStreamEventHasSpaceAvailable: {
             if(stream == outputStream){
-                NSLog(@"none\n");
+                NSLog(@"Output Stream\n");
             }
             break;
         }
         case NSStreamEventHasBytesAvailable: {
+            NSLog(@"flag 0");
             if(stream == inputStream) {
+                NSLog(@"flag 1");
                 uint8_t buf[1024];
                 unsigned int len = 0;
                 len = [inputStream read:buf maxLength:1024];
@@ -243,7 +252,18 @@ int count = 0;
                     NSMutableData* data=[[NSMutableData alloc] initWithLength:0];
                     [data appendBytes: (const void *)buf length:len];
                     s = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
+                    
+                    /***************************************************/
+                    // Process Server Respond
+                    /***************************************************/
                     NSLog(@"Respond received: %@", s);
+                    NSArray * respond = [s componentsSeparatedByString:@"|"];
+                    
+                    course.courseList = respond[1];
+                    
+                    /***************************************************/
+                    // End
+                    /***************************************************/
                 }
             }
             break;
@@ -253,7 +273,6 @@ int count = 0;
             break;
         }
         default: {
-            NSLog(@"Stream is sending an Event: %lu", eventCode);
             break;
         }
     }
@@ -264,7 +283,6 @@ int count = 0;
     NSData *data = [[NSData alloc] initWithData:[tmp dataUsingEncoding:NSASCIIStringEncoding]];
     [outputStream write:[data bytes] maxLength:[data length]];
     [outputStream close];
-    [self initNetworkCommunication];
 }
 
 @end
