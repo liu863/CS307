@@ -11,5 +11,8 @@
 @interface SignInViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UITextField *username;
 @property (weak, nonatomic) IBOutlet UITextField *password;
+-(void)initNetworkCommunication;
+-(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode;
+-(void)sendRequest: (NSString *) request;
 
 @end
