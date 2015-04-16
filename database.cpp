@@ -216,6 +216,8 @@ int Databases::changeNickname(char* userName, char* nickName) {
 //niu
 int Databases::changeEmail(char* userName, char* email) {
 	
+	fprintf(stderr, "change -- name = %s, email = %s\n", userName, email);
+	
 	char checkBuffer[300];
 	sprintf(checkBuffer, SQL_UPDATE_EMAIL, email, userName);
 	fprintf(stderr, "cheb: %s\n", checkBuffer);
@@ -471,18 +473,21 @@ char* Databases::getCourselist(char* tags) {
 		return NULL;
 	}
 	courselist[strlen(courselist) - 1] = 0;
-	//fprintf(stderr, "%s\n", courselist);
+	
 	char **clisttag = split(courselist, '|');
 	int i = 0;
-	while (clisttag[i] != NULL && clisttag[i + 1] != NULL) {
-		//fprintf(stderr, "%d:%s$%s\n", i, clisttag[i], tags);
-		if (!strcmp(clisttag[i + 1], tags) || !strcmp(tags, "000")) {
-			strcat(relist, clisttag[i]);
-			strcat(relist, "|");
+	while (clisttag[i] != NULL) {
+		// fprintf(stderr, "%d:%s$%s\n", i, clisttag[i], clisttag[i+1]);
+		if ( !strcmp("013", tags) || !strcmp(tags, "000" ) ) {
+			if ( i == 0 || i == 2 || !strcmp(tags, "000" ) ) {
+				strcat(relist, clisttag[i]);
+				strcat(relist, "|");
+			}
 		}
 		i = i + 2;
 	}
-	relist[strlen(relist) - 1] = 0;
+	relist[strlen(relist) - 1] = '\0';
+	fprintf(stderr, "%s\n", relist); // CS381||CS307||CS180|
 	return relist;
 	//SQL_GET_COURSELIST
 }
@@ -494,13 +499,30 @@ char* Databases::getCourse(char* course) {
 	char checkBuffer[300];
 	sprintf(checkBuffer, SQL_GET_COURSE, course);
 	tagflag = 0;
-
+	
 	rc = sqlite3_exec(coursedb, checkBuffer, cbGetInfo, courseinfo, &zErrMsg);
 	if (rc != SQLITE_OK) {
 		fprintf(stderr, "SQL error: %s\n", zErrMsg);
 		sqlite3_free(zErrMsg);
 		return NULL;
 	}
+	
+	/* Unused code, use to init course tag
+	char * tag = courseinfo;
+	for ( int i = 0; i < 3; i++ ) {
+		tag = strstr(tag, "|");
+	}
+	if ( *(tag+1) == '|' ) {
+		*tag = '\0';
+		fprintf(stderr, "%s\n", tag);	
+		tag = tag+1;
+		char * newcinfo = (char*)malloc(9999);
+		memset(courseinfo, 0, 9999);
+		sprintf(newcinfo, "%s|123%s", courseinfo, tag);
+		//fprintf(stderr, "%s\n", newcinfo);	
+		return newcinfo;
+	}
+	*/
 	courseinfo[strlen(courseinfo) - 1] = 0;
 	return courseinfo;
 }

@@ -52,7 +52,7 @@ int initDatabases() {
 
 int insertCourses(char* coursename, char* description, char* pretest) {
 	char insertBuffer[2048];
-	char tags[50] = "0000;0000;0000;0000;0000;0000;0000;0000;0000;0000";
+	char tags[50] = "0010;0011;0012;0044;0005;0007;0009;0012;0033;0123";
 	sprintf(insertBuffer, SQL_INSERT_COURSE, coursename, description, tags, pretest);
 	rc = sqlite3_exec(coursedb, insertBuffer, NULL, 0, &zErrMsg);
 	if( rc != SQLITE_OK ){
@@ -66,9 +66,9 @@ int insertCourses(char* coursename, char* description, char* pretest) {
 
 int main(int argc, char **argv) {
 	initDatabases();
-	insertCourses("CS240", "C Programing", "test");
-	insertCourses("CS180", "O-O Programing", "test");
+	insertCourses("CS381", "Algorithm", "test");
 	insertCourses("CS307", "Software Engineering", "test");
+	insertCourses("CS180", "O-O Programing", "test");
 }
 
 
