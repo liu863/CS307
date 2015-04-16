@@ -266,24 +266,28 @@ int cbGetInfo(void *info, int argc, char **argv, char **azColName) {
 		//fprintf(stderr, "%d %s = %s\n",argc, azColName[i], argv[i] ? argv[i] : "NULL");
 		if (!strcmp(azColName[i], "TAGS")) {
 			if (tagflag == 0) {
-				int j, k, tags[10];
+				int j, k, tags[10] = {0};
 				//change into 3 ints
 				for (j = 0; j < 10; j++) {
 					char temp[5] = {0};
 					strncpy(temp, argv[i] + j * 5, 4);
 					tags[j] = atoi(temp);
 				}
+				/*
+				for (j = 0; j < 10; j++)
+					fprintf(stderr, "%d ", tags[j]);
+				*/
 				int in1 = 0, in2 = 0, in3 = 0;
 				for (j = 0; j < 10; j++) {
-					in1 = tags[j] > tags[in1] ? j : in1;
+					in1 = tags[j] >= tags[in1] ? j : in1;
 				}
 				for (j = 0; j < 10; j++) {
 					if (j != in1)
-						in2 = tags[j] > tags[in2] ? j : in2;
+						in2 = tags[j] >= tags[in2] ? j : in2;
 				}
 				for (j = 0; j < 10; j++) {
 					if (j != in1 && j != in2)
-						in3 = tags[j] > tags[in3] ? j : in3;
+						in3 = tags[j] >= tags[in3] ? j : in3;
 				}
 				//fprintf(stderr, "index: %d %d %d\n", in1, in2, in3);
 				char tagtouser[4] = {0};
