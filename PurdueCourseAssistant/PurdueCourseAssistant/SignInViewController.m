@@ -29,6 +29,9 @@ NSString *s;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    course = [[Course alloc] init];
+    user = [[User alloc] init];
+    
     _password.secureTextEntry = true;
     
     [self initNetworkCommunication];    // Do any additional setup after loading the view.

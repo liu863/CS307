@@ -33,10 +33,21 @@ int count;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     count = 0;
-    [self initNetworkCommunication];
-    //[self sendRequest: @"getclst|013"];
-    NSLog(@"init count:%d", count);
+    for (int i = 0; i < 10; i++) {
+        tags[i] = 0;
+    }
     
+    [_tag1 setTitle:@"Tag1" forState:UIControlStateNormal];
+    [_tag2 setTitle:@"Tag2" forState:UIControlStateNormal];
+    [_tag3 setTitle:@"Tag3" forState:UIControlStateNormal];
+    [_tag4 setTitle:@"Tag4" forState:UIControlStateNormal];
+    [_tag5 setTitle:@"Tag5" forState:UIControlStateNormal];
+    [_tag6 setTitle:@"Tag6" forState:UIControlStateNormal];
+    [_tag7 setTitle:@"Tag7" forState:UIControlStateNormal];
+    [_tag8 setTitle:@"Tag8" forState:UIControlStateNormal];
+    [_tag9 setTitle:@"Tag9" forState:UIControlStateNormal];
+    [_tag10 setTitle:@"Tag10" forState:UIControlStateNormal];
+
 }
 
 - (void)didReceiveMemoryWarning {
@@ -55,8 +66,8 @@ int count;
 */
 
 - (IBAction)goPressed:(id)sender {
+    NSString * courselist_tags = @"";
     if (count != 3) {
-        count = 0;
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error!" message:@"You can not choose more or less than 3 tags!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
         [alertView show];
         UIColor * lightblue = [[UIColor alloc] initWithRed:0.63970924949999997 green:0.91012415170000005 blue:1 alpha:1];
@@ -70,21 +81,16 @@ int count;
         [_tag8 setBackgroundColor:lightblue];
         [_tag9 setBackgroundColor:lightblue];
         [_tag10 setBackgroundColor:lightblue];
-        for (int i = 0; i < 10; i++)
-            tags[i] = 0;
     }
     else {
-        NSString * courselist_tags = @"";
-
         for (int i = 0; i < 10; i++) {
             if (tags[i] == 1) {
                 courselist_tags = [courselist_tags stringByAppendingString:[NSString stringWithFormat:@"%d", i]];
             }
-            tags[i] = 0;
         }
-        course.tags = courselist_tags;
-        NSString * tags_send = [NSString stringWithFormat:@"getclst|%@", courselist_tags];
-        NSLog(@"sent message: %@", tags_send);
+        course.tags = [NSString stringWithString: courselist_tags];
+        // Send the request list to server
+        // NSString * tags_send = [NSString stringWithFormat:@"getclst|%@", courselist_tags];
         
         UIColor * lightblue = [[UIColor alloc] initWithRed:0.63970924949999997 green:0.91012415170000005 blue:1 alpha:1];
         [_tag1 setBackgroundColor:lightblue];
@@ -97,12 +103,24 @@ int count;
         [_tag8 setBackgroundColor:lightblue];
         [_tag9 setBackgroundColor:lightblue];
         [_tag10 setBackgroundColor:lightblue];
-        [self sendRequest: tags_send];
-        //[self initNetworkCommunication];
     }
     count = 0;
+    for (int i = 0; i < 10; i++) {
+        tags[i] = 0;
+    }
     NSLog(@"count:%d", count);
+    NSLog(@"global tags %@", course.tags);
     sleep(1);
+}
+
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqualToString:@"Segue_Name"]) {
+        NSLog(@"Segue Blocked");
+        //Put your validation code here and return YES or NO as needed
+        return NO;
+    }
+    
+    return YES;
 }
 
 - (IBAction)tag1Pressed:(id)sender {
