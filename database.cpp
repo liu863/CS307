@@ -720,7 +720,38 @@ int Databases::updateComment(char* course, char* comment) {
 	}
 }
 
+void encode ( char * plainText ){
+	encrypt( "cs307", plainText );
+}
 
+void decode ( char * plainText ){
+	decrypt( "cs307", plainText );
+}
+
+void encrypt( char *key, char *string )
+{
+    int i, string_length = strlen(string);
+    //fprintf(stderr, "strlen = %d\n", string_length );
+
+    for( i=0; i < string_length; i++)
+    {
+        string[i]=string[i]^key[i];
+        string[i]+=1;
+    }
+}
+
+
+void decrypt( char *key, char *string )
+{
+    int i, string_length = strlen(string);
+
+    for( i=0; i < string_length; i++)
+    {
+    	string[i]-=1;
+        string[i]=string[i]^key[i];
+        
+    }
+}
 
 
 

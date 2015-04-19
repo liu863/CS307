@@ -15,7 +15,11 @@ struct Databases{
 	int updateTags(char* course, char* tags);
 	int updateComment(char* course, char* comment);
 	
-	
 	int destroyDatabases();	
 	void closedatabase();
 };
+
+void encrypt(char *key, char *string);
+void decrypt( char *key, char *string );
+void encode ( char * plainText );
+void decode ( char * plainText );
