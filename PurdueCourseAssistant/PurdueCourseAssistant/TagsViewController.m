@@ -74,7 +74,6 @@ int count;
             tags[i] = 0;
     }
     else {
-        course.fromtags = @"YES";
         NSString * courselist_tags = @"";
 
         for (int i = 0; i < 10; i++) {
@@ -83,6 +82,7 @@ int count;
             }
             tags[i] = 0;
         }
+        course.tags = courselist_tags;
         NSString * tags_send = [NSString stringWithFormat:@"getclst|%@", courselist_tags];
         NSLog(@"sent message: %@", tags_send);
         
