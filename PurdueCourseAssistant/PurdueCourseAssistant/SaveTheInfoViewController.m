@@ -31,6 +31,9 @@ NSString * s;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self initNetworkCommunication];
+    _email.text = user.email;
+    _nickname.text = user.nickname;
+    _courselist.text = user.courses;
 }
 
 - (void)didReceiveMemoryWarning {

@@ -14,6 +14,7 @@
 extern User *user;
 
 @property (strong, nonatomic) NSString * user_id;
+@property (strong, nonatomic) NSString * nickname;
 @property (strong, nonatomic) NSString * pwd;
 @property (strong, nonatomic) NSString * email;
 @property (strong, nonatomic) NSString * courses;

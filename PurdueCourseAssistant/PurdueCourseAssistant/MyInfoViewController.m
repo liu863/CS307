@@ -30,6 +30,7 @@ NSString * s;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    _Courses.editable = NO;
     [self initNetworkCommunication];
     NSString *tmp = [NSString stringWithFormat:@"getuinf|%@", user.user_id];
     [self sendRequest: tmp];
@@ -91,11 +92,11 @@ NSString * s;
                     NSArray * respond = [s componentsSeparatedByString:@"|"];
                     
                     user.email = respond[3];
-                    user.user_id = respond[4];
+                    user.nickname = respond[4];
                     user.courses = respond[5];
                     
                     _Emailaddr.text = user.email;
-                    _Name.text = user.user_id;
+                    _Name.text = user.nickname;
                     _Courses.text = user.courses;
                     /***************************************************/
                     // End
@@ -121,6 +122,12 @@ NSString * s;
     NSData *data = [[NSData alloc] initWithData:[tmp dataUsingEncoding:NSASCIIStringEncoding]];
     [outputStream write:[data bytes] maxLength:[data length]];
     [outputStream close];
+}
+
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self viewDidLoad];
 }
 
 /*
