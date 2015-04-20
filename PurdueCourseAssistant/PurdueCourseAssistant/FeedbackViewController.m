@@ -25,11 +25,25 @@ NSOutputStream *outputStream;
 
 NSString * s;
 
-int tag[10] = {0,0,0,0,0,0,0,0,0,0};
+static int tag[10];
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    for (int i = 0; i < 10; i++) {
+        tag[i] = 0;
+    }
     [_score setText:@"4.0/5.0"];
+    [_tag1 setTitle:@"Tag1" forState:UIControlStateNormal];
+    [_tag2 setTitle:@"Tag2" forState:UIControlStateNormal];
+    [_tag3 setTitle:@"Tag3" forState:UIControlStateNormal];
+    [_tag4 setTitle:@"Tag4" forState:UIControlStateNormal];
+    [_tag5 setTitle:@"Tag5" forState:UIControlStateNormal];
+    [_tag6 setTitle:@"Tag6" forState:UIControlStateNormal];
+    [_tag7 setTitle:@"Tag7" forState:UIControlStateNormal];
+    [_tag8 setTitle:@"Tag8" forState:UIControlStateNormal];
+    [_tag9 setTitle:@"Tag9" forState:UIControlStateNormal];
+    [_tag10 setTitle:@"Tag10" forState:UIControlStateNormal];
+
     // Do any additional setup after loading the view.
 }
 
