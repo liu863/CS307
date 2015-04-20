@@ -894,7 +894,7 @@
                                 </state>
                                 <connections>
                                     <action selector="goPressed:" destination="CiD-kw-Ek7" eventType="touchUpInside" id="Ls9-aa-Jsj"/>
-                                    <segue destination="d6m-L3-N5k" kind="push" id="Nub-Kh-3Kf"/>
+                                    <segue destination="d6m-L3-N5k" kind="push" identifier="go" id="Nub-Kh-3Kf"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tjT-jh-wQ6">

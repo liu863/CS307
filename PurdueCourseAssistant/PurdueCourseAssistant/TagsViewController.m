@@ -26,13 +26,15 @@ NSOutputStream *outputStream;
 
 NSString * s;
 
-int tags[10] = {0,0,0,0,0,0,0,0,0,0};
-int count;
+static int tags[10];
+static int count;
+static int perform;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     count = 0;
+    perform = 0;
     for (int i = 0; i < 10; i++) {
         tags[i] = 0;
     }
@@ -81,6 +83,7 @@ int count;
         [_tag8 setBackgroundColor:lightblue];
         [_tag9 setBackgroundColor:lightblue];
         [_tag10 setBackgroundColor:lightblue];
+        perform = 0;
     }
     else {
         for (int i = 0; i < 10; i++) {
@@ -103,24 +106,21 @@ int count;
         [_tag8 setBackgroundColor:lightblue];
         [_tag9 setBackgroundColor:lightblue];
         [_tag10 setBackgroundColor:lightblue];
+        perform = 1;
     }
     count = 0;
     for (int i = 0; i < 10; i++) {
         tags[i] = 0;
     }
-    NSLog(@"count:%d", count);
     NSLog(@"global tags %@", course.tags);
     sleep(1);
 }
 
 - (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    if ([identifier isEqualToString:@"Segue_Name"]) {
-        NSLog(@"Segue Blocked");
-        //Put your validation code here and return YES or NO as needed
-        return NO;
+    if ([identifier isEqual:@"go"] && perform == 1) {
+        return YES;
     }
-    
-    return YES;
+    return NO;
 }
 
 - (IBAction)tag1Pressed:(id)sender {
