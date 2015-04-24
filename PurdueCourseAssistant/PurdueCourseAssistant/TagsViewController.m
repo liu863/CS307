@@ -39,17 +39,16 @@ static int perform;
         tags[i] = 0;
     }
     
-    [_tag1 setTitle:@"Tag1" forState:UIControlStateNormal];
-    [_tag2 setTitle:@"Tag2" forState:UIControlStateNormal];
-    [_tag3 setTitle:@"Tag3" forState:UIControlStateNormal];
-    [_tag4 setTitle:@"Tag4" forState:UIControlStateNormal];
-    [_tag5 setTitle:@"Tag5" forState:UIControlStateNormal];
-    [_tag6 setTitle:@"Tag6" forState:UIControlStateNormal];
-    [_tag7 setTitle:@"Tag7" forState:UIControlStateNormal];
-    [_tag8 setTitle:@"Tag8" forState:UIControlStateNormal];
-    [_tag9 setTitle:@"Tag9" forState:UIControlStateNormal];
-    [_tag10 setTitle:@"Tag10" forState:UIControlStateNormal];
-
+    [_tag1 setTitle:@"Easy" forState:UIControlStateNormal];
+    [_tag2 setTitle:@"Hard" forState:UIControlStateNormal];
+    [_tag3 setTitle:@"Group" forState:UIControlStateNormal];
+    [_tag4 setTitle:@"Solo" forState:UIControlStateNormal];
+    [_tag5 setTitle:@"Tedious" forState:UIControlStateNormal];
+    [_tag6 setTitle:@"Funny" forState:UIControlStateNormal];
+    [_tag7 setTitle:@"Useful" forState:UIControlStateNormal];
+    [_tag8 setTitle:@"Lab" forState:UIControlStateNormal];
+    [_tag9 setTitle:@"Busy" forState:UIControlStateNormal];
+    [_tag10 setTitle:@"Serious" forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -57,15 +56,25 @@ static int perform;
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)sendTagRequest {
+    NSString * courselist_tags = @"";
+    if (count == 3) {
+        [self initNetworkCommunication];
+        
+        for (int i = 0; i < 10; i++) {
+            if (tags[i] == 1) {
+                courselist_tags = [courselist_tags stringByAppendingString:[NSString stringWithFormat:@"%d", i]];
+            }
+        }
+        course.tags = [NSString stringWithString: courselist_tags];
+        
+        // Send the request list to server
+        NSString * tags_send = [NSString stringWithFormat:@"getclst|%@", courselist_tags];
+        NSLog(@"%@", tags_send);
+        
+        [self sendRequest:tags_send];
+    }
 }
-*/
 
 - (IBAction)goPressed:(id)sender {
     NSString * courselist_tags = @"";
@@ -86,15 +95,6 @@ static int perform;
         perform = 0;
     }
     else {
-        for (int i = 0; i < 10; i++) {
-            if (tags[i] == 1) {
-                courselist_tags = [courselist_tags stringByAppendingString:[NSString stringWithFormat:@"%d", i]];
-            }
-        }
-        course.tags = [NSString stringWithString: courselist_tags];
-        // Send the request list to server
-        // NSString * tags_send = [NSString stringWithFormat:@"getclst|%@", courselist_tags];
-        
         UIColor * lightblue = [[UIColor alloc] initWithRed:0.63970924949999997 green:0.91012415170000005 blue:1 alpha:1];
         [_tag1 setBackgroundColor:lightblue];
         [_tag2 setBackgroundColor:lightblue];
@@ -136,7 +136,9 @@ static int perform;
         count--;
     }
     NSLog(@"this is 0 count:%d", count);
+    [self sendTagRequest];
 }
+
 - (IBAction)tag2Pressed:(id)sender {
     if (tags[1] == 0) {
         tags[1] = 1;
@@ -150,6 +152,7 @@ static int perform;
         count--;
     }
     NSLog(@"this is 1 count:%d", count);
+    [self sendTagRequest];
 }
 
 - (IBAction)tag3Pressed:(id)sender {
@@ -165,7 +168,9 @@ static int perform;
         count--;
     }
     NSLog(@"this is 2 count:%d", count);
+    [self sendTagRequest];
 }
+
 - (IBAction)tag4Pressed:(id)sender {
     if (tags[3] == 0) {
         tags[3] = 1;
@@ -179,7 +184,9 @@ static int perform;
         count--;
     }
     NSLog(@"this is 3 count:%d", count);
+    [self sendTagRequest];
 }
+
 - (IBAction)tag5Pressed:(id)sender {
     if (tags[4] == 0) {
         tags[4] = 1;
@@ -193,7 +200,9 @@ static int perform;
         count--;
     }
     NSLog(@"this is 4 count:%d", count);
+    [self sendTagRequest];
 }
+
 - (IBAction)tag6Pressed:(id)sender {
     if (tags[5] == 0) {
         tags[5] = 1;
@@ -207,6 +216,7 @@ static int perform;
         count--;
     }
     NSLog(@"this is 5 count:%d", count);
+    [self sendTagRequest];
 }
 
 - (IBAction)tag7Pressed:(id)sender {
@@ -222,6 +232,7 @@ static int perform;
         count--;
     }
     NSLog(@"this is 6 count:%d", count);
+    [self sendTagRequest];
 }
 
 - (IBAction)tag8Pressed:(id)sender {
@@ -237,6 +248,7 @@ static int perform;
         count--;
     }
     NSLog(@"this is 7 count:%d", count);
+    [self sendTagRequest];
 }
 
 - (IBAction)tag9Pressed:(id)sender {
@@ -252,6 +264,7 @@ static int perform;
         count--;
     }
     NSLog(@"this is 8 count:%d", count);
+    [self sendTagRequest];
 }
 
 - (IBAction)tag10:(id)sender {
@@ -267,6 +280,7 @@ static int perform;
         count--;
     }
     NSLog(@"this is 9 count:%d", count);
+    [self sendTagRequest];
 }
 
 - (void)initNetworkCommunication {
@@ -316,6 +330,7 @@ static int perform;
                     // Process Server Respond
                     /***************************************************/
                     NSLog(@"Respond received: %@", s);
+                    
                     //NSArray * respond = [s componentsSeparatedByString:@"|"];
                     
                     course.courseList = s;

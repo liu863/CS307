@@ -96,7 +96,7 @@ NSString *Email;
                     
                     if ( [s rangeOfString: @"UREXIST"].location != NSNotFound ) {
                         NSLog(@"flag 0");
-                        UIAlertView *alert = [[ UIAlertView alloc] initWithTitle:@"Wrong Message" message:@"Username Existed ,Pleanse change another Username" delegate:self cancelButtonTitle:@"CANCE" otherButtonTitles:@"OK", nil];
+                        UIAlertView *alert = [[ UIAlertView alloc] initWithTitle:@"Wrong Message" message:@"Username Existed ,Pleanse change another Username" delegate:self cancelButtonTitle:@"CANCEL" otherButtonTitles:@"OK", nil];
                         [alert show];
                         
                         

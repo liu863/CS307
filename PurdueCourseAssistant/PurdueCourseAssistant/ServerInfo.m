@@ -13,7 +13,7 @@
 -(id)init{
     self = [super init];
     if(self){
-        _hostAddress = @"128.10.12.144";
+        _hostAddress = @"128.10.12.107";
         _port = @6666;
     }
     return self;

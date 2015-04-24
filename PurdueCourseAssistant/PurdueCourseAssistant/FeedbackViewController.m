@@ -33,17 +33,17 @@ static int tag[10];
         tag[i] = 0;
     }
     [_score setText:@"4.0/5.0"];
-    [_tag1 setTitle:@"Tag1" forState:UIControlStateNormal];
-    [_tag2 setTitle:@"Tag2" forState:UIControlStateNormal];
-    [_tag3 setTitle:@"Tag3" forState:UIControlStateNormal];
-    [_tag4 setTitle:@"Tag4" forState:UIControlStateNormal];
-    [_tag5 setTitle:@"Tag5" forState:UIControlStateNormal];
-    [_tag6 setTitle:@"Tag6" forState:UIControlStateNormal];
-    [_tag7 setTitle:@"Tag7" forState:UIControlStateNormal];
-    [_tag8 setTitle:@"Tag8" forState:UIControlStateNormal];
-    [_tag9 setTitle:@"Tag9" forState:UIControlStateNormal];
-    [_tag10 setTitle:@"Tag10" forState:UIControlStateNormal];
-
+    [_tag1 setTitle:@"Easy" forState:UIControlStateNormal];
+    [_tag2 setTitle:@"Hard" forState:UIControlStateNormal];
+    [_tag3 setTitle:@"Group" forState:UIControlStateNormal];
+    [_tag4 setTitle:@"Solo" forState:UIControlStateNormal];
+    [_tag5 setTitle:@"Tedious" forState:UIControlStateNormal];
+    [_tag6 setTitle:@"Funny" forState:UIControlStateNormal];
+    [_tag7 setTitle:@"Useful" forState:UIControlStateNormal];
+    [_tag8 setTitle:@"Lab" forState:UIControlStateNormal];
+    [_tag9 setTitle:@"Busy" forState:UIControlStateNormal];
+    [_tag10 setTitle:@"Serious" forState:UIControlStateNormal];
+    
     // Do any additional setup after loading the view.
 }
 
@@ -53,14 +53,14 @@ static int tag[10];
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 - (IBAction)sliderChanged:(id)sender {
     NSString *ratingString = [[NSString alloc] initWithFormat:@"%1.1f/5.0", [_slider value]];
@@ -87,11 +87,15 @@ static int tag[10];
     NSLog(@"%@", feedback_send);
     
     [self initNetworkCommunication];
-
+    
     [self sendRequest: feedback_send];
     
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Success" message:@"Thanks for your feedback!" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alertView show];
+    
+    for (int i = 0; i < 10; i++) {
+        tag[i] = 0;
+    }
 }
 
 
