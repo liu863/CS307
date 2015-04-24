@@ -39,14 +39,15 @@ NSString * s;
   [self.Comment setHidden:NO];
 }
 
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self.CourseD setHidden:NO];
   [self.Comment setHidden:YES];
-    // Do any additional setup after loading the view.
+  // Do any additional setup after loading the view.
   [self initNetworkCommunication];
-    NSString *sendR = [NSString stringWithFormat:@"getcinf|%@",  course.courseName];
-
+  NSString *sendR = [NSString stringWithFormat:@"getcinf|%@",  course.courseName];
+  
   [self sendRequest: sendR];//need course name!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
@@ -55,6 +56,13 @@ NSString * s;
   // Dispose of any resources that can be recreated.
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+  
+  [super viewWillAppear:animated];
+  [self viewDidLoad];
+  // Reload your data here, and this gets called
+  // before the view transition is complete.
+}
 
 - (void)initNetworkCommunication {
   ServerInfo * server = [[ServerInfo alloc] init];
@@ -104,7 +112,7 @@ NSString * s;
           
           NSString * new = respond[2];
           
-          NSInteger b = [new integerValue];
+          NSInteger b = [new integerValue]%10;
           //course.courseRating = [NSNumber numberWithInteger:b];
           //NSLog(@"Respo received: %d", b);
           if (b == 0)
@@ -121,30 +129,40 @@ NSString * s;
               self.rate.text = [NSString stringWithFormat:@"%c.%c", [new characterAtIndex:0],[new characterAtIndex:1]];
             }
           }
-
+          
           self.CourseD.text = respond[3];
           course.courseDescription = respond[3];
           NSString *tads = respond[4];
           course.courseTag = respond[4];
+          
+          if([tads length] != 0){
+            self.tag1.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
+            NSLog(@"tag = 0, Respo received: %@", self.rate.text);
+            self.tag2.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
             
-            if([tads length] != 0){
-          self.tag1.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
-                NSLog(@"tag = 0, Respo received: %@", self.rate.text);
-          self.tag2.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
-
-          self.tag3.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
-            }
-            else{
-                self.tag1.text = @"1";
-                NSLog(@"tag != 0, Respo received: %@", self.rate.text);
-                self.tag2.text = @"2";
-                
-                self.tag3.text = @"3";
-            }
-
+            self.tag3.text = [NSString stringWithFormat:@"%c",  [tads characterAtIndex:1]];
+          }
+          else{
+            self.tag1.text = @"1";
+            NSLog(@"tag != 0, Respo received: %@", self.rate.text);
+            self.tag2.text = @"2";
+            
+            self.tag3.text = @"3";
+          }
+          
           self.Comment.text = respond[6];
           course.courseComment = respond[6];
-           NSLog(@"Respo received: %@", self.rate.text);
+          int length = [respond count];
+          NSLog(@" conut %d", length);
+          int tmp = 6;
+          while(tmp < length)
+          {
+            NSLog(@"asdasdas");
+            [course.courseComment addObject:respond[tmp]];
+            self.Comment.text = [NSString stringWithFormat:@"%@\n%@", self.Comment.text, respond[tmp]];
+            tmp++;
+          }
+          NSLog(@"Respo received: %@", self.rate.text);
           
           
           /***************************************************/
