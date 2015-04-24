@@ -15,78 +15,81 @@
 
 NSArray * list;
 NSUInteger count;
-NSString * tags;
 NSString * courses;
 int i;
 
 @implementation CourseListTableViewController
 - (void)viewDidLoad {
-  
-  [super viewDidLoad];
-  /*
-  Course * course1 = [[Course alloc] init];
-  course1.courseName = @"CS381";
-  course1.courseDescription = @"asd";
-  course1.courseTag = @"123";
-  course1.courseRating = [NSNumber numberWithDouble:1.6];
-  course1.courseComment = @[@"good", @"bad"];
-  [self.courseList addObject: course1];
-  //[self.courseList addObject:course1];
-  self.courseList = [[NSMutableArray alloc] initWithObjects: course1, nil];
-  Course * course2 = [[Course alloc] init];
-  course2.courseName = @"CS307";
-  course2.courseDescription = @"a123d";
-  course2.courseTag = @"234";
-  course2.courseRating = [NSNumber numberWithDouble:2];
-  course2.courseComment = @[@"go!o!d", @"bad!"];
-  [self.courseList addObject: course2];*/
-  // Uncomment the following line to preserve selection between presentations.
-  // self.clearsSelectionOnViewWillAppear = NO;
-  
-  // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-  // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    tags = course.tags;
+    [super viewDidLoad];
+    /*
+     Course * course1 = [[Course alloc] init];
+     course1.courseName = @"CS381";
+     course1.courseDescription = @"asd";
+     course1.courseTag = @"123";
+     course1.courseRating = [NSNumber numberWithDouble:1.6];
+     course1.courseComment = @[@"good", @"bad"];
+     [self.courseList addObject: course1];
+     //[self.courseList addObject:course1];
+     self.courseList = [[NSMutableArray alloc] initWithObjects: course1, nil];
+     Course * course2 = [[Course alloc] init];
+     course2.courseName = @"CS307";
+     course2.courseDescription = @"a123d";
+     course2.courseTag = @"234";
+     course2.courseRating = [NSNumber numberWithDouble:2];
+     course2.courseComment = @[@"go!o!d", @"bad!"];
+     [self.courseList addObject: course2];*/
+    // Uncomment the following line to preserve selection between presentations.
+    // self.clearsSelectionOnViewWillAppear = NO;
+    
+    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    courses = course.courseList;
+    NSLog(@"courseList in ListVC = %@", courses);
+    list = [courses componentsSeparatedByString:@"|"];
+    count = [list count];
+    i = 1;
     
 }
 
 - (void)didReceiveMemoryWarning {
-  [super didReceiveMemoryWarning];
-  // Dispose of any resources that can be recreated.
-  
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+    
 }
 
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-  // Return the number of sections.
-  return 1;
+    // Return the number of sections.
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-  // Return the number of rows in the section.
-  //NSLog(@"flag 1= %u", [self.courseList count]);
-  //return [self.courseList count];
+    // Return the number of rows in the section.
+    //NSLog(@"flag 1= %u", [self.courseList count]);
+    //return [self.courseList count];
     return count-1;
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-  printf("~~~~~~~~\n");
-  
+    printf("~~~~~~~~\n");
+    
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"reuse" forIndexPath:indexPath];
-  
-  //cell.textLabel.text = [tabledata objectAtIndex:indexPath.row];
-  if(cell == nil)
-  {
-    NSLog(@"~~~~~~~~\n");
-  }
-  //Course *current = [self.courseList objectAtIndex:indexPath.row];
+    
+    //cell.textLabel.text = [tabledata objectAtIndex:indexPath.row];
+    if(cell == nil)
+    {
+        NSLog(@"~~~~~~~~\n");
+    }
+    //Course *current = [self.courseList objectAtIndex:indexPath.row];
     
     cell.textLabel.text = list[i++];//@"asa";//current.courseName;
-  // Configure the cell...
-  
-  return cell;
+    // Configure the cell...
+    
+    return cell;
     
 }
 
@@ -135,8 +138,8 @@ int i;
  }
  */
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-  [tableView deselectRowAtIndexPath:indexPath animated:NO];
-  //Course *currentCourse = [self.courseList objectAtIndex:indexPath.row];
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    //Course *currentCourse = [self.courseList objectAtIndex:indexPath.row];
     
     NSInteger j = indexPath.row;
     //NSLog(@"flag count = %lu, j = %lu, courseName = %@\n",[list count], j, list[j]);
