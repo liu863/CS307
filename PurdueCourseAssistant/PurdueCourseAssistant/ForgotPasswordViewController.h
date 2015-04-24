@@ -11,5 +11,8 @@
 @interface ForgotPasswordViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UILabel *findpwd;
 @property (weak, nonatomic) IBOutlet UITextField *Email;
-
+@property (weak, nonatomic) IBOutlet UITextField *Username;
+-(void)initNetworkCommunication;
+-(void)stream:(NSStream *)stream handleEvent:(NSStreamEvent)eventCode;
+-(void)sendRequest: (NSString *) request;
 @end

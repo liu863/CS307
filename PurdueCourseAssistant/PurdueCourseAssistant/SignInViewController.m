@@ -26,7 +26,7 @@ NSOutputStream *outputStream;
 NSString *Username;
 NSString *Password;
 NSString *s;
-
+static int perform;
 - (void)viewDidLoad {
     [super viewDidLoad];
     course = [[Course alloc] init];
@@ -82,6 +82,7 @@ NSString *s;
                     NSLog(@"Respond received: %@", s);
                     
                     if ( [s rangeOfString: @"SUCCESS"].location != NSNotFound ) {
+                       // perform =1;
                         user = [[User alloc] init];
                         course = [[Course alloc] init];
                         user.user_id = Username;
@@ -129,14 +130,16 @@ NSString *s;
     if ([_username.text length] == 0) {
         UIAlertView *alert = [[ UIAlertView alloc] initWithTitle:@"Wrong Message" message:@"Please fill in username" delegate:self cancelButtonTitle:@"CANCE" otherButtonTitles:@"OK", nil];
         [alert show];
-        
+        perform = 0;
     }else if([_password.text length] == 0){
         UIAlertView *alert = [[ UIAlertView alloc] initWithTitle:@"Wrong Message" message:@"Please fill in password" delegate:self cancelButtonTitle:@"CANCE" otherButtonTitles:@"OK", nil];
         [alert show];
+        perform = 0;
     }else{
         NSString *r = [NSString stringWithFormat:@"loginur|%@|%@\0",Username,Password];
         [self sendRequest: r];
         NSLog(@"Respond received: %@",s);
+        perform =1;
         // if ([ s isEqualToString: @"SUCCESS\n"]) {
         //    user = [[User alloc] init];
         //    course = [[Course alloc] init];
@@ -149,7 +152,24 @@ NSString *s;
     }
 }
 
-
+- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
+    if ([identifier isEqual:@"LoginSegue"] && perform == 1) {
+        //perform = 0;
+        return YES;
+        // perform = 0;
+    }else if([identifier isEqual:@"SignUpSegue"]){
+        perform =0;
+        return YES;
+    }else if([identifier isEqual:@"ResetSegue"]){
+        perform = 0;
+        return YES;
+        
+    }
+    
+    
+    return NO;
+    
+}
 
 
 - (void)didReceiveMemoryWarning {
@@ -162,7 +182,7 @@ NSString *s;
     NSString * tmp = [NSString stringWithFormat:@"%@\r\n", request];
     NSData *data = [[NSData alloc] initWithData:[tmp dataUsingEncoding:NSASCIIStringEncoding]];
     [outputStream write:[data bytes] maxLength:[data length]];
-    [outputStream close];
+    [outputStream close]; 
 }
 
 /*
