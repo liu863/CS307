@@ -106,7 +106,7 @@ int main(int argc, char **argv) {
     //CS291:Solo,Userful,Serious
     insertCourses("CS291", "Presentations by corporate partners about careers in computer science. Presentations by faculty about careers in academia and research. Students learn about upper-division courses, tour research laboratories, and attend job fairs.", "0000;0000;0000;0001;0000;0000;0001;0000;0000;0001", "test");
     //CS307:Group,Funny,Useful
-	insertCourses("CS307", "Iterative methods for solving nonlinear equations; direct and iterative methods for solving linear systems; approximations of functions, derivatives, and integrals; error analysis.\nProfessior Homepage:\nhttps://www.cs.purdue.edu/people/faculty/bxd/ ", "0000;0000;0001;0000;0000;0001;0001;0000;0000;0000", "test");
+	insertCourses("CS307", "Iterative methods for solving nonlinear equations; direct and iterative methods for solving linear systems; approximations of functions, derivatives, and integrals; error analysis.\nProfessior Homepage: https://www.cs.purdue.edu/people/faculty/bxd/ ", "0000;0000;0001;0000;0000;0001;0001;0000;0000;0000", "test");
     //CS314:Solo,Useful,Serious
     insertCourses("CS314", "(a) Introduce fundamental principles, techniques, and tools used in the design of modern industrial-strength software systems, (b) provide an opportunity to work in small teams, and (c) assist in sharpening of documentation and presentation skills. ", "0000;0000;0000;0001;0000;0000;0001;0000;0000;0001", "test");
     //CS334:Solo,Useful,Serious
