@@ -279,17 +279,25 @@ int cbGetInfo(void *info, int argc, char **argv, char **azColName) {
 				for (j = 0; j < 10; j++)
 					fprintf(stderr, "%d ", tags[j]);
 				*/
-				int in1 = 0, in2 = 0, in3 = 0;
+				int in1 = -1, in2 = -1, in3 = -1;
 				for (j = 0; j < 10; j++) {
+					if (in1 == -1)
+						in1 = j;
 					in1 = tags[j] >= tags[in1] ? j : in1;
 				}
 				for (j = 0; j < 10; j++) {
-					if (j != in1)
+					if (j != in1) {
+						if (in2 == -1)
+							in2 = j;
 						in2 = tags[j] >= tags[in2] ? j : in2;
+					}
 				}
 				for (j = 0; j < 10; j++) {
-					if (j != in1 && j != in2)
+					if (j != in1 && j != in2) {
+						if (in3 == -1)
+							in3 = j;
 						in3 = tags[j] >= tags[in3] ? j : in3;
+					}
 				}
 				//fprintf(stderr, "index: %d %d %d\n", in1, in2, in3);
 				char tagtouser[4] = {0};
@@ -332,6 +340,7 @@ int cbGetInfo(void *info, int argc, char **argv, char **azColName) {
 				tagtouser[1] = in2 + '0';
 				tagtouser[2] = in3 + '0';
 				*/
+				//fprintf(stderr, "tag2user: %s$\n", tagtouser);
 				strcat((char*)info, tagtouser);
 				strcat((char*)info, "|");
 			}
@@ -477,17 +486,15 @@ char* Databases::getCourselist(char* tags) {
 	char **clisttag = split(courselist, '|');
 	int i = 0;
 	while (clisttag[i] != NULL) {
-		// fprintf(stderr, "%d:%s$%s\n", i, clisttag[i], clisttag[i+1]);
-		if ( !strcmp("013", tags) || !strcmp(tags, "000" ) ) {
-			if ( i == 0 || i == 2 || !strcmp(tags, "000" ) ) {
-				strcat(relist, clisttag[i]);
-				strcat(relist, "|");
-			}
+		//fprintf(stderr, "%d:%s$%s\n", i, clisttag[i], clisttag[i+1]);
+		if (!strcmp(clisttag[i + 1], tags) || !strcmp(tags, "000")) {
+			strcat(relist, clisttag[i]);
+			strcat(relist, "|");
 		}
 		i = i + 2;
 	}
 	relist[strlen(relist) - 1] = '\0';
-	fprintf(stderr, "%s\n", relist); // CS381||CS307||CS180|
+	//fprintf(stderr, "%s\n", relist); // CS381||CS307||CS180|
 	return relist;
 	//SQL_GET_COURSELIST
 }
