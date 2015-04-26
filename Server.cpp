@@ -360,6 +360,7 @@ int resetpw(char **commendList) {
 		fclose(fptr);
 		sprintf(mail, "/usr/bin/mailx -s 'Password Reset' %s < temppw", email);
 		system(mail);
+		fprintf(stderr, "email sent\n");
 	}
 	else {
 		reval = -2;
