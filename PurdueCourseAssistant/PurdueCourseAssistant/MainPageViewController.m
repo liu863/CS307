@@ -36,6 +36,14 @@ NSString * s;
     NSLog(@"request sent");
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    
+    [super viewWillAppear:animated];
+    [self viewDidLoad];
+    // Reload your data here, and this gets called
+    // before the view transition is complete.
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
