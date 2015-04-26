@@ -17,7 +17,7 @@ CFWriteStreamRef writeStream;
 NSInputStream *inputStream;
 NSOutputStream *outputStream;
 NSString *email;
-NSString *Username;
+NSString *username;
 NSString * s;
 @implementation ForgotPasswordViewController
 
@@ -111,8 +111,8 @@ NSString * s;
 
 
 - (IBAction)Email:(id)sender {
-    
-    NSString *email = [_Email text];
+    username = [_Username text];
+    email = [_Email text];
     NSString *emailRegEx = @"[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
     
     NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegEx];
@@ -130,11 +130,11 @@ NSString * s;
     else{
         UIAlertView *alert = [[ UIAlertView alloc] initWithTitle:@"Successful" message:@"An e-mail have sent to you." delegate:self cancelButtonTitle:@"CANCE" otherButtonTitles:@"OK", nil];
         [alert show];
-        NSString *r = [NSString stringWithFormat:@"resetpw|%@|%@\0",Username,email];
+        NSString *r = [NSString stringWithFormat:@"resetpw|%@|%@\0",username,email];
         [self sendRequest: r];
         NSLog(@"Respond received: %@",s);
         NSLog(@"%@", email);
-        NSLog(@"%@", Username);
+        NSLog(@"%@", username);
 
     }
 }

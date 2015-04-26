@@ -137,6 +137,7 @@ static int perform;
         perform = 0;
     }else{
         NSString *r = [NSString stringWithFormat:@"loginur|%@|%@\0",Username,Password];
+        user.user_id = Username;
         [self sendRequest: r];
         NSLog(@"Respond received: %@",s);
         perform =1;

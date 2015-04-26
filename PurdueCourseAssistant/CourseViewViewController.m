@@ -47,7 +47,7 @@ NSString * s;
     // Do any additional setup after loading the view.
     [self initNetworkCommunication];
     NSString *sendR = [NSString stringWithFormat:@"getcinf|%@",  course.courseName];
-    
+
     [self sendRequest: sendR];//need course name!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 }
 
@@ -97,6 +97,7 @@ NSString * s;
         case NSStreamEventHasBytesAvailable: {
             if(stream == inputStream) {
                 uint8_t buf[1024];
+                NSLog(@"asasdasd");
                 unsigned int len = 0;
                 len = [inputStream read:buf maxLength:1024];
                 if(len > 0) {
